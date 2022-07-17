@@ -1,0 +1,1 @@
+export const SET_IS_OPEN_SIDERBAR = 'setIsOpenSidebar';
