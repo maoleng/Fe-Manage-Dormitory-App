@@ -22,8 +22,6 @@ function Form() {
       {},
       {
         onSuccess(data) {
-          console.log(data);
-
           setForms(data.data);
           
           setLoaded(true);
