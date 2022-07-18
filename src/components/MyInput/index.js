@@ -11,7 +11,7 @@ function MyInput({ style, type, name, placeholder, spl, initValue, disabled }) {
       style={{...style, borderColor: (focus ? '#84B4FC' : '#AFADAD')}}
       type={type}
       name={name}
-      placeholder={placeholder}
+      placeHolder={placeholder}
       onChange={e => setValue(e.target.value)}
       value={value}
       onFocus={() => setFocus(true)}

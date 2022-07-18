@@ -77,7 +77,7 @@ export const usePutMistake = () => {
 };
 
 export const usePutFixMistake = () => {
-  const usePutFixMistake = useMutation(async (body, id) => {
+  const usePutFixMistake = useMutation(async ({ body, id }) => {
     const { data } = await axios.post(
       process.env.REACT_APP_API_ENDPOINT + '/mng/mistake/fix_mistake/' + id, 
       body,

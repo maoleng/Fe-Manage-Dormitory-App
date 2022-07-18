@@ -1,16 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { useStore, actions } from '~/store';
 
 import MyNavbar from '~/components/MyNavbar';
-import MyTable from '~/components/MyTable';
 import MySidebar from '~/components/MySidebar';
 
-function Test() {
-  console.log('Page: Test');
+function Form() {
+  console.log('Page: Mistake');
 
-  const [loaded, setLoaded] = useState(false);
-  const [forms, setForms] = useState(null);
   const [state, dispatch] = useStore();
 
   return (
@@ -28,9 +25,17 @@ function Test() {
     
       <div style={{ display: 'flex', flexDirection: 'row' }} >
         <MySidebar isOpen={state.isOpenSidebar}></MySidebar>
+
+        <div
+          style={{
+            width: '100%'
+          }}
+        >
+          
+        </div>
       </div>
     </>
   );
 }
 
-export default Test;
+export default Form;
