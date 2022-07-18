@@ -33,7 +33,18 @@ function Contract() {
         {
           onSuccess(data) {
             if (data.status) {
-              console.log(data);
+              getRegistration.mutate(
+                {},
+                {
+                  onSuccess(data) {
+                    console.log(data)
+                    if (data.status) {
+                      setRegistration(data.data);
+                    }
+                  }
+                }
+              );
+              
               alert('Đăng ký thành công');
             }
           }

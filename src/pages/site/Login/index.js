@@ -27,9 +27,14 @@ function Login() {
       },
       {
         onSuccess(data) {
-          window.localStorage.setItem('token', data.token);
-          window.localStorage.setItem('role', data.role);
-          navigate('/', { replace: true });
+          if (data.status) {
+            window.localStorage.setItem('token', data.token);
+            window.localStorage.setItem('role', data.role);
+            navigate('/', { replace: true });
+          }
+          else {
+            alert(data.message);
+          }
         }
       }
     )

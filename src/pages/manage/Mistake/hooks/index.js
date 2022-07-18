@@ -57,7 +57,8 @@ export const usePostMistake = () => {
 };
 
 export const usePutMistake = () => {
-  const putMistake = useMutation(async (body, id) => {
+  const putMistake = useMutation(async ({ body, id }) => {
+    console.log(body);
     const { data } = await axios.post(
       process.env.REACT_APP_API_ENDPOINT + '/mng/mistake/' + id, 
       body,

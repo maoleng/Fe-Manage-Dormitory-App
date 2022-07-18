@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-function MyInput({ style, type, name, placeholder, spl }) {
+function MyInput({ style, type, name, placeholder, spl, initValue, disabled }) {
   console.log('Component: MyInput');
 
-  const [value, setValue] = useState(''); 
+  const [value, setValue] = useState(initValue || ''); 
   const [focus, setFocus] = useState(false);
 
   return spl === 'login' ? (
@@ -25,6 +25,7 @@ function MyInput({ style, type, name, placeholder, spl }) {
       placeholder={placeholder}
       onChange={e => setValue(e.target.value)}
       value={value}
+      disabled={disabled}
     />
   );
 }
