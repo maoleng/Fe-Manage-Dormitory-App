@@ -3,17 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { Modal, Form as BForm } from "react-bootstrap";
 
 import { useStore, actions } from '~/store';
-import { useGetForms, useGetForm, usePostFormComment } from './hooks';
+
+import { useGetForms, usePostForm, useGetForm, usePostFormComment } from './hooks';
 
 import MyInput from '~/components/MyInput';
 import MyNavbar from '~/components/MyNavbar';
-import MyTable from '~/components/MyTable';
 import MySidebar from '~/components/MySidebar';
+import MyTable from '~/components/MyTable';
 
 function Form() {
   console.log('Page: Form');
 
-  const [loaded, setLoaded] = useState(false);
+  const [loadedForms, setLoadedForms] = useState(false);
   const [forms, setForms] = useState(null);
   const [loadedForm, setLoadedForm] = useState(false);
   const [form, setForm] = useState(null);
@@ -21,11 +22,27 @@ function Form() {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [imgs, setImgs] = useState([]);
   const [imgComments, setImgComments] = useState([]);
+
   const [state, dispatch] = useStore();
 
   const getForms = useGetForms();
+  const postForm = usePostForm();
   const getForm = useGetForm();
   const postFormComment = usePostFormComment();
+
+  const removeImg = (indexRm) => {
+    setImgs(imgs.filter((elem, index) => index !== indexRm));
+  }
+
+  const change = (e) => {
+    for (let i = 0; i < e.target.files.length; i++) {     
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImgs((imgs) => [...imgs, reader.result]);
+      }
+      reader.readAsDataURL(e.target.files[i]);
+    }
+  }
 
   const removeImgComment = (indexRm) => {
     setImgComments(imgComments.filter((elem, index) => index !== indexRm));
@@ -63,6 +80,27 @@ function Form() {
 
   }
 
+  const submitCreateForm = e => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    const body = {
+      title: formData.get('title'),
+      content: formData.get('content'),
+      images: imgs
+    }
+
+    postForm.mutate(
+      { body },
+      {
+        onSuccess(data) {
+          console.log(data);
+        }
+      }
+    )
+  }
+
   const getFormHandle = (id) => {
     getForm.mutate(
       {id},
@@ -76,18 +114,22 @@ function Form() {
   };
 
   useEffect(() => {
+    if ( !showCommentForm ) {
+      setLoadedForm(showCommentForm);
+    }
+  }, [showCommentForm])
+
+  useEffect(() => {
     getForms.mutate(
       {},
       {
         onSuccess(data) {
-          console.log();
           setForms(data.data);
-          
-          setLoaded(true);
+          setLoadedForms(true);
         }
       }
-    )
-  }, [])
+    );
+  }, []);
 
   return (
     <>
@@ -108,10 +150,43 @@ function Form() {
         <div
           style={{
             width: '100%',
-            padding: '40px',
+            padding: '40px'
           }}
         >
-          {loaded ? forms ? (
+          <button
+            style={{
+              padding: '4px 16px',
+              border: 'none',
+              backgroundColor: '#0B42AB', 
+              color: '#FFFFFF',
+              float: 'right'
+            }}
+            onClick={() => setShowCreateForm(true)}
+          >
+            <svg 
+              style={{ width: '12px', height: '12px', marginRight: '16px' }}
+              version="1.0" xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512.000000 512.000000"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#FFFFFF" stroke="none">
+                <path 
+                  d="
+                    M2240 4000 l0 -1120 -1120 0 -1120 0 0 -320 0 -320 1120 0 1120 0 0
+                    -1120 0 -1120 320 0 320 0 0 1120 0 1120 1120 0 1120 0 0 320 0 320 -1120 0
+                    -1120 0 0 1120 0 1120 -320 0 -320 0 0 -1120z
+                  "
+                />
+              </g>
+            </svg>
+            Tạo đơn
+          </button>
+
+          {!loadedForms ? (
+            <>Loading...</>
+          ) : (!forms ? (
+            <>Không có dữ liệu</>
+          ) : (
             <>
               <MyTable 
                 forms={forms.map(({ id, student_card_id, name, title, content, child_answer_count, created_at }) => ({
@@ -192,13 +267,97 @@ function Form() {
                 type={'form'}
               ></MyTable>
             </>
-          ) : (
-            <>Không có dữ liệu</>
-          ) : (
-            <>Loading...</>
-          )}
+          ))}
         </div>
       </div>
+      
+      <Modal show={showCreateForm} onHide={() => setShowCreateForm(false)}>
+        <Modal.Header style={{ backgroundColor: '#E7F0FF' }} closeButton></Modal.Header>
+        <Modal.Body style={{ backgroundColor: '#E7F0FF' }}>
+          <form onSubmit={submitCreateForm}>
+            <div>
+              <table style={{ width: '100%' }}>
+                <thead>
+                  <tr>
+                    <th style={{ width: '100px' }}></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tiêu đề</td>
+                    <td>
+                      <div style={{ margin: '8px 0px' }}>
+                        <MyInput 
+                          style={{ width: '100%', border: 'none', padding: '0px 12px', outline: 'none' }} 
+                          type="text"
+                          name="title"
+                        ></MyInput>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Nội dung</td>
+                    <td>
+                      <div style={{ margin: '8px 0px' }}>
+                        <BForm.Control
+                          style={{ width: '100%', height: '100px', border: 'none', boxShadow: 'none' }}
+                          as="textarea"
+                          name="content"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Hình ảnh</td>
+                    <td>
+                      <label
+                        style={{ 
+                          padding: '4px',
+                          border: 'none', 
+                          borderRadius: '4px', 
+                          backgroundColor: '#EEEEEE' 
+                        }}
+                        htmlFor="file"
+                      >
+                        <svg 
+                          style={{ 
+                            width: '28px', 
+                            height: '28px', 
+                            marginRight: '12px'
+                          }} 
+                          viewBox="0 0 32 33" 
+                          fill="none" 
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M22 17.25V21C22 21.8284 21.3284 22.5 20.5 22.5H11.5C10.6716 22.5 10 21.8284 10 21L10 17.25M19 13.5L16 10.5M16 10.5L13 13.5M16 10.5L16 19.5" stroke="#001A72" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        <span style={{ fontWeight: 'bold', marginRight: '12px' }}>Upload files</span>
+                      </label>
+                      <input onChange={change} id="file" type="file" multiple hidden/>
+                      <div>
+                        <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', gap: '12px'}}>
+                          {imgs.map((source, index) => (
+                            <div style={{ position: 'relative' }} key={index}>
+                              <img style={{ height: '100px' }} src={source} alt={index} key={index}/>
+                              <svg style={{ width: '16px', height: '16px', position: 'absolute', top: '4px', right: '4px', cursor: 'pointer' }} onClick={() => removeImg(index)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.9857 0L10 7.98571L2.01429 0L0 2.01429L7.98571 10L0 17.9857L2.01429 20L10 12.0143L17.9857 20L20 17.9857L12.0143 10L20 2.01429L17.9857 0Z" fill="#06245E"/>
+                              </svg>
+                            </div>
+                          ))}
+                        </div>
+                      </div>  
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <button type="submit">
+              Tạo đơn
+            </button>
+          </form>
+        </Modal.Body>
+      </Modal>
 
       <Modal show={showCommentForm} onHide={() => setShowCommentForm(false)}>
         <div style={{ height: '80vh' }}>

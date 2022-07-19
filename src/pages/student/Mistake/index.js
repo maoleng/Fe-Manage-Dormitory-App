@@ -27,6 +27,14 @@ function Mistake() {
     
       <div style={{ display: 'flex', flexDirection: 'row' }} >
         <MySidebar isOpen={state.isOpenSidebar}></MySidebar>
+
+        <div
+          style={{
+            width: '100%'
+          }}
+        >
+          
+        </div>
       </div>
     </>
   );
