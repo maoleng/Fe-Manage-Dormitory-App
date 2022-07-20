@@ -32,7 +32,6 @@ function MyNavbar({ isSite }) {
   const navigate = useNavigate();
 
   function signOut() {
-    console.log('ok');
     window.localStorage.removeItem('token');
     navigate('/', { replace: true });
   }

@@ -4,7 +4,7 @@ import { Table } from "react-bootstrap";
 import MyInput from '~/components/MyInput';
 import { useStore, actions } from '~/store';
 
-import { useGetMistakes, useGetMistake, usePostMistake, usePutMistake } from './hooks';
+import { useGetMistakes, useGetMistake, usePostMistake, usePutMistake, usePutFixMistake } from './hooks';
 
 import MyNavbar from '~/components/MyNavbar';
 import MySidebar from '~/components/MySidebar';
@@ -26,6 +26,7 @@ function Mistake() {
   const getMistake = useGetMistake();
   const postMistake = usePostMistake();
   const putMistake = usePutMistake();
+  const putFixMistake = usePutFixMistake();
 
   const submitMistake = (e) => {
     e.preventDefault();
