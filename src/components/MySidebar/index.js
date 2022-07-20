@@ -54,7 +54,7 @@ const sideStudent = [
   {
     url: '/don-khieu-nai',
     icon: '/imgs/icons/don-khieu-nai-icon.png',
-    title: 'Đơn khiếu nại'
+    title: 'Đơn'
   },
   {
     url: '/xin-phep',
