@@ -46,7 +46,6 @@ function MyNavbar({ isSite }) {
   const navigate = useNavigate();
   
   const pathCurr = window.location.pathname.split('/')[1];
-  console.log(pathCurr);
 
   function signOut() {
     window.localStorage.removeItem('token');
