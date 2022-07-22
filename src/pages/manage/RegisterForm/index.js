@@ -24,7 +24,7 @@ function Contract() {
       { body: {}, id },
       {
         onSuccess(data) {
-          setContracts(contracts.filter(elem => elem.id.content !== id));
+          setContracts(contracts.filter(elem => elem.contract_id !== id));
         }
       }
     )

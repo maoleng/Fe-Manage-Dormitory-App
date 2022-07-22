@@ -4,7 +4,7 @@ import { Table } from "react-bootstrap";
 import MyInput from '~/components/MyInput';
 import { useStore, actions } from '~/store';
 
-import { useGetMistakes, useGetMistake, usePostMistake, usePutMistake } from './hooks';
+import { useGetMistakes, useGetMistake, usePostMistake, usePutMistake, usePutFixMistake } from './hooks';
 
 import MyNavbar from '~/components/MyNavbar';
 import MySidebar from '~/components/MySidebar';
@@ -26,6 +26,7 @@ function Mistake() {
   const getMistake = useGetMistake();
   const postMistake = usePostMistake();
   const putMistake = usePutMistake();
+  const putFixMistake = usePutFixMistake();
 
   const submitMistake = (e) => {
     e.preventDefault();
@@ -44,7 +45,20 @@ function Mistake() {
         },
         {
           onSuccess(data) {
-            console.log(data);
+            getMistakes.mutate(
+              {},
+              {
+                onSuccess(data) {
+                  if (data.status) {
+                    setMistake(null);
+                    setMistakes(data.data);
+                    setMistakeID(null);
+                    setImgs([]);
+                    setEdit(false); 
+                  }
+                }
+              }
+            );
           }
         }
       )
@@ -60,6 +74,18 @@ function Mistake() {
           onSuccess(data) {
             console.log(data);
             if (data.status) {
+              getMistakes.mutate(
+                {},
+                {
+                  onSuccess(data) {
+                    if (data.status) {
+                      setMistakes(data.data);
+                      setMistakeAdd(false);
+                      setImgs([]);
+                    }
+                  }
+                }
+              );
             }
             else {
               alert('Sai');
@@ -85,7 +111,7 @@ function Mistake() {
   }
 
   useEffect(() => {
-    if (mistakeID) {
+    if (mistakeID !== null) {
       getMistake.mutate(
         { id: mistakeID },
         {
@@ -111,7 +137,7 @@ function Mistake() {
           }
         }
       }
-    )
+    );
   }, []);
 
   return (
@@ -177,7 +203,7 @@ function Mistake() {
                               backgroundColor: '#EEEEEE' 
                             }} 
                             type="text"
-                            name="content"
+                            name="student_card_id"
                             initValue={mistake.student_card_id}
                             disabled={true}
                           />
@@ -192,7 +218,7 @@ function Mistake() {
                               backgroundColor: '#EEEEEE' 
                             }} 
                             type="text"
-                            name="content"
+                            name="student_card_id"
                           />
                         )}
                       </td>
@@ -288,7 +314,7 @@ function Mistake() {
                             boxShadow: '0px 4px 4px #00000040',
                             color: '#FFFFFF',
                           }}
-                          onClick={() => {setMistakeAdd(false); setEdit(false); setMistake(null); setMistakeID(null)}}
+                          onClick={() => {setMistakeAdd(false); setEdit(false); setMistake(null); setMistakeID(null); setImgs([]);}}
                         >Back</button>
                         <button
                           style={{
@@ -370,7 +396,7 @@ function Mistake() {
             </div>
 
             <button
-              onClick={() => setMistakeID(null)}
+              onClick={() => {setMistakeID(null); setMistake(null);}}
             >Back</button>
           </div>
         ) : (
@@ -458,7 +484,7 @@ function Mistake() {
                               height: '16px',
                               cursor: 'pointer'
                             }}
-                            onClick={() => {setEdit(true); setMistake(id);}}
+                            onClick={() => {setEdit(true); setMistakeID(id);}}
                             version="1.0" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512.000000 512.000000"
                             preserveAspectRatio="xMidYMid meet"

@@ -14,6 +14,7 @@ import MyTable from '~/components/MyTable';
 function Form() {
   console.log('Page: Form');
 
+  const [inputValue, setInputValue] = useState('');
   const [loadedForms, setLoadedForms] = useState(false);
   const [forms, setForms] = useState(null);
   const [loadedForm, setLoadedForm] = useState(false);
@@ -73,7 +74,18 @@ function Form() {
       { body },
       {
         onSuccess(data) {
+          setInputValue('');
+          setImgComments([]);
           getFormHandle(form.id);
+          getForms.mutate(
+            {},
+            {
+              onSuccess(data) {
+                setForms(data.data);
+                setLoadedForms(true);
+              }
+            }
+          );
         }
       }
     )
@@ -95,7 +107,17 @@ function Form() {
       { body },
       {
         onSuccess(data) {
-          console.log(data);
+          setShowCreateForm(false);
+          setImgs([]);
+          getForms.mutate(
+            {},
+            {
+              onSuccess(data) {
+                setForms(data.data);
+                setLoadedForms(true);
+              }
+            }
+          );
         }
       }
     )
@@ -106,6 +128,7 @@ function Form() {
       {id},
       {
         onSuccess(data) {
+          console.log(data);
           setForm(data.data);
           setLoadedForm(true);
         }
@@ -375,12 +398,19 @@ function Form() {
                       <div style={{ padding: '8px', margin: '8px 0px' }}>
                         <div style={{ fontWeight: 'bold' }}>{form.student.student_card_id} - {form.student.name}</div>
                         <div style={{ padding: '8px', borderRadius: '8px', backgroundColor: '#DDE8FB', }}>
+                          <div style={{ width: '100%' }}>
+                            {form.images.map(({ source }, index) => (
+                              <div style={{ width: '100px', height: '100px', marginRight: '8px', position: 'relative', display: 'inline-block'}} key={index}>
+                                <img style={{ height: '100px', width: '100px', objectFit: 'contain', objectPosition: 'center' }} src={source} alt={index} key={index}/>
+                              </div>
+                            ))}
+                          </div>
                           {form.content}
                           <div style={{ color: '#001A72', fontSize: '12px' }}>{form.created_at}</div>
                         </div>
                       </div>
 
-                      {form.answers && form.answers.map(({ student, teacher, content, created_at }, index) => (
+                      {form.answers && form.answers.map(({ student, teacher, content, images, created_at }, index) => (
                         <div style={{ padding: '8px', margin: '8px 0px' }} key={index}>
                           <div style={{ fontWeight: 'bold' }}>
                             {student ? `
@@ -390,6 +420,13 @@ function Form() {
                             `}
                           </div>
                           <div style={{ padding: '8px', borderRadius: '8px', backgroundColor: '#DDE8FB' }}>
+                            <div style={{ width: '100%' }}>
+                              {images.map(({ source }, index) => (
+                                <div style={{ width: '100px', height: '100px', marginRight: '8px', position: 'relative', display: 'inline-block'}} key={index}>
+                                  <img style={{ height: '100px', width: '100px', objectFit: 'contain', objectPosition: 'center' }} src={source} alt={index} key={index}/>
+                                </div>
+                              ))}
+                            </div>
                             {content}
                             <div style={{ color: '#001A72', fontSize: '12px' }}>{created_at}</div>
                           </div>
@@ -463,7 +500,7 @@ function Form() {
                           <input onChange={changeComment} id="imgComments" type="file" multiple hidden/>
                         </div>
 
-                        <MyInput
+                        <input
                           style={{
                             width: '100%',
                             padding: '0px 8px',
@@ -471,6 +508,8 @@ function Form() {
                             border: 'none',
                             outline: 'none'
                           }}
+                          onChange={e => setInputValue(e.target.value)}
+                          value={inputValue}
                           type="text"
                           name="content"
                           placeholder="Viết tin nhắn của bạn tại đây..."

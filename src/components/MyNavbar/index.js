@@ -49,7 +49,6 @@ function MyNavbar({ isSite }) {
   console.log(pathCurr);
 
   function signOut() {
-    console.log('ok');
     window.localStorage.removeItem('token');
     navigate('/', { replace: true });
   }
