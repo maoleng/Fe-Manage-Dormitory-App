@@ -33,6 +33,11 @@ const sideManage = [
     icon: '/imgs/icons/xin-phep-icon.png',
     title: 'Xin phép'
   },
+  {
+    url: '/bai-dang',
+    icon: '/imgs/icons/hop-dong-icon.png',
+    title: 'Bài đăng'
+  },
 ];
 
 const sideStudent = [
@@ -54,7 +59,7 @@ const sideStudent = [
   {
     url: '/don-khieu-nai',
     icon: '/imgs/icons/don-khieu-nai-icon.png',
-    title: 'Đơn khiếu nại'
+    title: 'Đơn'
   },
   {
     url: '/xin-phep',

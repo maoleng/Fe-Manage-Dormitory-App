@@ -60,7 +60,6 @@ function Contract() {
       {},
       {
         onSuccess(data) {
-          console.log(data);
           if (data.status) {
             setRegistration(data.data);
           } else {
@@ -68,6 +67,7 @@ function Contract() {
               {},
               {
                 onSuccess(data) {
+                  console.log(data)
                   session = data.register_time;
                   setRooms(data.room_types);
                 },

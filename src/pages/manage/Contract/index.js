@@ -7,7 +7,7 @@ import MyNavbar from '~/components/MyNavbar';
 import MyTable from '~/components/MyTable';
 import MySidebar from '~/components/MySidebar';
 
-import { useGetConfirmContracts } from './hooks'
+import { useGetConfirmContracts } from './hooks';
 
 function Contract() {
   console.log('Page: Contract');
@@ -23,40 +23,7 @@ function Contract() {
       {
         onSuccess(data) {
           if (data.status) {
-            setContracts(data.data.map(({ id, student, season, room_id, subscription, created_at }) => ({
-              id: {
-                title: 'id',
-                content: '' + id
-              },
-              mssv: {
-                title: 'MSSV',
-                content: student.student_card_id
-              },
-              name: {
-                title: 'Họ và tên',
-                content: student.name
-              },
-              season: {
-                title: 'Học kỳ',
-                content: season
-              },
-              room: {
-                title: 'Phòng',
-                content: room_id
-              },
-              price: {
-                title: 'Số tiền phải trả',
-                content: subscription.price
-              },
-              ispay: {
-                title: 'Số tiền phải trả',
-                content: subscription.is_paid
-              },
-              createdAt: {
-                title: 'Duyệt vào lúc',
-                content: created_at
-              }
-            })));
+            setContracts(data.data);
           }
           else {
             alert('Lỗi lấy dữ liệu');
@@ -142,9 +109,93 @@ function Contract() {
                 </button>
               </div>
             </>
+          ) : (contracts ? (
+            <MyTable 
+              forms={contracts.map(({ id, student, season, room_id, subscription, created_at }) => ({
+                id: {
+                  title: 'id',
+                  content: '' + id
+                },
+                mssv: {
+                  title: 'MSSV',
+                  content: student.student_card_id
+                },
+                name: {
+                  title: 'Họ và tên',
+                  content: student.name
+                },
+                season: {
+                  title: 'Học kỳ',
+                  content: season
+                },
+                room: {
+                  title: 'Phòng',
+                  content: room_id
+                },
+                price: {
+                  title: 'Số tiền phải trả',
+                  content: subscription.price
+                },
+                ispay: {
+                  title: 'Số tiền phải trả',
+                  content: subscription.is_paid
+                },
+                createdAt: {
+                  title: 'Duyệt vào lúc',
+                  content: created_at
+                },
+                control: {
+                  title: '',
+                  content: (
+                    <>
+                      <svg 
+                        style={{
+                          width: '16px',
+                          height: '16px',
+                          cursor: 'pointer'
+                        }}
+                        onClick={() => setContract(id)}
+                        version="1.0" 
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512.000000 512.000000"
+                        preserveAspectRatio="xMidYMid meet"
+                      >
+                        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                          <path 
+                            d="
+                              M2380 4214 c-663 -64 -1332 -428 -1979 -1075 -202 -202 -337 -359
+                              -372 -434 -25 -51 -29 -72 -29 -145 0 -138 21 -173 272 -447 181 -198 427
+                              -421 641 -581 448 -336 894 -537 1347 -609 146 -24 456 -23 605 0 531 84 1055
+                              350 1581 802 245 210 586 571 642 680 21 40 27 68 30 142 4 86 2 96 -25 156
+                              -37 79 -110 164 -327 385 -324 329 -596 549 -916 742 -130 78 -372 196 -504
+                              245 -120 44 -335 100 -464 121 -96 15 -414 26 -502 18z m405 -335 c445 -54
+                              946 -307 1434 -723 173 -146 581 -565 581 -595 0 -16 -175 -207 -324 -356
+                              -247 -246 -486 -439 -736 -595 -648 -403 -1239 -484 -1854 -253 -497 187
+                              -1031 583 -1484 1103 -45 52 -82 97 -82 101 0 30 405 446 581 595 447 382 884
+                              615 1321 705 175 36 365 42 563 18z
+                            "
+                          />
+                          <path 
+                            d="
+                              M2410 3660 c-155 -22 -342 -94 -472 -181 -87 -58 -228 -198 -288
+                              -285 -296 -428 -255 -1009 98 -1385 444 -474 1175 -476 1620 -5 312 329 387
+                              816 192 1233 -55 117 -126 216 -227 314 -162 157 -331 248 -548 295 -86 19
+                              -288 26 -375 14z m385 -354 c223 -76 405 -244 491 -456 151 -372 -17 -809
+                              -381 -990 -448 -222 -989 35 -1106 525 -31 131 -24 295 18 417 91 261 290 446
+                              558 519 107 29 311 22 420 -15z
+                            "
+                          />
+                        </g>
+                      </svg>
+                    </>
+                  )
+                }
+              }))} 
+              setContract={setContract} type={'contract'}
+            ></MyTable>
           ) : (
-            <MyTable forms={contracts} setContract={setContract} type={'contract'}></MyTable>
-          )}
+            <>Khong co du lieu...</>
+          ))}
         </div>
       </div>
     </>

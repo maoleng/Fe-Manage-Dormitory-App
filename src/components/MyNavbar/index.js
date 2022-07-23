@@ -5,16 +5,30 @@ import jwt_decode from "jwt-decode";
 
 const paths = [
   {
-    title: "Trang chủ",
-    href: "/",
+    title: 'TRANG CHỦ',
+    href: '/'
   },
-  {
-    title: "Test",
-    href: "/test",
+  { 
+    title: 'THÔNG BÁO',
+    'href': '/thong-bao'
   },
+  { 
+    title: 'TIN TỨC',
+    'href': '/tin-tuc'
+  },
+  { 
+    title: 'HOẠT ĐỘNG',
+    'href': '/hoat-dong'
+  },
+  { 
+    title: 'HƯỚNG DẪN',
+    'href': '/huong-dan'
+  },
+  { 
+    title: 'NỘI QUY',
+    'href': '/noi-quy'
+  }
 ];
-
-const pathCurr = window.location.pathname.split("/")[1];
 
 function MyNavbar({ isSite }) {
   console.log("Component: MyNavbar");
@@ -30,11 +44,12 @@ function MyNavbar({ isSite }) {
   const role = window.localStorage.getItem("role") || "";
 
   const navigate = useNavigate();
+  
+  const pathCurr = window.location.pathname.split('/')[1];
 
   function signOut() {
-    console.log("ok");
-    window.localStorage.removeItem("token");
-    navigate("/", { replace: true });
+    window.localStorage.removeItem('token');
+    navigate('/', { replace: true });
   }
 
   useEffect(() => {
