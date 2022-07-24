@@ -10,6 +10,8 @@ function Notification() {
   const [posts, setPosts] = useState(null);
   const [pagenum, setPageNum] = useState(1);
   const getPost = useGetPost();
+  let arrNum = [];
+  let arrre = [];
   useEffect(() => {
     getPost.mutate(
       {},
@@ -22,6 +24,13 @@ function Notification() {
   }, []);
   if (posts) {
     var posttake = posts.slice(pagenum * 6 - 6, pagenum * 6);
+    for (let i = 1; i <= posts.length / 7; i++) {
+      arrNum.push(i);
+    }
+    console.log(posts.length / 7, arrNum.length);
+    if (posts.length / 7 > arrNum.length) {
+      arrNum.push(arrNum[arrNum.length - 1] + 1);
+    }
   }
   return (
     <>
@@ -79,13 +88,32 @@ function Notification() {
               ))}
               <div class="pagination">
                 <a href="#">&laquo;</a>
-                <a href="#" class="active">
-                  1
+                {arrre.map((value, key) => (
+                  <a
+                    href="#"
+                    id={key}
+                    onClick={() => {
+                      setPageNum(key + 1);
+                    }}
+                    class={key + 1 === pagenum ? "active" : "none"}
+                  >
+                    {value}
+                  </a>
+                ))}
+                <a href="#">...</a>
+                <a
+                  class={
+                    arrNum[arrNum.length - 1] + 1 === pagenum
+                      ? "active"
+                      : "none"
+                  }
+                  href="#"
+                  onClick={() => {
+                    setPageNum(arrNum[arrNum.length - 1] + 1);
+                  }}
+                >
+                  {arrNum[arrNum.length - 1] + 1}
                 </a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a>...</a>
-                <a href="#">6</a>
                 <a href="#">&raquo;</a>
               </div>
             </div>
