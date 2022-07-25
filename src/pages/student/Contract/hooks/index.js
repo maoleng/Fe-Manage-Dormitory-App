@@ -4,12 +4,12 @@ import { useMutation } from "react-query";
 export const useGetForm = () => {
   const getForm = useMutation(async () => {
     const { data } = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + '/std/contract/form', 
+      process.env.REACT_APP_API_ENDPOINT + "/std/contract/form",
       {
-        'headers': {
-          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
+        headers: {
+          Authorization: "Bearer " + window.localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
       }
     );
 
@@ -22,13 +22,13 @@ export const useGetForm = () => {
 export const usePostRegister = () => {
   const postRegister = useMutation(async (body) => {
     const { data } = await axios.post(
-      process.env.REACT_APP_API_ENDPOINT + '/std/contract/register', 
+      process.env.REACT_APP_API_ENDPOINT + "/std/contract/register",
       body,
       {
-        'headers': {
-          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
+        headers: {
+          Authorization: "Bearer " + window.localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
       }
     );
 
@@ -41,12 +41,12 @@ export const usePostRegister = () => {
 export const useGetRegistration = () => {
   const getRegistration = useMutation(async () => {
     const { data } = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + '/std/contract/registration', 
+      process.env.REACT_APP_API_ENDPOINT + "/std/contract/registration",
       {
-        'headers': {
-          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
+        headers: {
+          Authorization: "Bearer " + window.localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
       }
     );
 
