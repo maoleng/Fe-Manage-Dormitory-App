@@ -5,6 +5,7 @@ import MyFooter from "~/components/MyFooter";
 
 import { useGetPost } from "./hooks";
 import "./pagination.css";
+import { notifyManager } from "react-query";
 
 function Notification() {
   const [posts, setPosts] = useState(null);
@@ -12,6 +13,16 @@ function Notification() {
   const getPost = useGetPost();
   let arrNum = [];
   let arrre = [];
+  let goForward = () => {
+    if (!(pagenum === arrNum.length)) {
+      setPageNum(pagenum + 1);
+    }
+  };
+  let goBackward = () => {
+    if (pagenum >= 2) {
+      setPageNum(pagenum - 1);
+    }
+  };
   useEffect(() => {
     getPost.mutate(
       {},
@@ -23,13 +34,21 @@ function Notification() {
     );
   }, []);
   if (posts) {
-    var posttake = posts.slice(pagenum * 6 - 6, pagenum * 6);
+    var posttake = posts.slice(pagenum * 7 - 7, pagenum * 7);
     for (let i = 1; i <= posts.length / 7; i++) {
       arrNum.push(i);
     }
-    console.log(posts.length / 7, arrNum.length);
     if (posts.length / 7 > arrNum.length) {
       arrNum.push(arrNum[arrNum.length - 1] + 1);
+    }
+    if (pagenum <= 2) {
+      arrre = [1, 2, 3];
+    } else {
+      if (pagenum === arrNum.length) {
+        arrre = [pagenum - 2, pagenum - 1, pagenum];
+      } else {
+        arrre = [pagenum - 1, pagenum, pagenum + 1];
+      }
     }
   }
   return (
@@ -75,46 +94,91 @@ function Notification() {
                         webkitBoxOrient: "vertical",
                         overflow: "hidden",
                         minHeight: "48px",
-                        minWidth: "279.34px",
-                        maxWidth: "279.34px",
+                        minWidth: "518px",
+                        maxWidth: "518px",
                         fontWeight: "700",
                       }}
                     >
                       {title}
                     </div>
-                    <div>{created_at}</div>
+                    <div
+                      style={{
+                        display: "-webkit-box",
+                        webkitLineClamp: "2",
+                        webkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        minHeight: "48px",
+                        minWidth: "518px",
+                        maxWidth: "518px",
+                      }}
+                    >
+                      {created_at}
+                    </div>
                   </div>
                 </div>
               ))}
               <div class="pagination">
-                <a href="#">&laquo;</a>
+                <a onClick={goBackward}>&laquo;</a>
+                <a
+                  class={
+                    pagenum >= arrNum.length + 1 ||
+                    pagenum < 4 ||
+                    arrNum.length < 4
+                      ? "none"
+                      : ""
+                  }
+                  onClick={() => {
+                    setPageNum(1);
+                  }}
+                >
+                  1
+                </a>
+                <a
+                  class={
+                    pagenum >= arrNum.length + 1 ||
+                    pagenum < 4 ||
+                    arrNum.length < 4
+                      ? "none"
+                      : ""
+                  }
+                >
+                  ...
+                </a>
                 {arrre.map((value, key) => (
                   <a
-                    href="#"
                     id={key}
                     onClick={() => {
-                      setPageNum(key + 1);
+                      setPageNum(value);
                     }}
-                    class={key + 1 === pagenum ? "active" : "none"}
+                    class={value === pagenum ? "active" : ""}
                   >
                     {value}
                   </a>
                 ))}
-                <a href="#">...</a>
                 <a
                   class={
-                    arrNum[arrNum.length - 1] + 1 === pagenum
-                      ? "active"
-                      : "none"
+                    pagenum >= arrNum.length - 1 ||
+                    (pagenum == 1 && arrNum.length < 4)
+                      ? "none"
+                      : ""
                   }
-                  href="#"
+                >
+                  ...
+                </a>
+                <a
+                  class={
+                    pagenum >= arrNum.length - 1 ||
+                    (pagenum == 1 && arrNum.length < 4)
+                      ? "none"
+                      : ""
+                  }
                   onClick={() => {
-                    setPageNum(arrNum[arrNum.length - 1] + 1);
+                    setPageNum(arrNum[arrNum.length - 1]);
                   }}
                 >
-                  {arrNum[arrNum.length - 1] + 1}
+                  {arrNum[arrNum.length - 1]}
                 </a>
-                <a href="#">&raquo;</a>
+                <a onClick={goForward}>&raquo;</a>
               </div>
             </div>
           </div>
