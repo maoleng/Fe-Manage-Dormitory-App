@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import MyNavbar from "~/components/MyNavbar";
 import MyFooter from "~/components/MyFooter";
@@ -79,13 +80,15 @@ function Notification() {
                 padding: "0px 25%",
               }}
             >
-              {posttake.map(({ id, banner, created_at, title }, index) => (
+              {posttake.map(({ id, banner, created_at, title }) => (
                 <div key={id} style={{ display: "flex", margin: "20px" }}>
-                  <img
-                    src={banner}
-                    alt=""
-                    style={{ width: "116px", height: "83px" }}
-                  />
+                  <Link to={`/bai-viet/${id}`}>
+                    <img
+                      src={banner}
+                      alt=""
+                      style={{ width: "116px", height: "83px" }}
+                    />
+                  </Link>
                   <div style={{ marginLeft: "24px" }}>
                     <div
                       style={{
