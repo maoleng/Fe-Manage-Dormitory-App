@@ -9,6 +9,10 @@ const paths = [
     href: '/'
   },
   { 
+    title: 'GIỚI THIỆU',
+    'href': '/gioi-thieu'
+  },
+  { 
     title: 'THÔNG BÁO',
     'href': '/thong-bao'
   },

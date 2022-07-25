@@ -1,9 +1,11 @@
 import Home from '~/pages/site/Home';
+import Introduction from '~/pages/site/Introduction';
 import Activity from '~/pages/site/Activity';
 import Guide from '~/pages/site/Guide';
 import News from '~/pages/site/News';
 import Notification from '~/pages/site/Notification';
 import Rules from '~/pages/site/Rules';
+import PostDetail from '~/pages/site/PostDetail';
 import Login from '~/pages/site/Login';
 import MngRegisterForm from '~/pages/manage/RegisterForm';
 import MngContract from '~/pages/manage/Contract';
@@ -21,6 +23,10 @@ export const routes = [
   { 
     'path': '/',
     'Component': Home
+  },
+  { 
+    'path': '/gioi-thieu',
+    'Component': Introduction
   },
   { 
     'path': '/hoat-dong',
@@ -41,6 +47,10 @@ export const routes = [
   { 
     'path': '/noi-quy',
     'Component': Rules
+  },
+  { 
+    'path': '/bai-viet/:id',
+    'Component': PostDetail
   },
   { 
     'path': '/dang-nhap',

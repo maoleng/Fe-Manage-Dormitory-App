@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import MyNavbar from "~/components/MyNavbar";
 import MyFooter from "~/components/MyFooter";
@@ -85,11 +86,13 @@ function News() {
                     flexDirection: "column",
                   }}
                 >
-                  <img
-                    src={banner}
-                    alt=""
-                    style={{ width: "395px", height: "206px" }}
-                  />
+                  <Link to={`/bai-viet/${id}`}>
+                    <img
+                      src={banner}
+                      alt=""
+                      style={{ width: "395px", height: "206px" }}
+                    />
+                  </Link>
                   <div style={{ maxWidth: "33.333333333333%" }}>
                     <div
                       style={{
