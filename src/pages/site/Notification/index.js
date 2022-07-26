@@ -93,8 +93,8 @@ function Notification() {
                     <div
                       style={{
                         display: "-webkit-box",
-                        webkitLineClamp: "2",
-                        webkitBoxOrient: "vertical",
+                        WebkitLineClamp: "2",
+                        WebkitBoxOrient: "vertical",
                         overflow: "hidden",
                         minHeight: "48px",
                         minWidth: "518px",
@@ -107,8 +107,8 @@ function Notification() {
                     <div
                       style={{
                         display: "-webkit-box",
-                        webkitLineClamp: "2",
-                        webkitBoxOrient: "vertical",
+                        WebkitLineClamp: "2",
+                        WebkitBoxOrient: "vertical",
                         overflow: "hidden",
                         minHeight: "48px",
                         minWidth: "518px",

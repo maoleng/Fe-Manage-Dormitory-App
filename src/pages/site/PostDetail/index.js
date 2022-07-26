@@ -3,15 +3,17 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import MyNavbar from "~/components/MyNavbar";
 import MyFooter from "~/components/MyFooter";
-import { useGetPost } from "./hooks";
+import { useGetPost, useGetPostRelated } from "./hooks";
 
 function PostDetail() {
   console.log("Page: PostDetail");
 
   const { id } = useParams();
   const getPost = useGetPost();
+  const getPostRelated = useGetPostRelated();
 
   const [post, setPost] = useState(null);
+  const [postsRelated, setPostsRelated] = useState(null);
 
   useEffect(() => {
     getPost.mutate(
@@ -20,6 +22,16 @@ function PostDetail() {
         onSuccess(data) {
           console.log(data.data);
           setPost(data.data);
+        },
+      }
+    );
+
+    getPostRelated.mutate(
+      { category: id },
+      {
+        onSuccess(data) {
+          console.log(data.data);
+          setPostsRelated(data.data);
         },
       }
     );
@@ -95,6 +107,24 @@ function PostDetail() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div>
+            <h1>Đây là dữ liệu các bài viết liên quan</h1>
+            <div>
+              {!postsRelated 
+                ? <>Loading</> 
+                : postsRelated.length === 0 
+                ? (
+                  <>Không có bài viết liên quan</>
+                ) 
+                : (
+                  <>
+                    chọc từ biến postsRelated ra, hiện chưa biết dữ liệu mẫu ra sao
+                  </>
+                )
+              }
             </div>
           </div>
 
