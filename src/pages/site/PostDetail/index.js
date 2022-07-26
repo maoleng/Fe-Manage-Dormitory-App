@@ -5,6 +5,17 @@ import MyNavbar from "~/components/MyNavbar";
 import MyFooter from "~/components/MyFooter";
 import { useGetPost, useGetPostRelated } from "./hooks";
 
+function categoryMapping(category) {
+  switch (category) {
+    case 'Giới thiệu': return '1'; 
+    case 'Thông báo': return '2'; 
+    case 'Tin tức': return '3'; 
+    case 'Hoạt động': return '4'; 
+    case 'Hướng dẫn': return '5'; 
+    default: return '1';
+  }
+}
+
 function PostDetail() {
   console.log("Page: PostDetail");
 
@@ -20,18 +31,16 @@ function PostDetail() {
       { id },
       {
         onSuccess(data) {
-          console.log(data.data);
           setPost(data.data);
-        },
-      }
-    );
 
-    getPostRelated.mutate(
-      { category: id },
-      {
-        onSuccess(data) {
-          console.log(data.data);
-          setPostsRelated(data.data);
+          getPostRelated.mutate(
+            { category: categoryMapping(data.data.post.category), id: data.data.post.id },
+            {
+              onSuccess(data) {
+                setPostsRelated(data.data);
+              },
+            }
+          );
         },
       }
     );
