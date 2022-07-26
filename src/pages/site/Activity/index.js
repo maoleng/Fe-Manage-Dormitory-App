@@ -98,8 +98,8 @@ function Activity() {
                       style={{
                         marginTop: "12px",
                         display: "-webkit-box",
-                        webkitLineClamp: "2",
-                        webkitBoxOrient: "vertical",
+                        WebkitLineClamp: "2",
+                        WebkitBoxOrient: "vertical",
                         overflow: "hidden",
                         minHeight: "48px",
                         width: "395px",
@@ -112,8 +112,8 @@ function Activity() {
                     <div
                       style={{
                         display: "-webkit-box",
-                        webkitLineClamp: "2",
-                        webkitBoxOrient: "vertical",
+                        WebkitLineClamp: "2",
+                        WebkitBoxOrient: "vertical",
                         overflow: "hidden",
                         minHeight: "57px",
                         width: "395px",

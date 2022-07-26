@@ -23,8 +23,8 @@ function Guide() {
       {},
       {
         onSuccess(data) {
-          console.log(data.data);
           setPosts(data.data);
+          console.log(data.data);
         },
       }
     );
@@ -69,9 +69,8 @@ function Guide() {
               }}
               className="Guide_List"
             >
-              <a
+              <Link
                 className="Guide_Item"
-                href="https://dormitory.tdtu.edu.vn/huong-dan/dang-ky-noi-tru"
                 style={{
                   width: "200px",
                   margin: " 0 23.75px",
@@ -79,6 +78,7 @@ function Guide() {
                   backgroundColor: "#fff",
                   height: "240px",
                 }}
+                to={`/bai-viet/${posts[0].id}`}
               >
                 <img
                   className="Item_Image"
@@ -101,12 +101,11 @@ function Guide() {
                     color: "#333",
                   }}
                 >
-                  Đăng ký nội trú
+                  {posts[0].title}
                 </p>
-              </a>
-              <a
+              </Link>
+              <Link
                 className="Guide_Item"
-                href="https://dormitory.tdtu.edu.vn/huong-dan/thu-tuc-xe"
                 style={{
                   width: "200px",
                   margin: " 0 23.75px",
@@ -114,6 +113,7 @@ function Guide() {
                   backgroundColor: "#fff",
                   height: "240px",
                 }}
+                to={`/bai-viet/${posts[1].id}`}
               >
                 <img
                   className="Item_Image"
@@ -136,12 +136,11 @@ function Guide() {
                     color: "#333",
                   }}
                 >
-                  Gửi xe, Đổi xe, Chấm dứt hợp đồng xe
+                  {posts[1].title}
                 </p>
-              </a>
-              <a
+              </Link>
+              <Link
                 className="Guide_Item"
-                href="https://dormitory.tdtu.edu.vn/huong-dan/cham-dut-hd"
                 style={{
                   width: "200px",
                   margin: " 0 23.75px",
@@ -149,6 +148,7 @@ function Guide() {
                   backgroundColor: "#fff",
                   height: "240px",
                 }}
+                to={`/bai-viet/${posts[2].id}`}
               >
                 <img
                   className="Item_Image"
@@ -171,12 +171,11 @@ function Guide() {
                     color: "#333",
                   }}
                 >
-                  Chấm dứt hợp đồng nội trú
+                  {posts[2].title}
                 </p>
-              </a>
-              <a
+              </Link>
+              <Link
                 className="Guide_Item"
-                href="https://dormitory.tdtu.edu.vn/huong-dan/xin-ve-tre-22h"
                 style={{
                   width: "200px",
                   margin: " 0 23.75px",
@@ -184,6 +183,7 @@ function Guide() {
                   backgroundColor: "#fff",
                   height: "240px",
                 }}
+                to={`/bai-viet/${posts[3].id}`}
               >
                 <img
                   className="Item_Image"
@@ -206,12 +206,11 @@ function Guide() {
                     color: "#333",
                   }}
                 >
-                  Xin về trễ sau thời gian quy định(22h00)
+                  {posts[3].title}
                 </p>
-              </a>
-              <a
+              </Link>
+              <Link
                 className="Guide_Item"
-                href="https://dormitory.tdtu.edu.vn/huong-dan/tam-tru-tam-vang"
                 style={{
                   width: "200px",
                   margin: " 0 23.75px",
@@ -219,6 +218,7 @@ function Guide() {
                   backgroundColor: "#fff",
                   height: "240px",
                 }}
+                to={`/bai-viet/${posts[4].id}`}
               >
                 <img
                   alt="Tạm vắng - Tạm trú"
@@ -241,9 +241,9 @@ function Guide() {
                     color: "#333",
                   }}
                 >
-                  Tạm vắng - Tạm trú
+                  {posts[4].title}
                 </p>
-              </a>
+              </Link>
             </div>
           </div>
 

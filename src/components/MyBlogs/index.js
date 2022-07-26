@@ -1,6 +1,7 @@
 import React from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-function MyBlogs({ title, blogs }) {
+function MyBlogs({ title, blogs, next }) {
   console.log("Component: MyBlogs");
 
   return (
@@ -37,13 +38,16 @@ function MyBlogs({ title, blogs }) {
               marginLeft: "15%",
             }}
           >
-            {blogs.map(({ title, href }, index) => (
-              <div
+            {blogs.map(({ id, banner, title }, index) => (
+              <Link
                 style={{
                   width: "300px",
                   margin: "20px",
+                  color: '#000000',
+                  textDecoration: 'none'
                 }}
-                key={index}
+                key={id + '_' + index}
+                to={`/bai-viet/${id}`}
               >
                 <img
                   style={{
@@ -52,21 +56,21 @@ function MyBlogs({ title, blogs }) {
                     objectFit: "cover",
                     objectPosition: "center",
                   }}
-                  src={href}
-                  alt={href}
+                  src={banner}
+                  alt=""
                 />
                 <b
                   style={{
                     display: "-webkit-box",
-                    webkitLineClamp: "2",
-                    webkitBoxOrient: "vertical",
+                    WebkitLineClamp: "2",
+                    WebkitBoxOrient: "vertical",
                     overflow: "hidden",
                     marginTop: "4px",
                   }}
                 >
                   {title}
                 </b>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -76,17 +80,19 @@ function MyBlogs({ title, blogs }) {
             textAlign: "center",
           }}
         >
-          <button
+          <Link
             style={{
-              padding: "8px 24px",
+              padding: "12px 24px",
               border: "none",
               backgroundColor: "#84B4FC",
               color: "#FFFFFF",
               borderRadius: "4px",
+              textDecoration: "none",
             }}
+            to={next}
           >
             Xem thêm...
-          </button>
+          </Link>
         </div>
       </div>
     </div>

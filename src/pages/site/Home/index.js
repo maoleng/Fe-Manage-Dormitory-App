@@ -1,46 +1,43 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import { useGetPostsNew } from './hooks';
 import MyNavbar from "~/components/MyNavbar";
 import MyCarousel from "~/components/MyCarousel";
 import MyBlogs from "~/components/MyBlogs";
 import MyFooter from "~/components/MyFooter";
 
-const notifications = [
-  {
-    title:
-      "Thông báo cập nhật danh sách sinh viên đăng ký nội trú NH 2022-2023",
-    href: "/imgs/site/notification-1.png",
-  },
-  {
-    title:
-      "Thông báo hoàn trả tiền thế chân cho SVNT thanh lý hợp đồng đợt 15/6/2022",
-    href: "/imgs/site/notification-2.png",
-  },
-  {
-    title: "Thông báo danh sách sinh viên đăng ký nội trú NH 2022-2023",
-    href: "/imgs/site/notification-3.png",
-  },
-];
-
-const activities = [
-  {
-    title:
-      "Tết cổ truyền Bun Pi May và Chol Chnam Thmey tại Đại học Tôn Đức Thắng",
-    href: "/imgs/site/activitie-1.png",
-  },
-  {
-    title: "Câu lạc bộ thể dục thể thao NH 2021-2022",
-    href: "/imgs/site/activitie-2.png",
-  },
-  {
-    title: "Tập huấn sinh viên nội trú năm học 2021-2022",
-    href: "/imgs/site/activitie-3.png",
-  },
-];
-
 function Home() {
   console.log("Page: Home");
+
+  const getPostsNew = useGetPostsNew();
+
+  const [postsNotifications, setPostsNotifications] = useState(null);
+  const [postsActivity, setPostsActivity] = useState(null);
+
+  useEffect(() => {
+    getPostsNew.mutate(
+      { category: '2' },
+      {
+        onSuccess(data) {
+          console.log(2);
+          setPostsNotifications(data.data);
+          console.log('Notifications:', data.data);
+    
+          getPostsNew.mutate(
+            { category: '4' },
+            {
+              onSuccess(data) {
+                console.log(4);
+                setPostsActivity(data.data);
+                console.log('Activity:', data);
+              }
+            }
+          );
+        }
+      }
+    );
+  }, []);
 
   return (
     <>
@@ -168,9 +165,9 @@ function Home() {
         </Link>
       </div>
 
-      <MyBlogs title={"THÔNG BÁO"} blogs={notifications}></MyBlogs>
+      {!postsNotifications ? <></> : <MyBlogs title={"THÔNG BÁO"} blogs={postsNotifications} next={'/thong-bao'}></MyBlogs>}
 
-      <MyBlogs title={"HOẠT ĐỘNG PHONG TRÀO"} blogs={activities}></MyBlogs>
+      {!postsActivity ? <></> : <MyBlogs title={"HOẠT ĐỘNG PHONG TRÀO"} blogs={postsActivity} next={'/hoat-dong'}></MyBlogs>}
 
       <MyFooter></MyFooter>
     </>
