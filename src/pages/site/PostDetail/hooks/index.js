@@ -3,8 +3,6 @@ import { useMutation } from "react-query";
 
 export const useGetPost = () => {
   const mutate = useMutation(async ({ id }) => {
-    console.log(process.env.REACT_APP_API_ENDPOINT + `/std/post/${id}`);
-    
     const { data } = await axios.get(
       process.env.REACT_APP_API_ENDPOINT + `/std/post/${id}`, 
       {},
@@ -23,9 +21,9 @@ export const useGetPost = () => {
 };
 
 export const useGetPostRelated = () => {
-  const mutate = useMutation(async ({ category }) => {
+  const mutate = useMutation(async ({ category, id }) => {
     const { data } = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/std/post?category=${category}`, 
+      process.env.REACT_APP_API_ENDPOINT + `/std/post?category=${category}&related=${id}`, 
       {},
       {
         'headers': {
