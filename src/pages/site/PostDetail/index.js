@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import MyNavbar from "~/components/MyNavbar";
@@ -88,11 +88,6 @@ function PostDetail() {
               }}
               className="relativepost"
             >
-              {/* {post.tags.map(({ id, name, color }, index) => (
-                <div style={{ color: color }} key={id + "_" + index}>
-                  {name}
-                </div>
-              ))} */}
               <div className="category">
                 <div
                   className="category-heading"
@@ -152,34 +147,77 @@ function PostDetail() {
                     Các bài viết liên quan
                   </h1>
                   <div className="post_related_container">
-                    {postsRelated.map((post) => (
-                      <div
-                        className="post_Related_item"
-                        id={post.id}
-                        style={{ display: "flex", margin: "23px 0" }}
-                      >
-                        <img
-                          src={post.banner}
-                          alt="Hinh_anh"
-                          style={{ width: "92px", height: "65px" }}
-                        ></img>
-                        <div
-                          className="post_description"
-                          style={{ margin: "0 21px" }}
-                        >
+                    {postsRelated
+                      ? postsRelated.map((post) => (
                           <div
-                            className="post_title"
-                            style={{
-                              marginBottom: "6px",
-                              display: "-webkit-box",
-                              WebkitLineClamp: "1",
-                              WebkitBoxOrient: "vertical",
-                              overflow: "hidden",
-                            }}
+                            className="post_Related_item"
+                            key={post.id}
+                            style={{ display: "flex", margin: "23px 32px" }}
                           >
-                            {post.title}
+                            <img
+                              src={post.banner}
+                              alt="Hinh_anh"
+                              style={{ width: "92px", height: "65px" }}
+                            ></img>
+                            <div
+                              className="post_description"
+                              style={{ margin: "0 21px" }}
+                            >
+                              <div
+                                className="post_title"
+                                style={{
+                                  marginBottom: "6px",
+                                  display: "-webkit-box",
+                                  WebkitLineClamp: "1",
+                                  WebkitBoxOrient: "vertical",
+                                  overflow: "hidden",
+                                }}
+                              >
+                                {post.title}
+                              </div>
+                              <div className="post_time">{post.created_at}</div>
+                            </div>
                           </div>
-                          <div className="post_time">{post.created_at}</div>
+                        ))
+                      : console.log("error")}
+                  </div>
+                </div>
+              </div>
+              <div className="Tags_Place">
+                <div
+                  className="Related_Post_heading"
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  <h1
+                    style={{
+                      fontSize: "24px",
+                      borderBottom: "#0B42AB solid 3px",
+                    }}
+                  >
+                    Thẻ
+                  </h1>
+                  <div className="Tags_Container">
+                    {post.tags.map(({ id, name, color }, index) => (
+                      <div
+                        className="Tags_Item"
+                        key={id}
+                        style={{
+                          display: "inline-block",
+                          margin: "8px 8px 8px 32px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            backgroundColor: color,
+                            padding: "10.5px 12px",
+                            color: "#FFFFFF",
+                            fontSize: "16px",
+                            lineHeight: "19px",
+                          }}
+                        >
+                          {name}
                         </div>
                       </div>
                     ))}
