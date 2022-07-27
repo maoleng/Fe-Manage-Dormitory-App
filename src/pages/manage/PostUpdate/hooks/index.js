@@ -19,6 +19,25 @@ export const useGetTag = () => {
   return getTag;
 };
 
+export const usePostTag = () => {
+  const postPost = useMutation(async ({ body }) => {
+    const { data } = await axios.post(
+      process.env.REACT_APP_API_ENDPOINT + '/mng/tag',
+      body,
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return postPost;
+};
+
 export const useGetPost = () => {
   const getPost = useMutation(async ({ id }) => {
     const { data } = await axios.get(
@@ -39,6 +58,8 @@ export const useGetPost = () => {
 
 export const usePutPost = () => {
   const putPost = useMutation(async ({ body, id }) => {
+    console.log(body);
+
     const { data } = await axios.put(
       process.env.REACT_APP_API_ENDPOINT + `/mng/post/${id}`,
       body,

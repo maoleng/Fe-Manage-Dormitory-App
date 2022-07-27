@@ -19,6 +19,25 @@ export const useGetTag = () => {
   return getTag;
 };
 
+export const usePostTag = () => {
+  const postPost = useMutation(async ({ body }) => {
+    const { data } = await axios.post(
+      process.env.REACT_APP_API_ENDPOINT + '/mng/tag',
+      body,
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return postPost;
+};
+
 export const usePostPost = () => {
   const postPost = useMutation(async ({ body }) => {
     console.log(body);

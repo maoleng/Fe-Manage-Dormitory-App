@@ -25,8 +25,6 @@ function Post() {
       {},
       {
         onSuccess(data) {
-          console.log(data);
-
           setPosts(data.data);
         }
       }
