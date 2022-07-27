@@ -156,7 +156,7 @@ function Introduction() {
           className="main_heading_place"
           style={{ display: "flex", margin: "42px 0 42px 30px" }}
         >
-          <div className="about_place_item" style={{ margin: "0 15px" }}>
+          <div className="about_place_item" style={{ margin: "0 30px" }}>
             <div
               className="about_place_heading"
               style={{
