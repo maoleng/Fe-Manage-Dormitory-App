@@ -7,12 +7,18 @@ import { useGetPost, useGetPostRelated } from "./hooks";
 
 function categoryMapping(category) {
   switch (category) {
-    case 'Giới thiệu': return '1'; 
-    case 'Thông báo': return '2'; 
-    case 'Tin tức': return '3'; 
-    case 'Hoạt động': return '4'; 
-    case 'Hướng dẫn': return '5'; 
-    default: return '1';
+    case "Giới thiệu":
+      return "1";
+    case "Thông báo":
+      return "2";
+    case "Tin tức":
+      return "3";
+    case "Hoạt động":
+      return "4";
+    case "Hướng dẫn":
+      return "5";
+    default:
+      return "1";
   }
 }
 
@@ -34,7 +40,10 @@ function PostDetail() {
           setPost(data.data);
 
           getPostRelated.mutate(
-            { category: categoryMapping(data.data.post.category), id: data.data.post.id },
+            {
+              category: categoryMapping(data.data.post.category),
+              id: data.data.post.id,
+            },
             {
               onSuccess(data) {
                 setPostsRelated(data.data);
@@ -71,7 +80,14 @@ function PostDetail() {
                 dangerouslySetInnerHTML={{ __html: post.post.content }}
               ></div>
             </div>
-            <div style={{ margin: "0 10%" }} className="relativepost">
+            <div
+              style={{
+                margin: "0 10%",
+                display: "flex",
+                flexDirection: "column",
+              }}
+              className="relativepost"
+            >
               {/* {post.tags.map(({ id, name, color }, index) => (
                 <div style={{ color: color }} key={id + "_" + index}>
                   {name}
@@ -96,10 +112,13 @@ function PostDetail() {
                 <div className="category-content" style={{ margin: "12px 0" }}>
                   <div
                     style={{
-                      margin: "0 12px",
+                      marginBottom: "10px",
                       height: "39px",
+                      marginLeft: "32px",
+                      textAlign: "center",
                       backgroundColor: "#A9CBFE",
                       padding: "10px",
+                      display: "inline-block",
                     }}
                   >
                     <p
@@ -109,6 +128,7 @@ function PostDetail() {
                         fontSize: "16px",
                         height: "19px",
                         lineHeight: "19px",
+                        textAlign: "center",
                       }}
                     >
                       {post.post.category}
@@ -116,24 +136,56 @@ function PostDetail() {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div>
-            <h1>Đây là dữ liệu các bài viết liên quan</h1>
-            <div>
-              {!postsRelated 
-                ? <>Loading</> 
-                : postsRelated.length === 0 
-                ? (
-                  <>Không có bài viết liên quan</>
-                ) 
-                : (
-                  <>
-                    chọc từ biến postsRelated ra, hiện chưa biết dữ liệu mẫu ra sao
-                  </>
-                )
-              }
+              <div className="Related_Post">
+                <div
+                  className="Related_Post_heading"
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  <h1
+                    style={{
+                      fontSize: "24px",
+                      borderBottom: "#0B42AB solid 3px",
+                    }}
+                  >
+                    Các bài viết liên quan
+                  </h1>
+                  <div className="post_related_container">
+                    {postsRelated.map((post) => (
+                      <div
+                        className="post_Related_item"
+                        id={post.id}
+                        style={{ display: "flex", margin: "23px 0" }}
+                      >
+                        <img
+                          src={post.banner}
+                          alt="Hinh_anh"
+                          style={{ width: "92px", height: "65px" }}
+                        ></img>
+                        <div
+                          className="post_description"
+                          style={{ margin: "0 21px" }}
+                        >
+                          <div
+                            className="post_title"
+                            style={{
+                              marginBottom: "6px",
+                              display: "-webkit-box",
+                              WebkitLineClamp: "1",
+                              WebkitBoxOrient: "vertical",
+                              overflow: "hidden",
+                            }}
+                          >
+                            {post.title}
+                          </div>
+                          <div className="post_time">{post.created_at}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
