@@ -93,7 +93,7 @@ function PostDetail() {
       ) : (
         <>
           <div style={{ margin: "20px 115px", display: "flex" }}>
-            <div className="post_detail" style={{ width: "70%" }}>
+            <div className="post_detail" style={{ width: "100%" }}>
               <div
                 style={{
                   fontWeight: "700",
