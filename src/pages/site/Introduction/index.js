@@ -4,6 +4,7 @@ import { useGetPost } from "./hooks";
 import MyNavbar from "~/components/MyNavbar";
 import MyFooter from "~/components/MyFooter";
 import "./Responsive.css";
+import CarouselIntro from "~/components/CarouselforIntro";
 import banner1 from "./banner1.png";
 import banner2 from "./banner2.png";
 import banner3 from "./banner3.png";
@@ -742,6 +743,9 @@ function Introduction() {
               </div>
             </div>
           </div>
+        </div>
+        <div className="CarouselPlace" style={{ marginTop: "80px" }}>
+          <CarouselIntro></CarouselIntro>
         </div>
       </div>
       <MyFooter></MyFooter>
