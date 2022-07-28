@@ -14,6 +14,7 @@ import MngForm from '~/pages/manage/Form';
 import MngPost from '~/pages/manage/Post';
 import MngPostCreate from '~/pages/manage/PostCreate';
 import MngPostUpdate from '~/pages/manage/PostUpdate';
+import MngElectricityWaters from '~/pages/manage/ElectricityWaters';
 import StdContract from '~/pages/student/Contract';
 import StdMistake from '~/pages/student/Mistake';
 import StdForm from '~/pages/student/Form';
@@ -83,6 +84,10 @@ export const routes = [
   { 
     'path': '/quan-ly/bai-dang/chinh-sua/:id',
     'Component': MngPostUpdate
+  },
+  { 
+    'path': '/quan-ly/hoa-don-dien-nuoc',
+    'Component': MngElectricityWaters
   },
   { 
     'path': '/sinh-vien/hop-dong',
