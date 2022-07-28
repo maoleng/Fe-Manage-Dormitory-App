@@ -9,6 +9,16 @@ import banner2 from "./banner2.png";
 import banner3 from "./banner3.png";
 import H_I from "./H_I.png";
 import K_L from "./K_L.png";
+import utility1 from "./utility1.png";
+import utility2 from "./utility2.png";
+import utility3 from "./utility3.png";
+import building1 from "./building1.png";
+import building2 from "./building2.png";
+import building3 from "./building3.png";
+import building4 from "./building4.png";
+import building5 from "./building5.png";
+import building6 from "./building6.png";
+import building7 from "./building7.png";
 function Introduction() {
   console.log("Page: Introduction");
 
@@ -261,6 +271,320 @@ function Introduction() {
                     display: "inline-block",
                   }}
                 ></img>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="container_utility" style={{ marginBottom: "40px" }}>
+          <p
+            className="utility_heading"
+            style={{ textAlign: "center", fontWeight: "700", fontSize: "20px" }}
+          >
+            CÁC TIỆN ÍCH TẠI KÝ TÚC XÁ
+          </p>
+          <p
+            className="des_content"
+            style={{
+              margin: "0 202px",
+              fontSize: "16px",
+              color: "#000000",
+            }}
+          >
+            Công trình Ký túc xá được xây dựng với thiết kế kiến trúc đẹp, hiện
+            đại, hài hòa, phù hợp với kiến trúc tổng thể của Trường đại học Tôn
+            Đức Thắng.
+            <br></br>
+            Nhằm mục đích phục vụ tốt nhất cho sinh viên, bên trong Ký túc xá
+            các hạng mục công trình tiện ích được đưa vào sử dụng như
+          </p>
+          <div
+            className="utility_list"
+            style={{ display: "flex", margin: "12px 27%", flexWrap: "wrap" }}
+          >
+            <div
+              className="utility_item"
+              style={{ margin: "0 15px", width: "171px" }}
+            >
+              <div
+                className="utility_image"
+                style={{ margin: "16px 47.5px 0 47.5px" }}
+              >
+                <img
+                  src={utility1}
+                  alt="Siêu thị mini"
+                  style={{ width: "77px", height: "77px" }}
+                ></img>
+              </div>
+              <div
+                className="utility_display"
+                style={{
+                  margin: "16px 0",
+                  textAlign: "center",
+                  fontWeight: "500",
+                }}
+              >
+                <p>Siêu thị mini</p>
+              </div>
+            </div>
+            <div
+              className="utility_item"
+              style={{ margin: "0 15px", width: "171px" }}
+            >
+              <div
+                className="utility_image"
+                style={{ margin: "16px 47.5px 0 47.5px" }}
+              >
+                <img
+                  src={utility2}
+                  alt="Phòng giặt"
+                  style={{ width: "77px", height: "77px" }}
+                ></img>
+              </div>
+              <div
+                className="utility_display"
+                style={{
+                  margin: "16px 0",
+                  textAlign: "center",
+                  fontWeight: "500",
+                }}
+              >
+                <p>Phòng giặt</p>
+              </div>
+            </div>
+            <div
+              className="utility_item"
+              style={{ margin: "0 15px", width: "171px" }}
+            >
+              <div
+                className="utility_image"
+                style={{ margin: "16px 47.5px 0 47.5px" }}
+              >
+                <img
+                  src={utility3}
+                  alt="Canteen"
+                  style={{ width: "77px", height: "77px" }}
+                ></img>
+              </div>
+              <div
+                className="utility_display"
+                style={{
+                  margin: "16px 0",
+                  textAlign: "center",
+                  fontWeight: "500",
+                }}
+              >
+                <p>Canteen</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="building_container">
+          <p
+            className="building_heading"
+            style={{
+              textAlign: "center",
+              fontWeight: "700",
+              fontSize: "20px",
+              margin: "0",
+            }}
+          >
+            CÁC HẠNG MỤC CÔNG TRÌNH
+          </p>
+          <p
+            className="des_content"
+            style={{
+              margin: "0 202px",
+              fontSize: "16px",
+              color: "#000000",
+              textAlign: "center",
+            }}
+          >
+            Xung quanh khuôn viên ký túc xá
+          </p>
+          <div className="building_grid" style={{ margin: "12px 0%" }}>
+            <div
+              className="building_row"
+              style={{ display: "flex", margin: "15px 20%", flexWrap: "wrap" }}
+            >
+              <div
+                className="building_item"
+                style={{ margin: "0 15px", width: "171px" }}
+              >
+                <div
+                  className="building_image"
+                  style={{ margin: "16px 47.5px 0 47.5px" }}
+                >
+                  <img
+                    src={building1}
+                    alt="Sân tennis"
+                    style={{ width: "77px", height: "77px" }}
+                  ></img>
+                </div>
+                <div
+                  className="building_display"
+                  style={{
+                    margin: "16px 0",
+                    textAlign: "center",
+                    fontWeight: "500",
+                  }}
+                >
+                  <p>Sân tennis</p>
+                </div>
+              </div>
+              <div
+                className="building_item"
+                style={{ margin: "0 15px", width: "171px" }}
+              >
+                <div
+                  className="building_image"
+                  style={{ margin: "16px 47.5px 0 47.5px" }}
+                >
+                  <img
+                    src={building2}
+                    alt="Hồ bơi"
+                    style={{ width: "77px", height: "77px" }}
+                  ></img>
+                </div>
+                <div
+                  className="building_display"
+                  style={{
+                    margin: "16px 0",
+                    textAlign: "center",
+                    fontWeight: "500",
+                  }}
+                >
+                  <p>Hồ bơi</p>
+                </div>
+              </div>
+              <div
+                className="building_item"
+                style={{ margin: "0 15px", width: "171px" }}
+              >
+                <div
+                  className="building_image"
+                  style={{ margin: "16px 47.5px 0 47.5px" }}
+                >
+                  <img
+                    src={building3}
+                    alt="Nhà thi đấu"
+                    style={{ width: "77px", height: "77px" }}
+                  ></img>
+                </div>
+                <div
+                  className="building_display"
+                  style={{
+                    margin: "16px 0",
+                    textAlign: "center",
+                    fontWeight: "500",
+                  }}
+                >
+                  <p>Nhà thi đấu</p>
+                </div>
+              </div>
+              <div
+                className="building_item"
+                style={{ margin: "0 15px", width: "171px" }}
+              >
+                <div
+                  className="building_image"
+                  style={{ margin: "16px 47.5px 0 47.5px" }}
+                >
+                  <img
+                    src={building4}
+                    alt="Sân vân động"
+                    style={{ width: "77px", height: "77px" }}
+                  ></img>
+                </div>
+                <div
+                  className="building_display"
+                  style={{
+                    margin: "16px 0",
+                    textAlign: "center",
+                    fontWeight: "500",
+                  }}
+                >
+                  <p>Sân vân động</p>
+                </div>
+              </div>
+            </div>
+            <div
+              className="building_row"
+              style={{ display: "flex", margin: "15px 27%", flexWrap: "wrap" }}
+            >
+              <div
+                className="building_item"
+                style={{ margin: "0 15px", width: "171px" }}
+              >
+                <div
+                  className="building_image"
+                  style={{ margin: "16px 47.5px 0 47.5px" }}
+                >
+                  <img
+                    src={building5}
+                    alt="Sân bóng rổ"
+                    style={{ width: "77px", height: "77px" }}
+                  ></img>
+                </div>
+                <div
+                  className="building_display"
+                  style={{
+                    margin: "16px 0",
+                    textAlign: "center",
+                    fontWeight: "500",
+                  }}
+                >
+                  <p>Sân bóng rổ</p>
+                </div>
+              </div>
+              <div
+                className="building_item"
+                style={{ margin: "0 15px", width: "171px" }}
+              >
+                <div
+                  className="building_image"
+                  style={{ margin: "16px 47.5px 0 47.5px" }}
+                >
+                  <img
+                    src={building6}
+                    alt="Sân bóng chuyền"
+                    style={{ width: "77px", height: "77px" }}
+                  ></img>
+                </div>
+                <div
+                  className="building_display"
+                  style={{
+                    margin: "16px 0",
+                    textAlign: "center",
+                    fontWeight: "500",
+                  }}
+                >
+                  <p>Sân bóng chuyền</p>
+                </div>
+              </div>
+              <div
+                className="building_item"
+                style={{ margin: "0 15px", width: "171px" }}
+              >
+                <div
+                  className="building_image"
+                  style={{ margin: "16px 47.5px 0 47.5px" }}
+                >
+                  <img
+                    src={building7}
+                    alt="Khu vực tập luyện thể thao ngoài trời"
+                    style={{ width: "77px", height: "77px" }}
+                  ></img>
+                </div>
+                <div
+                  className="building_display"
+                  style={{
+                    margin: "16px 0",
+                    textAlign: "center",
+                    fontWeight: "500",
+                  }}
+                >
+                  <p>Khu vực tập luyện thể thao ngoài trời</p>
+                </div>
               </div>
             </div>
           </div>
