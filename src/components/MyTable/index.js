@@ -79,11 +79,7 @@ function MyTable({ forms }) {
                 {Object.keys(formsWrap[0]).map(elem => (
                   <th
                     style={{
-                      width: (elem === 'name') ? '240px' : 
-                        (elem === 'student_id' ? '140px' : 
-                        (elem === 'season' ? '160px': 
-                        ''
-                      ))
+                      textAlign: formsWrap[0][elem].center ? 'center' : 'left'
                     }}
                     onClick={() => sortforms(elem)}
                     key={elem}
