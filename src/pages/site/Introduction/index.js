@@ -19,6 +19,9 @@ import building4 from "./building4.png";
 import building5 from "./building5.png";
 import building6 from "./building6.png";
 import building7 from "./building7.png";
+import Component1 from "./Component1.png";
+import Component2 from "./Component2.png";
+import Component3 from "./Component3.png";
 function Introduction() {
   console.log("Page: Introduction");
 
@@ -585,6 +588,157 @@ function Introduction() {
                 >
                   <p>Khu vực tập luyện thể thao ngoài trời</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="Component_Container"
+          style={{
+            backgroundColor: "#A9CBFE",
+            padding: "64.5px 0",
+            margin: "0 -81.5px",
+          }}
+        >
+          <p
+            className="Component_heading"
+            style={{
+              textAlign: "center",
+              fontWeight: "700",
+              fontSize: "20px",
+            }}
+          >
+            NHIỆM VỤ, TỔ CHỨC NHÂN SỰ & CƠ SỞ VẬT CHẤT
+          </p>
+          <div
+            className="Component_List"
+            style={{
+              display: "flex",
+              margin: "59px 92px -10px 135px",
+              flexWrap: "wrap",
+            }}
+          >
+            <div className="Component_Item" style={{ margin: "27.5px" }}>
+              <div
+                className="Component_Image"
+                style={{
+                  width: "364px",
+                  height: "304px",
+                  backgroundColor: "#FFFFFF",
+                }}
+              >
+                <img
+                  src={Component1}
+                  alt={posts ? posts[0].title : "Error"}
+                  style={{
+                    width: "210px",
+                    height: "210px",
+                    margin: "47px 21.1%",
+                  }}
+                ></img>
+              </div>
+              <div
+                className="Component_name"
+                style={{
+                  padding: "10px 0 10px 62px",
+                  backgroundColor: "#001A72",
+                }}
+              >
+                <p style={{ color: "#FFFFFF", margin: "0" }}>
+                  {posts ? posts[0].title : "Error"}
+                  <span
+                    style={{
+                      float: "right",
+                      marginBottom: "24px",
+                      marginRight: "17px",
+                      fontSize: "16px",
+                    }}
+                  >
+                    &#8594;
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="Component_Item" style={{ margin: "27.5px" }}>
+              <div
+                className="Component_Image"
+                style={{
+                  width: "364px",
+                  height: "304px",
+                  backgroundColor: "#FFFFFF",
+                }}
+              >
+                <img
+                  src={Component2}
+                  alt={posts ? posts[1].title : "Error"}
+                  style={{
+                    width: "210px",
+                    height: "210px",
+                    margin: "47px 21.1%",
+                  }}
+                ></img>
+              </div>
+              <div
+                className="Component_name"
+                style={{
+                  padding: "10px 0 10px 62px",
+                  backgroundColor: "#001A72",
+                }}
+              >
+                <p style={{ color: "#FFFFFF", margin: "0" }}>
+                  {posts ? posts[1].title : "Error"}
+                  <span
+                    style={{
+                      float: "right",
+                      marginBottom: "24px",
+                      marginRight: "17px",
+                      fontSize: "16px",
+                    }}
+                  >
+                    &#8594;
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="Component_Item" style={{ margin: "27.5px" }}>
+              <div
+                className="Component_Image"
+                style={{
+                  width: "364px",
+                  height: "304px",
+                  backgroundColor: "#FFFFFF",
+                }}
+              >
+                <img
+                  src={Component3}
+                  alt={posts ? posts[2].title : "Error"}
+                  style={{
+                    width: "210px",
+                    height: "210px",
+                    margin: "47px 21.1%",
+                  }}
+                ></img>
+              </div>
+              <div
+                className="Component_name"
+                style={{
+                  padding: "10px 0 10px 62px",
+                  backgroundColor: "#001A72",
+                }}
+              >
+                <p style={{ color: "#FFFFFF", margin: "0" }}>
+                  {posts ? posts[2].title : "Error"}
+                  <span
+                    style={{
+                      float: "right",
+                      marginBottom: "24px",
+                      marginRight: "17px",
+                      fontSize: "16px",
+                    }}
+                  >
+                    &#8594;
+                  </span>
+                </p>
               </div>
             </div>
           </div>
