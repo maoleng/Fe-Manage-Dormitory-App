@@ -4,13 +4,13 @@ import { useMutation } from "react-query";
 export const useGetPost = () => {
   const mutate = useMutation(async () => {
     const { data } = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + '/std/post?category=1', 
+      process.env.REACT_APP_API_ENDPOINT + "/std/post?category=1",
       {},
       {
-        'headers': {
-          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
+        headers: {
+          Authorization: "Bearer " + window.localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
       }
     );
 
