@@ -131,67 +131,13 @@ function MyTable({ forms }) {
               </tr>
             </thead>
             <tbody>
-              {formsWrap
-                .slice(+page * 10, +page * 10 + 10)
-                .map((elem, index) => (
-                  <tr key={index}>
-                    {Object.keys(formsWrap[0]).map((key, index) => (
-                      <td key={index}>
-                        {key === "room" ? (
-                          <>
-                            {elem.room.content || (
-                              <button
-                                style={{
-                                  borderRadius: "4px",
-                                  border: "1px #0B42AB solid",
-                                  backgroundColor: " #0B42AB",
-                                  color: "#FFFFFF",
-                                  padding: "4px",
-                                }}
-                              >
-                                <FontAwesomeIcon icon={faCircleArrowUp} /> Chọn
-                                phòng
-                              </button>
-                            )}
-                          </>
-                        ) : key === "ispay" ? (
-                          <>
-                            {elem.ispay.content ? (
-                              <input
-                                style={{
-                                  border: "solid #28a745 1px",
-                                  backgroundColor: " #28a745",
-                                  color: "#FFF",
-                                  padding: "4px",
-                                  margin: "4px 30%",
-                                  width: "18px",
-                                  height: "18px",
-                                }}
-                                type="checkbox"
-                                checked
-                              ></input>
-                            ) : (
-                              <input
-                                style={{
-                                  border: "solid #28a745 1px",
-                                  backgroundColor: " #28a745",
-                                  color: "#FFF",
-                                  padding: "4px",
-                                  margin: "4px 30%",
-                                  width: "18px",
-                                  height: "18px",
-                                }}
-                                type="checkbox"
-                              ></input>
-                            )}
-                          </>
-                        ) : (
-                          <>{elem[key].content}</>
-                        )}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
+              {formsWrap.slice((+page)*10, (+page)*10 + 10).map((elem, index) => (
+                <tr key={index}>
+                  {Object.keys(formsWrap[0]).map((key, index) => (
+                    <td key={index}>{elem[key].content}</td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </Table>
 
