@@ -578,6 +578,7 @@ function Mistake() {
                               width: "16px",
                               height: "16px",
                               cursor: "pointer",
+                              margin: "0 8px",
                             }}
                             onClick={() => setMistakeID("" + id)}
                             version="1.0"
@@ -587,7 +588,7 @@ function Mistake() {
                           >
                             <g
                               transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                              fill="#000000"
+                              fill="#1C63EE"
                               stroke="none"
                             >
                               <path
@@ -634,7 +635,7 @@ function Mistake() {
                           >
                             <g
                               transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                              fill="#000000"
+                              fill="#1C63EE"
                               stroke="none"
                             >
                               <path

@@ -284,7 +284,7 @@ function Contract() {
                           >
                             <g
                               transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                              fill="#000000"
+                              fill="#1C63EE"
                               stroke="none"
                             >
                               <path
@@ -326,7 +326,8 @@ function Contract() {
                           >
                             <g
                               transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                              fill="#000000"
+                              fill="#ff0000
+                              "
                               stroke="none"
                             >
                               <path
