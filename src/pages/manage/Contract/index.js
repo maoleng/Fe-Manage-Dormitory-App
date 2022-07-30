@@ -1,36 +1,87 @@
 import { useState, useEffect } from 'react';
-import { Table } from "react-bootstrap";
-
-import { useStore, actions } from '~/store';
+import { Table, Modal } from "react-bootstrap";
 
 import MyNavbar from '~/components/MyNavbar';
 import MyTable from '~/components/MyTable';
 import MySidebar from '~/components/MySidebar';
-
-import { useGetConfirmContracts } from './hooks';
+import { useStore, actions } from '~/store';
+import { useGetConfirmContracts, usePostPickRoom, useGetRooms } from './hooks';
+import { CheckboxSVG, CheckboxSelectedSVG } from './svgs';
 
 function Contract() {
   console.log('Page: Contract');
 
+  const getConfirmContracts = useGetConfirmContracts();
+  const postPickRoom = usePostPickRoom();
+  const getRooms = useGetRooms();
+
+  const [room, setRoom] = useState(false);
+  const [roomDetailModal, setRoomDetailModal] = useState(false);
+  const [pickRoomModal, setPickRoomModal] = useState(false);
+  const [pickRoomID, setPickRoomID] = useState(false);
+  const [rooms, setRooms] = useState(null);
   const [contract, setContract] = useState(null);
   const [contracts, setContracts] = useState(false);
   const [state, dispatch] = useStore();
 
-  const getConfirmContracts = useGetConfirmContracts();
+  const showRoomDetail = (id) => {
+    setRoomDetailModal(true);
+    setRoom(rooms.find((elem) => elem.id === id));
+  }
 
-  useEffect(() => {
+  const hideRoomDetail = () => {
+    setRoomDetailModal(false);
+    setRoom(null);
+  }
+
+  const showPickRoom = (id) => {
+    getRooms.mutate(
+      {},
+      {
+        onSuccess(data) {
+          console.log(data);
+          setRooms(data.data);
+        }
+      }
+    );
+    setPickRoomID(id);
+    setPickRoomModal(true);
+  }
+
+  const pickRoomHandle = (id) => {
+    postPickRoom.mutate(
+      {
+        body: {
+          room_id: id,
+        },
+        id: pickRoomID,
+      },
+      {
+        onSuccess(data) {
+          console.log(data);
+          getConfirmContractsHandle()
+        }
+      }
+    );
+  }
+
+  const hidePickRoom = () => {
+    setPickRoomModal(false);
+  }
+
+  function getConfirmContractsHandle()  {
     getConfirmContracts.mutate({},
       {
         onSuccess(data) {
-          if (data.status) {
-            setContracts(data.data);
-          }
-          else {
-            alert('Lỗi lấy dữ liệu');
-          }
+          // console.log(data);
+          setContracts(data.data);
         }
       }
     )
+  }
+
+  useEffect(() => {
+    getConfirmContractsHandle()
   }, []);
 
   return (
@@ -111,7 +162,7 @@ function Contract() {
             </>
           ) : (contracts ? (
             <MyTable 
-              forms={contracts.map(({ id, student, season, room_id, subscription, created_at }) => ({
+              forms={contracts.map(({ id, student, season, room_id, room, subscription, created_at }) => ({
                 id: {
                   title: 'id',
                   content: '' + id
@@ -130,15 +181,24 @@ function Contract() {
                 },
                 room: {
                   title: 'Phòng',
-                  content: room_id
+                  content: room === null
+                    ? (
+                      <button onClick={() => showPickRoom(id)}>Chọn phòng</button>
+                    )
+                    : room.name
                 },
                 price: {
                   title: 'Số tiền phải trả',
                   content: subscription.price
                 },
                 ispay: {
-                  title: 'Số tiền phải trả',
-                  content: subscription.is_paid
+                  title: 'Xác nhận thanh toán',
+                  center: true,
+                  content: <div style={{ textAlign: 'center', cursor: 'pointer' }}>
+                    {subscription.is_paid
+                      ? <CheckboxSelectedSVG style={{ width: '16px', height: '16px'}} />
+                      : <CheckboxSVG style={{ width: '16px', height: '16px'}} />}
+                  </div>
                 },
                 createdAt: {
                   title: 'Duyệt vào lúc',
@@ -198,6 +258,32 @@ function Contract() {
           ))}
         </div>
       </div>
+      
+      <Modal size="lg" show={pickRoomModal} onHide={hidePickRoom}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+            {rooms === null ? <>Loading...</> : rooms.map((elem) => (
+              <div style={{ margin: '12px 0px' }}>
+                {JSON.stringify(elem)}
+
+                {elem.amount < elem.detail.max
+                  ? <button onClick={() => pickRoomHandle(elem.id)}>Chọn</button>
+                  : <button>Đã đầy</button>}
+
+                <button onClick={() => showRoomDetail(elem.id)}>Xem chi tiết</button>
+              </div>
+            ))}
+        </Modal.Body>
+      </Modal>
+      
+      <Modal size="lg" show={roomDetailModal} onHide={hideRoomDetail}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+            {room === null ? <>Loading...</> : (
+              <div>{JSON.stringify(room)}</div>
+            )}
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

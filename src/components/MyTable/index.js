@@ -91,23 +91,7 @@ function MyTable({ forms }) {
               {formsWrap.slice((+page)*10, (+page)*10 + 10).map((elem, index) => (
                 <tr key={index}>
                   {Object.keys(formsWrap[0]).map((key, index) => (
-                    <td key={index}>
-                      {(key === 'room') ? (
-                        <>
-                          {elem.room.content || (
-                            <button>Chọn phòng</button>
-                          )}
-                        </>
-                      ) : ((key === 'ispay') ? (
-                        <>
-                          {elem.ispay.content ? 'Đã trả' : (
-                            <button>Xác nhận</button>
-                          )}
-                        </>
-                      ) : (
-                        <>{elem[key].content}</>
-                      ))}
-                    </td>
+                    <td key={index}>{elem[key].content}</td>
                   ))}
                 </tr>
               ))}
