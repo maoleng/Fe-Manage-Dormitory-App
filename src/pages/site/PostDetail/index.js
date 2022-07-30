@@ -51,7 +51,6 @@ function PostDetail() {
       g = parseInt(hex.slice(2, 4), 16),
       b = parseInt(hex.slice(4, 6), 16);
     if (bw) {
-      // https://stackoverflow.com/a/3943023/112731
       return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? "#000000" : "#FFFFFF";
     }
     // invert color components
@@ -109,152 +108,161 @@ function PostDetail() {
                 dangerouslySetInnerHTML={{ __html: post.post.content }}
               ></div>
             </div>
-            <div
-              style={{
-                margin: "0 10%",
-                display: "flex",
-                flexDirection: "column",
-              }}
-              className="relativepost"
-            >
-              <div className="category">
-                <div
-                  className="category-heading"
-                  style={{
-                    borderBottom: "#0B42AB solid 3px",
-                    width: "100%",
-                  }}
-                >
-                  <h1
-                    style={{
-                      fontSize: "24px",
-                    }}
-                  >
-                    Thể loại
-                  </h1>
-                </div>
-                <div className="category-content" style={{ margin: "12px 0" }}>
+            {post.post.category != "Hướng dẫn" ? (
+              <div
+                style={{
+                  margin: "0 10%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+                className="relativepost"
+              >
+                <div className="category">
                   <div
+                    className="category-heading"
                     style={{
-                      marginBottom: "10px",
-                      height: "39px",
-                      marginLeft: "32px",
-                      textAlign: "center",
-                      backgroundColor: "#A9CBFE",
-                      padding: "10px",
-                      display: "inline-block",
+                      borderBottom: "#0B42AB solid 3px",
+                      width: "100%",
                     }}
                   >
-                    <p
+                    <h1
                       style={{
-                        color: "#0B42AB",
-                        margin: "0",
-                        fontSize: "16px",
-                        height: "19px",
-                        lineHeight: "19px",
-                        textAlign: "center",
+                        fontSize: "24px",
                       }}
                     >
-                      {post.post.category}
-                    </p>
+                      Thể loại
+                    </h1>
                   </div>
-                </div>
-              </div>
-              <div className="Related_Post">
-                <div
-                  className="Related_Post_heading"
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  <h1
-                    style={{
-                      fontSize: "24px",
-                      borderBottom: "#0B42AB solid 3px",
-                    }}
+                  <div
+                    className="category-content"
+                    style={{ margin: "12px 0" }}
                   >
-                    Các bài viết liên quan
-                  </h1>
-                  <div className="post_related_container">
-                    {postsRelated
-                      ? postsRelated.map((post) => (
-                          <div
-                            className="post_Related_item"
-                            key={post.id}
-                            style={{ display: "flex", margin: "23px 32px" }}
-                          >
-                            <img
-                              src={post.banner}
-                              alt="Hinh_anh"
-                              style={{ width: "92px", height: "65px" }}
-                            ></img>
-                            <div
-                              className="post_description"
-                              style={{ margin: "0 21px" }}
-                            >
-                              <div
-                                className="post_title"
-                                style={{
-                                  marginBottom: "6px",
-                                  display: "-webkit-box",
-                                  WebkitLineClamp: "1",
-                                  WebkitBoxOrient: "vertical",
-                                  overflow: "hidden",
-                                }}
-                              >
-                                {post.title}
-                              </div>
-                              <div className="post_time">{post.created_at}</div>
-                            </div>
-                          </div>
-                        ))
-                      : console.log("error")}
-                  </div>
-                </div>
-              </div>
-              <div className="Tags_Place">
-                <div
-                  className="Related_Post_heading"
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  <h1
-                    style={{
-                      fontSize: "24px",
-                      borderBottom: "#0B42AB solid 3px",
-                    }}
-                  >
-                    Thẻ
-                  </h1>
-                  <div className="Tags_Container">
-                    {post.tags.map(({ id, name, color }, index) => (
-                      <div
-                        className="Tags_Item"
-                        key={id}
+                    <div
+                      style={{
+                        marginBottom: "10px",
+                        height: "39px",
+                        marginLeft: "32px",
+                        textAlign: "center",
+                        backgroundColor: "#A9CBFE",
+                        padding: "10px",
+                        display: "inline-block",
+                      }}
+                    >
+                      <p
                         style={{
-                          display: "inline-block",
-                          margin: "8px 8px 8px 32px",
+                          color: "#0B42AB",
+                          margin: "0",
+                          fontSize: "16px",
+                          height: "19px",
+                          lineHeight: "19px",
+                          textAlign: "center",
                         }}
                       >
+                        {post.post.category}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="Related_Post">
+                  <div
+                    className="Related_Post_heading"
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <h1
+                      style={{
+                        fontSize: "24px",
+                        borderBottom: "#0B42AB solid 3px",
+                      }}
+                    >
+                      Các bài viết liên quan
+                    </h1>
+                    <div className="post_related_container">
+                      {postsRelated
+                        ? postsRelated.map((post) => (
+                            <div
+                              className="post_Related_item"
+                              key={post.id}
+                              style={{ display: "flex", margin: "23px 32px" }}
+                            >
+                              <img
+                                src={post.banner}
+                                alt="Hinh_anh"
+                                style={{ width: "92px", height: "65px" }}
+                              ></img>
+                              <div
+                                className="post_description"
+                                style={{ margin: "0 21px" }}
+                              >
+                                <div
+                                  className="post_title"
+                                  style={{
+                                    marginBottom: "6px",
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: "1",
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  {post.title}
+                                </div>
+                                <div className="post_time">
+                                  {post.created_at}
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        : console.log("error")}
+                    </div>
+                  </div>
+                </div>
+                <div className="Tags_Place">
+                  <div
+                    className="Related_Post_heading"
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <h1
+                      style={{
+                        fontSize: "24px",
+                        borderBottom: "#0B42AB solid 3px",
+                      }}
+                    >
+                      Thẻ
+                    </h1>
+                    <div className="Tags_Container">
+                      {post.tags.map(({ id, name, color }, index) => (
                         <div
+                          className="Tags_Item"
+                          key={id}
                           style={{
-                            backgroundColor: color,
-                            padding: "10.5px 12px",
-                            color: invertColor(color, "#FFFFFF"),
-                            fontSize: "16px",
-                            lineHeight: "19px",
-                            fontWeight: "700",
+                            display: "inline-block",
+                            margin: "8px 8px 8px 32px",
                           }}
                         >
-                          {name}
+                          <div
+                            style={{
+                              backgroundColor: color,
+                              padding: "10.5px 12px",
+                              color: invertColor(color, "#FFFFFF"),
+                              fontSize: "16px",
+                              lineHeight: "19px",
+                              fontWeight: "700",
+                            }}
+                          >
+                            {name}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              console.log("Ko in")
+            )}
           </div>
 
           <MyFooter></MyFooter>
