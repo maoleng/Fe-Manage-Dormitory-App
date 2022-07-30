@@ -229,7 +229,7 @@ function Contract() {
                     content: subscription.price,
                   },
                   ispay: {
-                    title: "Số tiền phải trả",
+                    title: "Đánh dấu xác nhận",
                     content: subscription.is_paid,
                   },
                   createdAt: {

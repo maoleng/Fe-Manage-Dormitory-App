@@ -108,7 +108,7 @@ function PostDetail() {
                 dangerouslySetInnerHTML={{ __html: post.post.content }}
               ></div>
             </div>
-            {post.category !== "Hướng dẫn" ? (
+            {post.post.category != "Hướng dẫn" ? (
               <div
                 style={{
                   margin: "0 10%",
