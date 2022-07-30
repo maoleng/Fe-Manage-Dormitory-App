@@ -157,22 +157,32 @@ function MyTable({ forms }) {
                         ) : key === "ispay" ? (
                           <>
                             {elem.ispay.content ? (
-                              "Đã trả"
-                            ) : (
-                              <button
+                              <input
                                 style={{
                                   border: "solid #28a745 1px",
                                   backgroundColor: " #28a745",
                                   color: "#FFF",
                                   padding: "4px",
+                                  margin: "4px 30%",
+                                  width: "18px",
+                                  height: "18px",
                                 }}
-                              >
-                                <FontAwesomeIcon
-                                  icon={faCircleCheck}
-                                  style={{ margin: "0 4px" }}
-                                />
-                                Xác nhận
-                              </button>
+                                type="checkbox"
+                                checked
+                              ></input>
+                            ) : (
+                              <input
+                                style={{
+                                  border: "solid #28a745 1px",
+                                  backgroundColor: " #28a745",
+                                  color: "#FFF",
+                                  padding: "4px",
+                                  margin: "4px 30%",
+                                  width: "18px",
+                                  height: "18px",
+                                }}
+                                type="checkbox"
+                              ></input>
                             )}
                           </>
                         ) : (
