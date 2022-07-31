@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { useGetPost } from "./hooks";
 import MyNavbar from "~/components/MyNavbar";
@@ -25,6 +26,8 @@ import Component2 from "./Component2.png";
 import Component3 from "./Component3.png";
 function Introduction() {
   console.log("Page: Introduction");
+
+  const navigate = useNavigate();
 
   const getPost = useGetPost();
 
@@ -619,7 +622,7 @@ function Introduction() {
               flexWrap: "wrap",
             }}
           >
-            <div className="Component_Item" style={{ margin: "27.5px" }}>
+            <div className="Component_Item" style={{ margin: "27.5px" }} onClick={() => navigate(`/bai-viet/${posts[0].id}`)}>
               <div
                 className="Component_Image"
                 style={{
@@ -660,7 +663,7 @@ function Introduction() {
                 </p>
               </div>
             </div>
-            <div className="Component_Item" style={{ margin: "27.5px" }}>
+            <div className="Component_Item" style={{ margin: "27.5px" }} onClick={() => navigate(`/bai-viet/${posts[1].id}`)}>
               <div
                 className="Component_Image"
                 style={{
@@ -701,7 +704,7 @@ function Introduction() {
                 </p>
               </div>
             </div>
-            <div className="Component_Item" style={{ margin: "27.5px" }}>
+            <div className="Component_Item" style={{ margin: "27.5px" }} onClick={() => navigate(`/bai-viet/${posts[2].id}`)}>
               <div
                 className="Component_Image"
                 style={{
