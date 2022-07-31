@@ -82,6 +82,7 @@ function News() {
                   key={id}
                   style={{
                     display: "flex",
+                    width: "29.333333333%",
                     margin: "24px 20px",
                     flexDirection: "column",
                   }}
@@ -90,7 +91,7 @@ function News() {
                     <img
                       src={banner}
                       alt=""
-                      style={{ width: "395px", height: "206px" }}
+                      style={{ width: "330px", height: "206px" }}
                     />
                   </Link>
                   <div style={{ maxWidth: "33.333333333333%" }}>
@@ -102,7 +103,7 @@ function News() {
                         WebkitBoxOrient: "vertical",
                         overflow: "hidden",
                         minHeight: "48px",
-                        width: "395px",
+                        width: "330px",
                         fontWeight: "700",
                         fontSize: "16px",
                       }}
@@ -116,7 +117,7 @@ function News() {
                         WebkitBoxOrient: "vertical",
                         overflow: "hidden",
                         minHeight: "57px",
-                        width: "395px",
+                        width: "330px",
                       }}
                     >
                       {created_at}
