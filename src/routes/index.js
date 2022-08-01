@@ -18,6 +18,7 @@ import MngElectricityWaters from '~/pages/manage/ElectricityWaters';
 import StdContract from '~/pages/student/Contract';
 import StdMistake from '~/pages/student/Mistake';
 import StdForm from '~/pages/student/Form';
+import StdAttendance from '~/pages/student/Attendance';
 import Test from '~/pages/Test';
 
 export const routes = [
@@ -100,6 +101,10 @@ export const routes = [
   { 
     'path': '/sinh-vien/don-khieu-nai',
     'Component': StdForm
+  },
+  { 
+    'path': '/sinh-vien/diem-danh',
+    'Component': StdAttendance
   },
   { 
     'path': '/test',
