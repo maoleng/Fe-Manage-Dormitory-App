@@ -25,10 +25,13 @@ function categoryMapping(category) {
 function PostDetail() {
   console.log("Page: PostDetail");
 
-  const { id } = useParams();
+  const { idCurr } = useParams();
+
   const getPost = useGetPost();
   const getPostRelated = useGetPostRelated();
+  const navigate = useNavigate();
 
+  const [id, setId] = useState(idCurr);
   const [post, setPost] = useState(null);
   const [postsRelated, setPostsRelated] = useState(null);
   function padZero(str, len) {
@@ -60,6 +63,11 @@ function PostDetail() {
     // pad each with zeros and return
     return "#" + padZero(r) + padZero(g) + padZero(b);
   }
+
+  if (idCurr !== id) {
+    setId(idCurr);
+  }
+
   useEffect(() => {
     getPost.mutate(
       { id },
@@ -81,7 +89,7 @@ function PostDetail() {
         },
       }
     );
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -184,7 +192,8 @@ function PostDetail() {
                             <div
                               className="post_Related_item"
                               key={post.id}
-                              style={{ display: "flex", margin: "23px 32px" }}
+                              style={{ display: "flex", margin: "23px 32px", cursor: 'pointer' }}
+                              onClick={() => navigate(`/bai-viet/${post.id}`, { replace: true })}
                             >
                               <img
                                 src={post.banner}

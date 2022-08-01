@@ -51,7 +51,7 @@ export const routes = [
     'Component': Rules
   },
   { 
-    'path': '/bai-viet/:id',
+    'path': '/bai-viet/:idCurr',
     'Component': PostDetail
   },
   { 
