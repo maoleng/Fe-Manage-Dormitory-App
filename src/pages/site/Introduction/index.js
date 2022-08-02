@@ -675,6 +675,7 @@ function Introduction() {
                 </div>
                 <div
                   className="Component_name"
+                  onClick={() => navigate(`/bai-viet/${posts[0].id}`)}
                   style={{
                     padding: "10px 0 10px 62px",
                     backgroundColor: "#001A72",
@@ -717,6 +718,7 @@ function Introduction() {
                 </div>
                 <div
                   className="Component_name"
+                  onClick={() => navigate(`/bai-viet/${posts[1].id}`)}
                   style={{
                     padding: "10px 0 10px 62px",
                     backgroundColor: "#001A72",
@@ -759,6 +761,7 @@ function Introduction() {
                 </div>
                 <div
                   className="Component_name"
+                  onClick={() => navigate(`/bai-viet/${posts[2].id}`)}
                   style={{
                     padding: "10px 0 10px 62px",
                     backgroundColor: "#001A72",
