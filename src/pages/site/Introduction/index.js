@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { useGetPost } from "./hooks";
 import MyNavbar from "~/components/MyNavbar";
@@ -28,6 +29,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 function Introduction() {
   console.log("Page: Introduction");
+
+  const navigate = useNavigate();
 
   const getPost = useGetPost();
 
