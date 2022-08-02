@@ -99,6 +99,11 @@ const sideStudentManager = [
     icon: '/imgs/icons/xin-phep-icon.png',
     title: 'Điểm danh'
   },
+  {
+    url: '/lich-truc',
+    icon: '/imgs/icons/xin-phep-icon.png',
+    title: 'Lich truc'
+  },
 ];
 
 function MySidebar({ isOpen }) {
