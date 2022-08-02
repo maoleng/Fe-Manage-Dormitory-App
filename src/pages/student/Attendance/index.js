@@ -63,7 +63,7 @@ function Attendance() {
       {},
       {
         onSuccess(data) {
-          console.log(`getRooms:`, data);
+          // console.log(`getRooms:`, data);
           setRooms(data.data);
         }
       }
