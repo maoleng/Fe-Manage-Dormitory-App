@@ -26,10 +26,9 @@ function PostDetail() {
   console.log("Page: PostDetail");
 
   const { idCurr } = useParams();
-
+  const navigate = useNavigate();
   const getPost = useGetPost();
   const getPostRelated = useGetPostRelated();
-  const navigate = useNavigate();
 
   const [id, setId] = useState(idCurr);
   const [post, setPost] = useState(null);
@@ -63,11 +62,9 @@ function PostDetail() {
     // pad each with zeros and return
     return "#" + padZero(r) + padZero(g) + padZero(b);
   }
-
   if (idCurr !== id) {
     setId(idCurr);
   }
-
   useEffect(() => {
     getPost.mutate(
       { id },
@@ -192,8 +189,16 @@ function PostDetail() {
                             <div
                               className="post_Related_item"
                               key={post.id}
-                              style={{ display: "flex", margin: "23px 32px", cursor: 'pointer' }}
-                              onClick={() => navigate(`/bai-viet/${post.id}`, { replace: true })}
+                              style={{
+                                display: "flex",
+                                margin: "23px 32px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() =>
+                                navigate(`/bai-viet/${post.id}`, {
+                                  replace: true,
+                                })
+                              }
                             >
                               <img
                                 src={post.banner}

@@ -9,7 +9,7 @@ import MyInput from "~/components/MyInput";
 import MyNavbar from "~/components/MyNavbar";
 import MyTable from "~/components/MyTable";
 import MySidebar from "~/components/MySidebar";
-
+import "./responsive.css";
 function Form() {
   console.log("Page: Form");
 
@@ -252,7 +252,7 @@ function Form() {
       </div>
 
       <Modal show={showCommentForm} onHide={() => setShowCommentForm(false)}>
-        <div style={{ height: "80vh" }}>
+        <div className="modal_view_body" style={{ height: "100%" }}>
           <div
             style={{ height: "100%", display: "flex", flexDirection: "column" }}
           >

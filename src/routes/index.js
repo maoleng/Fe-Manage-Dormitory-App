@@ -24,89 +24,91 @@ import StdScheduleRegister from '~/pages/student/ScheduleRegister';
 import Test from '~/pages/Test';
 
 export const routes = [
-  { 
-    'path': '/',
-    'Component': Home
+  {
+    path: "/",
+    Component: Home,
   },
-  { 
-    'path': '/gioi-thieu',
-    'Component': Introduction
+  {
+    path: "/gioi-thieu",
+    Component: Introduction,
   },
-  { 
-    'path': '/hoat-dong',
-    'Component': Activity
+  {
+    path: "/hoat-dong",
+    Component: Activity,
   },
-  { 
-    'path': '/huong-dan',
-    'Component': Guide
+  {
+    path: "/huong-dan",
+    Component: Guide,
   },
-  { 
-    'path': '/tin-tuc',
-    'Component': News
+  {
+    path: "/tin-tuc",
+    Component: News,
   },
-  { 
-    'path': '/thong-bao',
-    'Component': Notification
+  {
+    path: "/thong-bao",
+    Component: Notification,
   },
-  { 
-    'path': '/noi-quy',
-    'Component': Rules
+  {
+    path: "/noi-quy",
+    Component: Rules,
   },
-  { 
-    'path': '/bai-viet/:idCurr',
-    'Component': PostDetail
+  {
+    path: "/bai-viet/:idCurr",
+
+    Component: PostDetail,
   },
-  { 
-    'path': '/dang-nhap',
-    'Component': Login
+
+  {
+    path: "/dang-nhap",
+    Component: Login,
   },
-  { 
-    'path': '/quan-ly/don-dang-ky',
-    'Component': MngRegisterForm
+  {
+    path: "/quan-ly/don-dang-ky",
+    Component: MngRegisterForm,
   },
-  { 
-    'path': '/quan-ly/hop-dong',
-    'Component': MngContract
+  {
+    path: "/quan-ly/hop-dong",
+    Component: MngContract,
   },
-  { 
-    'path': '/quan-ly/vi-pham',
-    'Component': MngMistake
+  {
+    path: "/quan-ly/vi-pham",
+    Component: MngMistake,
   },
-  { 
-    'path': '/quan-ly/don-khieu-nai',
-    'Component': MngForm
+  {
+    path: "/quan-ly/don-khieu-nai",
+    Component: MngForm,
   },
-  { 
-    'path': '/quan-ly/bai-dang',
-    'Component': MngPost
+  {
+    path: "/quan-ly/bai-dang",
+    Component: MngPost,
   },
-  { 
-    'path': '/quan-ly/bai-dang/tao-them',
-    'Component': MngPostCreate
+  {
+    path: "/quan-ly/bai-dang/tao-them",
+    Component: MngPostCreate,
   },
-  { 
-    'path': '/quan-ly/bai-dang/chinh-sua/:id',
-    'Component': MngPostUpdate
+  {
+    path: "/quan-ly/bai-dang/chinh-sua/:id",
+    Component: MngPostUpdate,
   },
-  { 
-    'path': '/quan-ly/hoa-don-dien-nuoc',
-    'Component': MngElectricityWaters
+  {
+    path: "/quan-ly/hoa-don-dien-nuoc",
+    Component: MngElectricityWaters,
   },
-  { 
-    'path': '/sinh-vien/hop-dong',
-    'Component': StdContract
+  {
+    path: "/sinh-vien/hop-dong",
+    Component: StdContract,
   },
-  { 
-    'path': '/sinh-vien/vi-pham',
-    'Component': StdMistake
+  {
+    path: "/sinh-vien/vi-pham",
+    Component: StdMistake,
   },
-  { 
-    'path': '/sinh-vien/don-khieu-nai',
-    'Component': StdForm
+  {
+    path: "/sinh-vien/don-khieu-nai",
+    Component: StdForm,
   },
-  { 
-    'path': '/sinh-vien/diem-danh',
-    'Component': StdAttendance
+  {
+    path: "/test",
+    Component: Test,
   },
   { 
     'path': '/sinh-vien/lich-truc',
