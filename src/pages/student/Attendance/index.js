@@ -6,7 +6,7 @@ import MyNavbar from '~/components/MyNavbar';
 import MySidebar from '~/components/MySidebar';
 import { useGetRooms, useGetRoomStudents, usePostAttendance } from './hooks';
 import { ArrowRightSVG, RadioSVG, RadioCheckedSVG, CheckboxSVG, CheckboxCheckedSVG } from './svgs';
-import InpurCustom from './InpurCustom';
+import InputCustom from './InputCustom';
 
 function Attendance() {
   console.log('Page: Attendance');
@@ -63,7 +63,7 @@ function Attendance() {
       {},
       {
         onSuccess(data) {
-          // console.log(`getRooms:`, data);
+          console.log(`getRooms:`, data);
           setRooms(data.data);
         }
       }
