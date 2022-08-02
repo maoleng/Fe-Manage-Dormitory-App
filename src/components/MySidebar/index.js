@@ -68,39 +68,6 @@ const sideStudent = [
   },
 ];
 
-const sideStudentManager = [
-  {
-    url: '/hop-dong',
-    icon: '/imgs/icons/hop-dong-icon.png',
-    title: 'Hợp đồng'
-  },
-  {
-    url: '/vi-pham',
-    icon: '/imgs/icons/vi-pham-icon.png',
-    title: 'Vi phạm'
-  },
-  {
-    url: '/hoa-don-dien-nuoc',
-    icon: '/imgs/icons/hoa-don-dien-nuoc-icon.png',
-    title: 'Hóa đơn điện nước'
-  },
-  {
-    url: '/don-khieu-nai',
-    icon: '/imgs/icons/don-khieu-nai-icon.png',
-    title: 'Đơn'
-  },
-  {
-    url: '/xin-phep',
-    icon: '/imgs/icons/xin-phep-icon.png',
-    title: 'Xin phép'
-  },
-  {
-    url: '/diem-danh',
-    icon: '/imgs/icons/xin-phep-icon.png',
-    title: 'Điểm danh'
-  },
-];
-
 function MySidebar({ isOpen }) {
   console.log('Component: MySidebar');
 
@@ -109,12 +76,7 @@ function MySidebar({ isOpen }) {
   return (
     <div
       style={{
-        ...(isOpen ? window.screen.width < 600 ? {
-          width: '100vw',
-          height: '100vh',
-          position: 'absolute',
-          backgroundColor: '#FFFFFF',
-        } :{
+        ...(isOpen ? {
           width: '240px',
         } : {}),
         ...{
@@ -123,12 +85,7 @@ function MySidebar({ isOpen }) {
         }
     }}
     >
-      {(role === 'Quản lý kí túc xá' 
-        ? sideManage 
-        : role === 'Sinh viên tự quản' 
-        ? sideStudentManager
-        : sideStudent
-      ).map(({ url, icon, title }, index) => (
+      {(window.location.pathname.includes('/sinh-vien') ? sideStudent : sideManage).map(({ url, icon, title }, index) => (
         <div 
           style={{ 
             padding: '4px 8px', 
@@ -137,7 +94,7 @@ function MySidebar({ isOpen }) {
           }}
           key={index}
         >
-          <Link style={{ textDecoration: 'none', color: '#000000' }} to={(role === 'Quản lý kí túc xá' ? '/quan-ly' : '/sinh-vien') + url}>
+          <Link style={{ textDecoration: 'none', color: '#000000' }} to={(role === 'Sinh viên tự quản' ? '/sinh-vien' : '/quan-ly') + url}>
             <img style={{ height: '100%', marginRight: (isOpen ? '20px' : '')}} src={icon} alt={icon}/>
             {isOpen ? title : ''}
           </Link>
