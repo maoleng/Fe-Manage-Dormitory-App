@@ -8,7 +8,10 @@ import InstructionLogo2 from "./Instruction2.png";
 import InstructionLogo3 from "./Instruction3.png";
 import InstructionLogo4 from "./Instruction4.png";
 import InstructionLogo5 from "./Instruction5.png";
-
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import "./fix.css";
 import { useGetPost } from "./hooks";
 
 function Guide() {
@@ -38,9 +41,10 @@ function Guide() {
         <>Loading...</>
       ) : (
         <>
-          <div
+          <Container
+            fluid
             className="Guild_Container"
-            style={{ backgroundColor: "#E9E9EA", height: "538px" }}
+            style={{ backgroundColor: "#E9E9EA" }}
           >
             <div
               style={{
@@ -61,192 +65,209 @@ function Guide() {
                 HƯỚNG DẪN
               </h1>
             </div>
-            <div
+            <Row
               style={{
-                margin: "80px 110.5px",
-                display: "flex",
-                flexBasis: "nowrap",
+                padding: "80px 110.5px",
               }}
               className="Guide_List"
             >
-              <Link
-                className="Guide_Item"
-                style={{
-                  width: "200px",
-                  margin: " 0 23.75px",
-                  textDecoration: "none",
-                  backgroundColor: "#fff",
-                  height: "240px",
-                }}
-                to={`/bai-viet/${posts[0].id}`}
-              >
-                <img
-                  className="Item_Image"
-                  src={InstructionLogo1}
+              <Col sm={12} md={4} lg={1}>
+                <Link
+                  className="Guide_Item"
                   style={{
-                    margin: "39px 59px 24px 59px",
-                    width: "82px",
-                    height: "82px",
+                    width: "200px",
+                    margin: " 12px 23.75px",
+                    padding: "12px 0px ",
+                    textDecoration: "none",
+                    backgroundColor: "#fff",
+                    height: "240px",
                   }}
-                  alt="Đăng kí nội trú"
-                ></img>
-                <p
-                  className="Guild_Des"
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "16px",
-                    margin: "0 8px",
-                    lineHeight: "19px",
-                    textAlign: "Center",
-                    color: "#333",
-                  }}
+                  to={`/bai-viet/${posts[0].id}`}
                 >
-                  {posts[0].title}
-                </p>
-              </Link>
-              <Link
-                className="Guide_Item"
-                style={{
-                  width: "200px",
-                  margin: " 0 23.75px",
-                  textDecoration: "none",
-                  backgroundColor: "#fff",
-                  height: "240px",
-                }}
-                to={`/bai-viet/${posts[1].id}`}
-              >
-                <img
-                  className="Item_Image"
-                  src={InstructionLogo2}
+                  <img
+                    className="Item_Image"
+                    src={InstructionLogo1}
+                    style={{
+                      margin: "39px auto 24px auto",
+                      display: "block",
+                      width: "82px",
+                      height: "82px",
+                    }}
+                    alt="Đăng kí nội trú"
+                  ></img>
+                  <p
+                    className="Guild_Des"
+                    style={{
+                      fontWeight: "700",
+                      fontSize: "16px",
+                      margin: "16px 8px",
+                      lineHeight: "19px",
+                      textAlign: "Center",
+                      color: "#333",
+                    }}
+                  >
+                    {posts[0].title}
+                  </p>
+                </Link>
+              </Col>
+              <Col sm={12} md={4} lg={1}>
+                <Link
+                  className="Guide_Item"
                   style={{
-                    margin: "39px 59px 24px 59px",
-                    width: "82px",
-                    height: "82px",
+                    width: "200px",
+                    margin: " 12px 23.75px",
+                    padding: "12px 0px ",
+                    textDecoration: "none",
+                    backgroundColor: "#fff",
+                    height: "240px",
                   }}
-                  alt="Gửi xe, Đổi xe, Chấm dứt hợp đồng xe"
-                ></img>
-                <p
-                  className="Guild_Des"
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "16px",
-                    margin: "0 8px",
-                    lineHeight: "19px",
-                    textAlign: "Center",
-                    color: "#333",
-                  }}
+                  to={`/bai-viet/${posts[1].id}`}
                 >
-                  {posts[1].title}
-                </p>
-              </Link>
-              <Link
-                className="Guide_Item"
-                style={{
-                  width: "200px",
-                  margin: " 0 23.75px",
-                  textDecoration: "none",
-                  backgroundColor: "#fff",
-                  height: "240px",
-                }}
-                to={`/bai-viet/${posts[2].id}`}
-              >
-                <img
-                  className="Item_Image"
-                  src={InstructionLogo3}
-                  alt="Chấm dứt hợp đồng nội trú"
+                  <img
+                    className="Item_Image"
+                    src={InstructionLogo2}
+                    style={{
+                      margin: "39px auto 24px auto",
+                      display: "block",
+                      width: "82px",
+                      height: "82px",
+                    }}
+                    alt="Gửi xe, Đổi xe, Chấm dứt hợp đồng xe"
+                  ></img>
+                  <p
+                    className="Guild_Des"
+                    style={{
+                      fontWeight: "700",
+                      fontSize: "16px",
+                      margin: "16px 8px",
+                      lineHeight: "19px",
+                      textAlign: "Center",
+                      color: "#333",
+                    }}
+                  >
+                    {posts[1].title}
+                  </p>
+                </Link>
+              </Col>
+              <Col sm={12} md={4} lg={1}>
+                <Link
+                  className="Guide_Item"
                   style={{
-                    margin: "39px 59px 24px 59px",
-                    width: "82px",
-                    height: "82px",
+                    width: "200px",
+                    margin: " 12px 23.75px",
+                    padding: "12px 0px ",
+                    textDecoration: "none",
+                    backgroundColor: "#fff",
+                    height: "240px",
                   }}
-                ></img>
-                <p
-                  className="Guild_Des"
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "16px",
-                    margin: "0 8px",
-                    lineHeight: "19px",
-                    textAlign: "Center",
-                    color: "#333",
-                  }}
+                  to={`/bai-viet/${posts[2].id}`}
                 >
-                  {posts[2].title}
-                </p>
-              </Link>
-              <Link
-                className="Guide_Item"
-                style={{
-                  width: "200px",
-                  margin: " 0 23.75px",
-                  textDecoration: "none",
-                  backgroundColor: "#fff",
-                  height: "240px",
-                }}
-                to={`/bai-viet/${posts[3].id}`}
-              >
-                <img
-                  className="Item_Image"
-                  src={InstructionLogo4}
+                  <img
+                    className="Item_Image"
+                    src={InstructionLogo3}
+                    alt="Chấm dứt hợp đồng nội trú"
+                    style={{
+                      margin: "39px auto 24px auto",
+                      display: "block",
+                      width: "82px",
+                      height: "82px",
+                    }}
+                  ></img>
+                  <p
+                    className="Guild_Des"
+                    style={{
+                      fontWeight: "700",
+                      fontSize: "16px",
+                      margin: "16px 8px",
+                      lineHeight: "19px",
+                      textAlign: "Center",
+                      color: "#333",
+                    }}
+                  >
+                    {posts[2].title}
+                  </p>
+                </Link>
+              </Col>
+              <Col sm={12} md={4} lg={1}>
+                <Link
+                  className="Guide_Item"
                   style={{
-                    margin: "39px 59px 24px 59px",
-                    width: "82px",
-                    height: "82px",
+                    width: "200px",
+                    margin: " 12px 23.75px",
+                    padding: "12px 0px ",
+                    textDecoration: "none",
+                    backgroundColor: "#fff",
+                    height: "240px",
                   }}
-                  alt="Xin về trễ sau thời gian quy định(22h00)"
-                ></img>
-                <p
-                  className="Guild_Des"
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "16px",
-                    lineHeight: "19px",
-                    margin: "0 8px",
-                    textAlign: "Center",
-                    color: "#333",
-                  }}
+                  to={`/bai-viet/${posts[3].id}`}
                 >
-                  {posts[3].title}
-                </p>
-              </Link>
-              <Link
-                className="Guide_Item"
-                style={{
-                  width: "200px",
-                  margin: " 0 23.75px",
-                  textDecoration: "none",
-                  backgroundColor: "#fff",
-                  height: "240px",
-                }}
-                to={`/bai-viet/${posts[4].id}`}
-              >
-                <img
-                  alt="Tạm vắng - Tạm trú"
-                  className="Item_Image"
-                  src={InstructionLogo5}
+                  <img
+                    className="Item_Image"
+                    src={InstructionLogo4}
+                    style={{
+                      margin: "39px auto 24px auto",
+                      display: "block",
+                      width: "82px",
+                      height: "82px",
+                    }}
+                    alt="Xin về trễ sau thời gian quy định(22h00)"
+                  ></img>
+                  <p
+                    className="Guild_Des"
+                    style={{
+                      fontWeight: "700",
+                      fontSize: "16px",
+                      lineHeight: "19px",
+                      margin: "16px 8px",
+                      textAlign: "Center",
+                      color: "#333",
+                    }}
+                  >
+                    {posts[3].title}
+                  </p>
+                </Link>
+              </Col>
+              <Col sm={12} md={4} lg={1}>
+                <Link
+                  className="Guide_Item"
                   style={{
-                    margin: "39px 59px 24px 59px",
-                    width: "82px",
-                    height: "82px",
+                    width: "200px",
+                    margin: " 12px 23.75px",
+                    padding: "12px 0px ",
+                    textDecoration: "none",
+                    backgroundColor: "#fff",
+                    height: "240px",
                   }}
-                ></img>
-                <p
-                  className="Guild_Des"
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "16px",
-                    lineHeight: "19px",
-                    margin: "0 8px",
-                    textAlign: "Center",
-                    color: "#333",
-                  }}
+                  to={`/bai-viet/${posts[4].id}`}
                 >
-                  {posts[4].title}
-                </p>
-              </Link>
-            </div>
-          </div>
-
+                  <img
+                    alt="Tạm vắng - Tạm trú"
+                    className="Item_Image"
+                    src={InstructionLogo5}
+                    style={{
+                      margin: "39px auto 24px auto",
+                      display: "block",
+                      width: "82px",
+                      height: "82px",
+                    }}
+                  ></img>
+                  <p
+                    className="Guild_Des"
+                    style={{
+                      fontWeight: "700",
+                      fontSize: "16px",
+                      lineHeight: "19px",
+                      margin: "16px 8px",
+                      textAlign: "Center",
+                      color: "#333",
+                    }}
+                  >
+                    {posts[4].title}
+                  </p>
+                </Link>
+              </Col>
+            </Row>
+          </Container>
           <MyFooter></MyFooter>
         </>
       )}

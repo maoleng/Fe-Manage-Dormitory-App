@@ -25,10 +25,12 @@ function categoryMapping(category) {
 function PostDetail() {
   console.log("Page: PostDetail");
 
-  const { id } = useParams();
+  const { idCurr } = useParams();
+  const navigate = useNavigate();
   const getPost = useGetPost();
   const getPostRelated = useGetPostRelated();
 
+  const [id, setId] = useState(idCurr);
   const [post, setPost] = useState(null);
   const [postsRelated, setPostsRelated] = useState(null);
   function padZero(str, len) {
@@ -51,7 +53,6 @@ function PostDetail() {
       g = parseInt(hex.slice(2, 4), 16),
       b = parseInt(hex.slice(4, 6), 16);
     if (bw) {
-      // https://stackoverflow.com/a/3943023/112731
       return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? "#000000" : "#FFFFFF";
     }
     // invert color components
@@ -60,6 +61,9 @@ function PostDetail() {
     b = (255 - b).toString(16);
     // pad each with zeros and return
     return "#" + padZero(r) + padZero(g) + padZero(b);
+  }
+  if (idCurr !== id) {
+    setId(idCurr);
   }
   useEffect(() => {
     getPost.mutate(
@@ -82,7 +86,7 @@ function PostDetail() {
         },
       }
     );
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -109,7 +113,7 @@ function PostDetail() {
                 dangerouslySetInnerHTML={{ __html: post.post.content }}
               ></div>
             </div>
-            {post.category !== "Hướng dẫn" ? (
+            {post.post.category != "Hướng dẫn" ? (
               <div
                 style={{
                   margin: "0 10%",
@@ -185,7 +189,16 @@ function PostDetail() {
                             <div
                               className="post_Related_item"
                               key={post.id}
-                              style={{ display: "flex", margin: "23px 32px" }}
+                              style={{
+                                display: "flex",
+                                margin: "23px 32px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() =>
+                                navigate(`/bai-viet/${post.id}`, {
+                                  replace: true,
+                                })
+                              }
                             >
                               <img
                                 src={post.banner}

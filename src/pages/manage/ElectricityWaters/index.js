@@ -9,7 +9,7 @@ import { useStore, actions } from '~/store';
 import MyTable from '~/components/MyTable';
 import MyNavbar from '~/components/MyNavbar';
 import MySidebar from '~/components/MySidebar';
-import { useGetElectricityWater, useGetElectricityWaters } from './hooks';
+import { usePostDownload, useGetElectricityWater, useGetElectricityWaters, useGetYears, useGetFloors, useGetBuildings, usePutBill } from './hooks';
 import { SearchSVG, CheckboxSVG, CheckboxSelectedSVG, CheckboxTickSVG, PrintSVG, DetailSVG, ReviewSVG, DownLoadSVG, PDFSVG } from './svgs';
 
 function ElectricityWaters() {
@@ -18,20 +18,62 @@ function ElectricityWaters() {
   const [state, dispatch] = useStore();
   const getElectricityWater = useGetElectricityWater();
   const getElectricityWaters = useGetElectricityWaters();
+  const getYears = useGetYears();
+  const getFloors = useGetFloors();
+  const getBuildings = useGetBuildings();
+  const putBill = usePutBill();
+  const postDownload = usePostDownload();
 
+  const [id, setId] = useState(null);
   const [printAll, setPrintAll] = useState(null);
   const [download, setDownload] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
   const [showReview, setShowReview] = useState(false);
+  const [floors, setFloors] = useState(null);
   const [bill, setBill] = useState(null);
   const [bills, setBills] = useState(null);
   const [search, setSearch] = useState({
     buildings: ['H', 'I', 'K', 'L'].map((elem, index) => ({ id: index + 1, title: `Tòa ${elem}`, selected: false })),
-    floors: [...Array(20).keys()].map(x => ({ id: x + 1, title: `Tầng ${x + 1}`, selected: false })),
-    years: [...Array(10).keys()].map(x => ({ id: x + 1, title: `Năm ${x + 2020}`, selected: false })),
+    floors,
+    years: [...Array(10).keys()].map(x => ({ id: x + 2020, title: `Năm ${x + 2020}`, selected: false })),
     months: [...Array(12).keys()].map(x => ({ id: x + 1, title: `Tháng ${x + 1}`, selected: false })),
-    status: ['Chưa nộp', 'Đã nộp'].map((title, index) => ({ id: index + 1, title, selected: false })),
+    status: [
+      { 
+        id: 0, 
+        title: 'Chưa nộp', 
+        selected: false 
+      },
+      { 
+        id: 1, 
+        title: 'Đã nộp', 
+        selected: false 
+      },
+    ],
   });
+
+  const updateBills = () => {
+    const buildingID = search.buildings.filter(({ selected }) => selected)[0];
+    const floorID = search.floors && search.floors.filter(({ selected }) => selected)[0];
+    const year = search.years.filter(({ selected }) => selected)[0];
+    const month = search.months.filter(({ selected }) => selected)[0];
+    const isPaid = search.status.filter(({ selected }) => selected)[0];
+
+    getElectricityWaters.mutate(
+      {
+        buildingID: buildingID ? buildingID.id : undefined, 
+        floorID: floorID ? floorID.id : undefined, 
+        year: year ? year.id : undefined,
+        month: month ? month.id : undefined,
+        isPaid: isPaid ? isPaid.id : undefined,
+      },
+      {
+        onSuccess(data) {
+          // console.log(data.data);
+          setBills(data.data);
+        }
+      }
+    );
+  }
 
   const hiddenHandel = (type) => {
     if (type === 'detail') {
@@ -57,24 +99,46 @@ function ElectricityWaters() {
         onSuccess(data) {
           // console.log(data);
           setBill(data.data);
+          setId(id);
         }
       }
     );
   }
 
-  const searchHandle = () => {
-    getElectricityWaters.mutate(
-      {
-        buildingID: search.buildings.filter(({ selected }) => selected)[0].id, 
-        floorID: search.floors.filter(({ selected }) => selected)[0].id, 
-        year: search.years.filter(({ selected }) => selected)[0].id, 
-        month: search.months.filter(({ selected }) => selected)[0].id, 
-        isPaid: search.status.filter(({ selected }) => selected)[0].id,
+  const postDownloadHandle = (id) => {
+    postDownload.mutate(
+      { 
+        body: {
+          subscription_ids: [id],
+        },
       },
       {
         onSuccess(data) {
-          // console.log(data.data);
-          setBills(data.data);
+          const url = window.URL.createObjectURL(new Blob([data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'image.pdf');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      }
+    );
+  }
+
+  const putBillHandle = (id, isPaid) => {
+    putBill.mutate(
+      { 
+        body: {
+          is_paid: isPaid
+        },
+        id 
+      },
+      {
+        onSuccess(data) {
+          console.log(data);
+
+          updateBills();
         }
       }
     )
@@ -95,8 +159,26 @@ function ElectricityWaters() {
     }
   }
 
-  const printAllHandle = () => {
-    setPrintAll(true);
+  const printAllTest = () => {
+    console.log(bills.map(({ subscription_id }) => subscription_id));
+    postDownload.mutate(
+      { 
+        body: {
+          subscription_ids: bills.map(({ subscription_id }) => subscription_id),
+        },
+      },
+      {
+        onSuccess(data) {
+          const url = window.URL.createObjectURL(new Blob([data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'image.pdf');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      }
+    );
   }
 
   useEffect(() => {
@@ -123,18 +205,85 @@ function ElectricityWaters() {
   }, [download]);
 
   useEffect(() => {
-    getElectricityWaters.mutate(
+    updateBills();
+
+    const buildingID = search && search.buildings.filter(({ selected }) => selected)[0];
+    if (buildingID) {
+      if (!search.floors) {
+        setSearch(() => ({
+          ...search, 
+          floors: floors.filter(({ building_id }) => building_id === buildingID.id)
+            .map(({ id, name, building_id }) => ({
+               id: id, 
+               buildingId: building_id,
+               title: `Tầng ${name}`, 
+               selected: false 
+            }))
+        }));
+      }
+      else if (search.floors[0].buildingId !== buildingID.id) {
+        setSearch(() => ({
+          ...search, 
+          floors: floors.filter(({ building_id }) => building_id === buildingID.id)
+            .map(({ id, name, building_id }) => ({
+               id: id, 
+               buildingId: building_id,
+               title: `Tầng ${name}`, 
+               selected: false 
+            }))
+        }));
+      }
+    }
+  }, [search]);
+
+  useEffect(() => {
+    getBuildings.mutate(
       {},
       {
         onSuccess(data) {
-          // console.log(data.data);
-          setBills(data.data);
+          console.log('getBuildings:', data);
+          setSearch(() => ({
+            ...search, 
+            buildings: data.data.map(({ id, name }) => ({ 
+              id: id, 
+              title: `Tòa ${name}`, 
+              selected: false 
+            }))
+          }));
         }
       }
-    )
+    );
+
+    getFloors.mutate(
+      {},
+      {
+        onSuccess(data) {
+          console.log('getFloors:', data);
+          setFloors(data.data);
+        }
+      }
+    );
+
+    getYears.mutate(
+      {},
+      {
+        onSuccess(data) {
+          console.log('getYears:', data);
+          setSearch(() => ({
+            ...search,
+            years: [...Array((data.data.year_current - data.data.year_start) + 1).keys()]
+              .map(x => ({ 
+                id: x + data.data.year_start, 
+                title: `Năm ${x + data.data.year_start}`, 
+                selected: false 
+              })),
+          }));
+        }
+      }
+    );
   }, []);
   
-  // console.log(bills);
+  console.log(bills);
   // console.log(search);
 
   return (
@@ -166,7 +315,7 @@ function ElectricityWaters() {
             }}
           >
             <div>
-              <Button style={{ width: '180px', }} onClick={printAllHandle} variant="primary">
+              <Button style={{ width: '180px', }} onClick={printAllTest} variant="primary">
                 <PrintSVG style={{ width: '18px', height: '20px' }} /> In tất cả hóa đơn
               </Button>
             </div>
@@ -178,7 +327,11 @@ function ElectricityWaters() {
               }}
             >
               <Dropdown>
-                <Dropdown.Toggle as={CustomToggle}>Tòa</Dropdown.Toggle>
+                <Dropdown.Toggle as={CustomToggle}>
+                  {search.buildings.filter(({ selected }) => selected)[0] 
+                    ? search.buildings.filter(({ selected }) => selected)[0].title 
+                    : 'Tòa'}
+                </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <div style={{ padding: '0px 20px', margin: '0px auto' }}>
                     {search.buildings.map(({ title, selected }) => (
@@ -200,7 +353,13 @@ function ElectricityWaters() {
               </Dropdown>
 
               <Dropdown>
-                <Dropdown.Toggle as={CustomToggle}>Tầng</Dropdown.Toggle>
+                <Dropdown.Toggle as={CustomToggle}>
+                  {!search.floors 
+                    ? 'Tầng'
+                    : search.floors.filter(({ selected }) => selected)[0] 
+                    ? search.floors.filter(({ selected }) => selected)[0].title 
+                    : 'Tầng'}
+                </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <div 
                     style={{ 
@@ -211,7 +370,7 @@ function ElectricityWaters() {
                       gridTemplateColumns: '50% 50%'
                     }}
                   >
-                    {search.floors.map(({ title, selected }) => (
+                    {search.floors === null ? <>Hãy chọn Tòa trước</> : search.floors.map(({ title, selected }) => (
                       <div 
                         style={{ margin: '4px 0px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} 
                         onClick={() => setSearch({
@@ -230,7 +389,11 @@ function ElectricityWaters() {
               </Dropdown>
 
               <Dropdown>
-                <Dropdown.Toggle as={CustomToggle}>Năm</Dropdown.Toggle>
+                <Dropdown.Toggle as={CustomToggle}>
+                  {search.years.filter(({ selected }) => selected)[0] 
+                    ? search.years.filter(({ selected }) => selected)[0].title 
+                    : 'Năm'}
+                </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <div style={{ padding: '0px 20px', margin: '0px auto' }}>
                     {search.years.map(({ title, selected }) => (
@@ -258,7 +421,11 @@ function ElectricityWaters() {
               </Dropdown>
 
               <Dropdown>
-                <Dropdown.Toggle as={CustomToggle}>Tháng</Dropdown.Toggle>
+                <Dropdown.Toggle as={CustomToggle}>
+                  {search.months.filter(({ selected }) => selected)[0] 
+                    ? search.months.filter(({ selected }) => selected)[0].title 
+                    : 'Tháng'}
+                </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <div style={{ padding: '0px 20px', margin: '0px auto' }}>
                     {search.months.map(({ title, selected }) => (
@@ -280,7 +447,11 @@ function ElectricityWaters() {
               </Dropdown>
 
               <Dropdown>
-                <Dropdown.Toggle as={CustomToggle}>Trạng thái</Dropdown.Toggle>
+                <Dropdown.Toggle as={CustomToggle}>
+                  {search.status.filter(({ selected }) => selected)[0] 
+                    ? search.status.filter(({ selected }) => selected)[0].title 
+                    : 'Trạng thái'}
+                </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <div style={{ padding: '0px 20px', margin: '0px auto' }}>
                     {search.status.map(({ title, selected }) => (
@@ -301,9 +472,9 @@ function ElectricityWaters() {
                 </Dropdown.Menu>
               </Dropdown>
 
-              <Button style={{ width: '120px', }} onClick={searchHandle} variant="primary">
+              {/* <Button style={{ width: '120px', }} onClick={searchHandle} variant="primary">
                 <SearchSVG style={{ width: '16px', height: '16px' }} /> Tìm kiếm
-              </Button>
+              </Button> */}
             </div>
           </div>
 
@@ -333,7 +504,7 @@ function ElectricityWaters() {
               set_paid: {
                 title: 'Đánh dấu thanh toán',
                 center: true,
-                content: <div style={{ textAlign: 'center' }}>
+                content: <div style={{ textAlign: 'center' }} onClick={() => putBillHandle(subscription_id, !is_paid)}>
                   {is_paid
                     ? <CheckboxTickSVG style={{ width: '16px', height: '16px' }} />
                     : <CheckboxSVG style={{ width: '16px', height: '16px' }} />}
@@ -493,11 +664,7 @@ function ElectricityWaters() {
                     backgroundColor: '#0B42AB',
                     color: '#FFFFFF',
                   }}
-                  onClick={() => html2canvas(document.querySelector("#review")).then(canvas => {
-                    const pdf = new jsPDF();
-                    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0);
-                    print({printable: URL.createObjectURL(pdf.output('blob')), type: 'pdf',})
-                  })}
+                  onClick={() => postDownloadHandle(id)}
                 >
                   <PDFSVG style={{ width: '20px', height: '25px' }} /> <span style={{ marginLeft: '8px' }}>In hóa đơn</span>
                 </button>
