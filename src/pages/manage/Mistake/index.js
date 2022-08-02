@@ -3,7 +3,10 @@ import { Table } from "react-bootstrap";
 
 import MyInput from "~/components/MyInput";
 import { useStore, actions } from "~/store";
-
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import "./responsive.css";
 import {
   useGetMistakes,
   useGetMistake,
@@ -179,62 +182,50 @@ function Mistake() {
         <MySidebar isOpen={state.isOpenSidebar}></MySidebar>
 
         {mistakeAdd || edit ? (
-          <div style={{ width: "100%", height: "100%" }}>
-            <div style={{ width: "50%", maxWidth: "500px", margin: "auto" }}>
-              <div
-                style={{
-                  fontSize: "24px",
-                  fontWeight: "bold",
-                  marginBottom: "12px",
-                }}
-              >
-                GHI LỖI KÝ TÚC XÁ
-              </div>
-
+          <Container fluid>
+            <div style={{ width: "100%", height: "100%" }}>
+              <Row>
+                <Col style={{}} xs={12} md={12} lg={12}>
+                  <p
+                    style={{
+                      fontSize: "24px",
+                      fontWeight: "bold",
+                      marginBottom: "12px",
+                      marginLeft: "35%",
+                    }}
+                  >
+                    GHI LỖI KÝ TÚC XÁ
+                  </p>
+                </Col>
+              </Row>
               <form onSubmit={submitMistake}>
-                <table cellPadding="8px">
-                  <thead>
-                    <tr>
-                      <th width="160px"></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p
-                          style={{
-                            color: "#0B42AB",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          MSSV
-                        </p>
-                      </td>
-                      <td>
-                        {edit ? (
-                          mistake ? (
-                            <MyInput
-                              style={{
-                                marginBottom: "12px",
-                                width: "320px",
-                                paddingLeft: "8px",
-                                border: "none",
-                                borderRadius: "4px",
-                                outline: "none",
-                                backgroundColor: "#EEEEEE",
-                              }}
-                              type="text"
-                              name="student_card_id"
-                              initValue={mistake.student_card_id}
-                              disabled={true}
-                            />
-                          ) : (
-                            <></>
-                          )
-                        ) : (
+                <div>
+                  <Row style={{ margin: "8px 0" }}>
+                    <Col
+                      xs={12}
+                      md={{ span: 1, offset: 3 }}
+                      lg={{ span: 1, offset: 3 }}
+                    >
+                      <p
+                        style={{
+                          color: "#0B42AB",
+                          fontWeight: "bold",
+                          textAlign: "center",
+                        }}
+                      >
+                        MSSV
+                      </p>
+                    </Col>
+                    <Col
+                      xs={{ span: "auto", offset: 3 }}
+                      md={{ span: "auto", offset: 0 }}
+                      lg={{ span: "auto", offset: 0 }}
+                    >
+                      {edit ? (
+                        mistake ? (
                           <MyInput
                             style={{
+                              marginBottom: "12px",
                               width: "320px",
                               paddingLeft: "8px",
                               border: "none",
@@ -244,36 +235,52 @@ function Mistake() {
                             }}
                             type="text"
                             name="student_card_id"
+                            initValue={mistake.student_card_id}
+                            disabled={true}
                           />
-                        )}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span style={{ color: "#0B42AB", fontWeight: "bold" }}>
-                          Nội dung lỗi
-                        </span>
-                      </td>
-                      <td>
-                        {edit ? (
-                          mistake ? (
-                            <MyInput
-                              style={{
-                                width: "320px",
-                                paddingLeft: "8px",
-                                border: "none",
-                                borderRadius: "4px",
-                                outline: "none",
-                                backgroundColor: "#EEEEEE",
-                              }}
-                              type="text"
-                              name="content"
-                              initValue={mistake.content}
-                            />
-                          ) : (
-                            <></>
-                          )
                         ) : (
+                          <></>
+                        )
+                      ) : (
+                        <MyInput
+                          style={{
+                            width: "320px",
+                            paddingLeft: "8px",
+                            border: "none",
+                            borderRadius: "4px",
+                            outline: "none",
+                            backgroundColor: "#EEEEEE",
+                          }}
+                          type="text"
+                          name="student_card_id"
+                        />
+                      )}
+                    </Col>
+                  </Row>
+                  <Row style={{ margin: "8px 0" }}>
+                    <Col
+                      xs={12}
+                      md={{ span: 2, offset: 2 }}
+                      lg={{ span: 2, offset: 2 }}
+                    >
+                      <p
+                        className="Mistake_Heading"
+                        style={{
+                          color: "#0B42AB",
+                          fontWeight: "bold",
+                          textAlign: "right",
+                        }}
+                      >
+                        Nội dung lỗi
+                      </p>
+                    </Col>
+                    <Col
+                      xs={{ span: "auto", offset: 3 }}
+                      md={{ span: "auto", offset: 0 }}
+                      lg={{ span: "auto", offset: 0 }}
+                    >
+                      {edit ? (
+                        mistake ? (
                           <MyInput
                             style={{
                               width: "320px",
@@ -285,143 +292,192 @@ function Mistake() {
                             }}
                             type="text"
                             name="content"
+                            initValue={mistake.content}
                           />
-                        )}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span style={{ color: "#0B42AB", fontWeight: "bold" }}>
-                          Upload ảnh
-                        </span>
-                      </td>
-                      <td>
-                        <label
+                        ) : (
+                          <></>
+                        )
+                      ) : (
+                        <MyInput
                           style={{
-                            padding: "4px",
+                            width: "320px",
+                            paddingLeft: "8px",
                             border: "none",
                             borderRadius: "4px",
+                            outline: "none",
                             backgroundColor: "#EEEEEE",
                           }}
-                          htmlFor="file"
-                        >
-                          <svg
-                            style={{
-                              width: "28px",
-                              height: "28px",
-                              marginRight: "12px",
-                            }}
-                            viewBox="0 0 32 33"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M22 17.25V21C22 21.8284 21.3284 22.5 20.5 22.5H11.5C10.6716 22.5 10 21.8284 10 21L10 17.25M19 13.5L16 10.5M16 10.5L13 13.5M16 10.5L16 19.5"
-                              stroke="#001A72"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <span
-                            style={{ fontWeight: "bold", marginRight: "12px" }}
-                          >
-                            Upload files
-                          </span>
-                        </label>
-                        <input
-                          onChange={change}
-                          id="file"
-                          type="file"
-                          multiple
-                          hidden
+                          type="text"
+                          name="content"
                         />
-                        <div>
-                          <div
-                            style={{
-                              width: "100%",
-                              display: "flex",
-                              flexWrap: "wrap",
-                              gap: "12px",
-                            }}
-                          >
-                            {imgs.map((source, index) => (
-                              <div style={{ position: "relative" }}>
-                                <img
-                                  style={{ height: "100px" }}
-                                  src={source}
-                                  alt={index}
-                                  key={index}
+                      )}
+                    </Col>
+                  </Row>
+                  <Row style={{ margin: "16px 0" }}>
+                    <Col
+                      xs={12}
+                      md={{ span: 2, offset: 2 }}
+                      lg={{ span: 2, offset: 2 }}
+                    >
+                      <p
+                        style={{
+                          color: "#0B42AB",
+                          fontWeight: "bold",
+                          textAlign: "right",
+                        }}
+                        className="image_heading"
+                      >
+                        Upload ảnh
+                      </p>
+                    </Col>
+                    <Col
+                      xs={{ span: "auto", offset: 4 }}
+                      md={{ span: "auto", offset: 0 }}
+                      lg={{ span: "auto", offset: 0 }}
+                    >
+                      <label
+                        style={{
+                          padding: "4px",
+                          border: "none",
+                          borderRadius: "4px",
+                          backgroundColor: "#0B42AB",
+                          color: "white",
+                        }}
+                        htmlFor="file"
+                      >
+                        <svg
+                          style={{
+                            width: "28px",
+                            height: "28px",
+                            marginRight: "12px",
+                          }}
+                          viewBox="0 0 32 33"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M22 17.25V21C22 21.8284 21.3284 22.5 20.5 22.5H11.5C10.6716 22.5 10 21.8284 10 21L10 17.25M19 13.5L16 10.5M16 10.5L13 13.5M16 10.5L16 19.5"
+                            stroke="white"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            fill="#0B42AB"
+                          />
+                        </svg>
+                        <span
+                          style={{
+                            fontWeight: "bold",
+                            marginRight: "12px",
+                          }}
+                        >
+                          Upload files
+                        </span>
+                      </label>
+                      <input
+                        onChange={change}
+                        id="file"
+                        type="file"
+                        multiple
+                        hidden
+                      />
+                      <div>
+                        <div
+                          style={{
+                            width: "100%",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: "12px",
+                          }}
+                        >
+                          {imgs.map((source, index) => (
+                            <div style={{ position: "relative" }}>
+                              <img
+                                style={{ height: "100px" }}
+                                src={source}
+                                alt={index}
+                                key={index}
+                              />
+                              <svg
+                                style={{
+                                  width: "16px",
+                                  height: "16px",
+                                  position: "absolute",
+                                  top: "4px",
+                                  right: "4px",
+                                  cursor: "pointer",
+                                }}
+                                onClick={() => removeImg(index)}
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M17.9857 0L10 7.98571L2.01429 0L0 2.01429L7.98571 10L0 17.9857L2.01429 20L10 12.0143L17.9857 20L20 17.9857L12.0143 10L20 2.01429L17.9857 0Z"
+                                  fill="#06245E"
                                 />
-                                <svg
-                                  style={{
-                                    width: "16px",
-                                    height: "16px",
-                                    position: "absolute",
-                                    top: "4px",
-                                    right: "4px",
-                                    cursor: "pointer",
-                                  }}
-                                  onClick={() => removeImg(index)}
-                                  viewBox="0 0 20 20"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M17.9857 0L10 7.98571L2.01429 0L0 2.01429L7.98571 10L0 17.9857L2.01429 20L10 12.0143L17.9857 20L20 17.9857L12.0143 10L20 2.01429L17.9857 0Z"
-                                    fill="#06245E"
-                                  />
-                                </svg>
-                              </div>
-                            ))}
-                          </div>
+                              </svg>
+                            </div>
+                          ))}
                         </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td>
-                        <button
-                          style={{
-                            padding: "4px 32px",
-                            border: "none",
-                            borderRadius: "4px",
-                            backgroundColor: "#0B42AB",
-                            fontWeight: "bold",
-                            boxShadow: "0px 4px 4px #00000040",
-                            color: "#FFFFFF",
-                          }}
-                          onClick={() => {
-                            setMistakeAdd(false);
-                            setEdit(false);
-                            setMistake(null);
-                            setMistakeID(null);
-                            setImgs([]);
-                          }}
-                        >
-                          Back
-                        </button>
-                        <button
-                          style={{
-                            padding: "4px 32px",
-                            border: "none",
-                            borderRadius: "4px",
-                            backgroundColor: "#0B42AB",
-                            fontWeight: "bold",
-                            boxShadow: "0px 4px 4px #00000040",
-                            color: "#FFFFFF",
-                          }}
-                          type="submit"
-                        >
-                          Submit
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row style={{ margin: "10% 0" }}>
+                    <Col
+                      xs={{ span: 1, offset: 3 }}
+                      md={{ span: 1, offset: 3 }}
+                      lg={{ span: 1, offset: 3 }}
+                      style={{ marginRight: "12%" }}
+                    >
+                      <button
+                        style={{
+                          padding: "4px 32px",
+                          border: "none",
+                          borderRadius: "4px",
+                          backgroundColor: "#0B42AB",
+                          fontWeight: "bold",
+                          boxShadow: "0px 4px 4px #00000040",
+                          color: "#FFFFFF",
+                          margin: "0 auto",
+                          display: "block",
+                        }}
+                        onClick={() => {
+                          setMistakeAdd(false);
+                          setEdit(false);
+                          setMistake(null);
+                          setMistakeID(null);
+                          setImgs([]);
+                        }}
+                      >
+                        Back
+                      </button>
+                    </Col>
+                    <Col
+                      xs={{ span: 1, offset: 1 }}
+                      md={1}
+                      lg={{ span: 1, offset: 1 }}
+                    >
+                      <button
+                        style={{
+                          padding: "4px 32px",
+                          border: "none",
+                          borderRadius: "4px",
+                          backgroundColor: "#0B42AB",
+                          fontWeight: "bold",
+                          boxShadow: "0px 4px 4px #00000040",
+                          color: "#FFFFFF",
+                          margin: "0 auto",
+                          display: "block",
+                        }}
+                        type="submit"
+                      >
+                        Submit
+                      </button>
+                    </Col>
+                  </Row>
+                </div>
               </form>
             </div>
-          </div>
+          </Container>
         ) : mistakeID ? (
           mistake ? (
             <div style={{ width: "100%", padding: "0px 0px 0px 0px20px" }}>

@@ -71,7 +71,7 @@ function Guide() {
               }}
               className="Guide_List"
             >
-              <Col sm={12} md={4} lg={1}>
+              <Col sm={12} md={4} lg={24}>
                 <Link
                   className="Guide_Item"
                   style={{
@@ -110,7 +110,7 @@ function Guide() {
                   </p>
                 </Link>
               </Col>
-              <Col sm={12} md={4} lg={1}>
+              <Col sm={12} md={4} lg={24}>
                 <Link
                   className="Guide_Item"
                   style={{
@@ -149,7 +149,7 @@ function Guide() {
                   </p>
                 </Link>
               </Col>
-              <Col sm={12} md={4} lg={1}>
+              <Col sm={12} md={4} lg={24}>
                 <Link
                   className="Guide_Item"
                   style={{
@@ -188,7 +188,7 @@ function Guide() {
                   </p>
                 </Link>
               </Col>
-              <Col sm={12} md={4} lg={1}>
+              <Col sm={12} md={4} lg={24}>
                 <Link
                   className="Guide_Item"
                   style={{
@@ -227,7 +227,7 @@ function Guide() {
                   </p>
                 </Link>
               </Col>
-              <Col sm={12} md={4} lg={1}>
+              <Col sm={12} md={4} lg={24}>
                 <Link
                   className="Guide_Item"
                   style={{

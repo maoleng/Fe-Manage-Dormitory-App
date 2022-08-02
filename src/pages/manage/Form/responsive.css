@@ -1,12 +1,15 @@
-@media (max-width: 480px) {
+@media (max-width: 992px) {
   .modal-backdrop {
     width: 100% !important;
     height: 100% !important;
   }
   .modal-dialog {
     height: 100% !important;
+    width: 100% !important;
+    max-width: inherit !important;
   }
   .modal-content {
     height: 100%;
+    width: 100% !important;
   }
 }
