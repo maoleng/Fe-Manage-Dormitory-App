@@ -1,24 +1,27 @@
-import Home from "~/pages/site/Home";
-import Introduction from "~/pages/site/Introduction";
-import Activity from "~/pages/site/Activity";
-import Guide from "~/pages/site/Guide";
-import News from "~/pages/site/News";
-import Notification from "~/pages/site/Notification";
-import Rules from "~/pages/site/Rules";
-import PostDetail from "~/pages/site/PostDetail";
-import Login from "~/pages/site/Login";
-import MngRegisterForm from "~/pages/manage/RegisterForm";
-import MngContract from "~/pages/manage/Contract";
-import MngMistake from "~/pages/manage/Mistake";
-import MngForm from "~/pages/manage/Form";
-import MngPost from "~/pages/manage/Post";
-import MngPostCreate from "~/pages/manage/PostCreate";
-import MngPostUpdate from "~/pages/manage/PostUpdate";
-import MngElectricityWaters from "~/pages/manage/ElectricityWaters";
-import StdContract from "~/pages/student/Contract";
-import StdMistake from "~/pages/student/Mistake";
-import StdForm from "~/pages/student/Form";
-import Test from "~/pages/Test";
+import Home from '~/pages/site/Home';
+import Introduction from '~/pages/site/Introduction';
+import Activity from '~/pages/site/Activity';
+import Guide from '~/pages/site/Guide';
+import News from '~/pages/site/News';
+import Notification from '~/pages/site/Notification';
+import Rules from '~/pages/site/Rules';
+import PostDetail from '~/pages/site/PostDetail';
+import Login from '~/pages/site/Login';
+import MngRegisterForm from '~/pages/manage/RegisterForm';
+import MngContract from '~/pages/manage/Contract';
+import MngMistake from '~/pages/manage/Mistake';
+import MngForm from '~/pages/manage/Form';
+import MngPost from '~/pages/manage/Post';
+import MngPostCreate from '~/pages/manage/PostCreate';
+import MngPostUpdate from '~/pages/manage/PostUpdate';
+import MngElectricityWaters from '~/pages/manage/ElectricityWaters';
+import StdContract from '~/pages/student/Contract';
+import StdMistake from '~/pages/student/Mistake';
+import StdForm from '~/pages/student/Form';
+import StdAttendance from '~/pages/student/Attendance';
+import StdSchedule from '~/pages/student/Schedule';
+import StdScheduleRegister from '~/pages/student/ScheduleRegister';
+import Test from '~/pages/Test';
 
 export const routes = [
   {
@@ -107,4 +110,16 @@ export const routes = [
     path: "/test",
     Component: Test,
   },
-];
+  { 
+    'path': '/sinh-vien/lich-truc',
+    'Component': StdSchedule
+  },
+  { 
+    'path': '/sinh-vien/lich-truc/dang-ky',
+    'Component': StdScheduleRegister
+  },
+  { 
+    'path': '/test',
+    'Component': Test
+  }
+]

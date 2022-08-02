@@ -68,6 +68,44 @@ const sideStudent = [
   },
 ];
 
+const sideStudentManager = [
+  {
+    url: '/hop-dong',
+    icon: '/imgs/icons/hop-dong-icon.png',
+    title: 'Hợp đồng'
+  },
+  {
+    url: '/vi-pham',
+    icon: '/imgs/icons/vi-pham-icon.png',
+    title: 'Vi phạm'
+  },
+  {
+    url: '/hoa-don-dien-nuoc',
+    icon: '/imgs/icons/hoa-don-dien-nuoc-icon.png',
+    title: 'Hóa đơn điện nước'
+  },
+  {
+    url: '/don-khieu-nai',
+    icon: '/imgs/icons/don-khieu-nai-icon.png',
+    title: 'Đơn'
+  },
+  {
+    url: '/xin-phep',
+    icon: '/imgs/icons/xin-phep-icon.png',
+    title: 'Xin phép'
+  },
+  {
+    url: '/diem-danh',
+    icon: '/imgs/icons/xin-phep-icon.png',
+    title: 'Điểm danh'
+  },
+  {
+    url: '/lich-truc',
+    icon: '/imgs/icons/xin-phep-icon.png',
+    title: 'Lich truc'
+  },
+];
+
 function MySidebar({ isOpen }) {
   console.log('Component: MySidebar');
 
