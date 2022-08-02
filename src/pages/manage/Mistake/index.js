@@ -202,21 +202,15 @@ function Mistake() {
                   <tbody>
                     <tr>
                       <td>
-                        <p
-                          style={{
-                            color: "#0B42AB",
-                            fontWeight: "bold",
-                          }}
-                        >
+                        <span style={{ color: "#0B42AB", fontWeight: "bold" }}>
                           MSSV
-                        </p>
+                        </span>
                       </td>
                       <td>
                         {edit ? (
                           mistake ? (
                             <MyInput
                               style={{
-                                marginBottom: "12px",
                                 width: "320px",
                                 paddingLeft: "8px",
                                 border: "none",

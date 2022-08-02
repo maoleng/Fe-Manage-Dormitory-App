@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function InputCustom() {
+function InpurCustom() {
   const [value, setValue] = useState('');
 
   return (
@@ -28,4 +28,4 @@ function InputCustom() {
   )
 }
 
-export default InputCustom;
+export default InpurCustom;

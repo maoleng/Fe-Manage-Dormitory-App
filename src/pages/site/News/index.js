@@ -5,9 +5,6 @@ import MyNavbar from "~/components/MyNavbar";
 import MyFooter from "~/components/MyFooter";
 import "./pagination.css";
 import { useGetPost } from "./hooks";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 function News() {
   const [posts, setPosts] = useState(null);
@@ -15,8 +12,6 @@ function News() {
   const getPost = useGetPost();
   let arrNum = [];
   let arrre = [];
-  let post1 = [];
-  let post2 = [];
   let goForward = () => {
     if (!(pagenum === arrNum.length)) {
       setPageNum(pagenum + 1);
@@ -54,15 +49,6 @@ function News() {
         arrre = [pagenum - 1, pagenum, pagenum + 1];
       }
     }
-    if (posttake) {
-      posttake.forEach((value, index) => {
-        if (index < posttake.length / 2) {
-          post1.push(value);
-        } else {
-          post2.push(value);
-        }
-      });
-    }
   }
   return (
     <>
@@ -83,113 +69,62 @@ function News() {
                 Tin tức
               </h1>
             </div>
-            <Container>
-              <Row>
-                {post1.map(({ id, banner, created_at, title }, index) => (
-                  <Col sm={12} lg={4} md={4}>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                paddingLeft: "48px",
+              }}
+            >
+              {posttake.map(({ id, banner, created_at, title }, index) => (
+                <div
+                  key={id}
+                  style={{
+                    display: "flex",
+                    margin: "24px 20px",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Link to={`/bai-viet/${id}`}>
+                    <img
+                      src={banner}
+                      alt=""
+                      style={{ width: "395px", height: "206px" }}
+                    />
+                  </Link>
+                  <div style={{ maxWidth: "33.333333333333%" }}>
                     <div
-                      key={id}
                       style={{
-                        display: "flex",
-
-                        margin: "24px 20px",
-                        flexDirection: "column",
+                        marginTop: "12px",
+                        display: "-webkit-box",
+                        WebkitLineClamp: "2",
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        minHeight: "48px",
+                        width: "395px",
+                        fontWeight: "700",
+                        fontSize: "16px",
                       }}
                     >
-                      <Link to={`/bai-viet/${id}`}>
-                        <img
-                          src={banner}
-                          alt=""
-                          style={{ width: "100%", height: "206px" }}
-                        />
-                      </Link>
-                      <div>
-                        <div
-                          style={{
-                            marginTop: "12px",
-                            display: "-webkit-box",
-                            WebkitLineClamp: "2",
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                            minHeight: "48px",
-                            width: "100%",
-                            fontWeight: "700",
-                            fontSize: "16px",
-                          }}
-                        >
-                          {title}
-                        </div>
-                        <div
-                          style={{
-                            display: "-webkit-box",
-                            WebkitLineClamp: "2",
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                            width: "100%",
-                            minHeight: "57px",
-                          }}
-                        >
-                          {created_at}
-                        </div>
-                      </div>
+                      {title}
                     </div>
-                  </Col>
-                ))}
-              </Row>
-              <Row>
-                {post2.map(({ id, banner, created_at, title }, index) => (
-                  <Col sm={12} lg={4} md={4}>
                     <div
-                      key={id}
                       style={{
-                        display: "flex",
-
-                        margin: "24px 20px",
-                        flexDirection: "column",
+                        display: "-webkit-box",
+                        WebkitLineClamp: "2",
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        minHeight: "57px",
+                        width: "395px",
                       }}
                     >
-                      <Link to={`/bai-viet/${id}`}>
-                        <img
-                          src={banner}
-                          alt=""
-                          style={{ width: "100%", height: "206px" }}
-                        />
-                      </Link>
-                      <div>
-                        <div
-                          style={{
-                            marginTop: "12px",
-                            display: "-webkit-box",
-                            WebkitLineClamp: "2",
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                            minHeight: "48px",
-                            width: "100%",
-                            fontWeight: "700",
-                            fontSize: "16px",
-                          }}
-                        >
-                          {title}
-                        </div>
-                        <div
-                          style={{
-                            display: "-webkit-box",
-                            WebkitLineClamp: "2",
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                            width: "100%",
-                            minHeight: "57px",
-                          }}
-                        >
-                          {created_at}
-                        </div>
-                      </div>
+                      {created_at}
                     </div>
-                  </Col>
-                ))}
-              </Row>
-            </Container>
-
+                  </div>
+                </div>
+              ))}
+            </div>
             <div class="pagination" style={{ marginLeft: "37.5%" }}>
               <a onClick={goBackward}>&laquo;</a>
               <a
