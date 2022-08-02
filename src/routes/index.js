@@ -1,108 +1,110 @@
-import Home from '~/pages/site/Home';
-import Introduction from '~/pages/site/Introduction';
-import Activity from '~/pages/site/Activity';
-import Guide from '~/pages/site/Guide';
-import News from '~/pages/site/News';
-import Notification from '~/pages/site/Notification';
-import Rules from '~/pages/site/Rules';
-import PostDetail from '~/pages/site/PostDetail';
-import Login from '~/pages/site/Login';
-import MngRegisterForm from '~/pages/manage/RegisterForm';
-import MngContract from '~/pages/manage/Contract';
-import MngMistake from '~/pages/manage/Mistake';
-import MngForm from '~/pages/manage/Form';
-import MngPost from '~/pages/manage/Post';
-import MngPostCreate from '~/pages/manage/PostCreate';
-import MngPostUpdate from '~/pages/manage/PostUpdate';
-import MngElectricityWaters from '~/pages/manage/ElectricityWaters';
-import StdContract from '~/pages/student/Contract';
-import StdMistake from '~/pages/student/Mistake';
-import StdForm from '~/pages/student/Form';
-import Test from '~/pages/Test';
+import Home from "~/pages/site/Home";
+import Introduction from "~/pages/site/Introduction";
+import Activity from "~/pages/site/Activity";
+import Guide from "~/pages/site/Guide";
+import News from "~/pages/site/News";
+import Notification from "~/pages/site/Notification";
+import Rules from "~/pages/site/Rules";
+import PostDetail from "~/pages/site/PostDetail";
+import Login from "~/pages/site/Login";
+import MngRegisterForm from "~/pages/manage/RegisterForm";
+import MngContract from "~/pages/manage/Contract";
+import MngMistake from "~/pages/manage/Mistake";
+import MngForm from "~/pages/manage/Form";
+import MngPost from "~/pages/manage/Post";
+import MngPostCreate from "~/pages/manage/PostCreate";
+import MngPostUpdate from "~/pages/manage/PostUpdate";
+import MngElectricityWaters from "~/pages/manage/ElectricityWaters";
+import StdContract from "~/pages/student/Contract";
+import StdMistake from "~/pages/student/Mistake";
+import StdForm from "~/pages/student/Form";
+import Test from "~/pages/Test";
 
 export const routes = [
-  { 
-    'path': '/',
-    'Component': Home
+  {
+    path: "/",
+    Component: Home,
   },
-  { 
-    'path': '/gioi-thieu',
-    'Component': Introduction
+  {
+    path: "/gioi-thieu",
+    Component: Introduction,
   },
-  { 
-    'path': '/hoat-dong',
-    'Component': Activity
+  {
+    path: "/hoat-dong",
+    Component: Activity,
   },
-  { 
-    'path': '/huong-dan',
-    'Component': Guide
+  {
+    path: "/huong-dan",
+    Component: Guide,
   },
-  { 
-    'path': '/tin-tuc',
-    'Component': News
+  {
+    path: "/tin-tuc",
+    Component: News,
   },
-  { 
-    'path': '/thong-bao',
-    'Component': Notification
+  {
+    path: "/thong-bao",
+    Component: Notification,
   },
-  { 
-    'path': '/noi-quy',
-    'Component': Rules
+  {
+    path: "/noi-quy",
+    Component: Rules,
   },
-  { 
-    'path': '/bai-viet/:id',
-    'Component': PostDetail
+  {
+    path: "/bai-viet/:idCurr",
+
+    Component: PostDetail,
   },
-  { 
-    'path': '/dang-nhap',
-    'Component': Login
+
+  {
+    path: "/dang-nhap",
+    Component: Login,
   },
-  { 
-    'path': '/quan-ly/don-dang-ky',
-    'Component': MngRegisterForm
+  {
+    path: "/quan-ly/don-dang-ky",
+    Component: MngRegisterForm,
   },
-  { 
-    'path': '/quan-ly/hop-dong',
-    'Component': MngContract
+  {
+    path: "/quan-ly/hop-dong",
+    Component: MngContract,
   },
-  { 
-    'path': '/quan-ly/vi-pham',
-    'Component': MngMistake
+  {
+    path: "/quan-ly/vi-pham",
+    Component: MngMistake,
   },
-  { 
-    'path': '/quan-ly/don-khieu-nai',
-    'Component': MngForm
+  {
+    path: "/quan-ly/don-khieu-nai",
+    Component: MngForm,
   },
-  { 
-    'path': '/quan-ly/bai-dang',
-    'Component': MngPost
+  {
+    path: "/quan-ly/bai-dang",
+    Component: MngPost,
   },
-  { 
-    'path': '/quan-ly/bai-dang/tao-them',
-    'Component': MngPostCreate
+  {
+    path: "/quan-ly/bai-dang/tao-them",
+    Component: MngPostCreate,
   },
-  { 
-    'path': '/quan-ly/bai-dang/chinh-sua/:id',
-    'Component': MngPostUpdate
+  {
+    path: "/quan-ly/bai-dang/chinh-sua/:id",
+    Component: MngPostUpdate,
   },
-  { 
-    'path': '/quan-ly/hoa-don-dien-nuoc',
-    'Component': MngElectricityWaters
+  {
+    path: "/quan-ly/hoa-don-dien-nuoc",
+    Component: MngElectricityWaters,
   },
-  { 
-    'path': '/sinh-vien/hop-dong',
-    'Component': StdContract
+  {
+    path: "/sinh-vien/hop-dong",
+    Component: StdContract,
   },
-  { 
-    'path': '/sinh-vien/vi-pham',
-    'Component': StdMistake
+  {
+    path: "/sinh-vien/vi-pham",
+    Component: StdMistake,
   },
-  { 
-    'path': '/sinh-vien/don-khieu-nai',
-    'Component': StdForm
+  {
+    path: "/sinh-vien/don-khieu-nai",
+    Component: StdForm,
   },
-  { 
-    'path': '/test',
-    'Component': Test
-  }
-]
+  {
+    path: "/test",
+    Component: Test,
+  },
+];
