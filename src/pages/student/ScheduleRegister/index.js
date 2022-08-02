@@ -37,9 +37,9 @@ function ScheduleRegister() {
   const [scheduleIDs, setScheduleIDs] = useState([]);
   const [schedules, setSchedules] = useState(null);
 
-  const addScheduleIDsHandle = (id) => {
-    
+  console.log(scheduleIDs);
 
+  const addScheduleIDsHandle = (id) => {
     if (scheduleIDs.includes(id)) {
       const newScheduleIDs = scheduleIDs.filter(elem => elem !== id);
       if (!available.includes(id) || newScheduleIDs.every(elem => available.includes(elem))) {
@@ -55,15 +55,21 @@ function ScheduleRegister() {
   } 
 
   const postSchedulesHandle = () => {
-    postSchedules.mutate(
-      { body: { schedule_ids: scheduleIDs}},
-      {
-        onSuccess(data) {
-          console.log(data);
-          getSchedulesHandle();
+    if (scheduleIDs.length > 1 && scheduleIDs.length < 4) {
+      postSchedules.mutate(
+        { body: { schedule_ids: scheduleIDs}},
+        {
+          onSuccess(data) {
+            console.log(data);
+            getSchedulesHandle();
+            alert('Đăng ký thành công');
+          }
         }
-      }
-    );
+      );
+    }
+    else {
+      alert('Chỉ đăng kí 2 hoặc 3 ca');
+    }
   }
 
   function getSchedulesHandle() {
@@ -235,7 +241,16 @@ function ScheduleRegister() {
                                   </Tooltip>
                                 }
                               >
-                                <Button style={{ padding: '0px', border: 'none', backgroundColor: '#FFFFFF', color: '#000000', boxShadow: 'none', cursor: 'default' }}>{student.student_card_id}</Button>
+                                <Button 
+                                  style={{ 
+                                    padding: '0px', 
+                                    border: 'none', 
+                                    backgroundColor: '#FFFFFF', 
+                                    color: '#000000', 
+                                    boxShadow: 'none', 
+                                    cursor: 'default' 
+                                  }}
+                                >{student.student_card_id}</Button>
                               </OverlayTrigger>
                             </div>
                           )
