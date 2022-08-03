@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Pagination links */
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+/* Style the active/current link */
+.pagination a.active {
+  border-radius: 50%;
+  background-color: #0b42ab;
+  color: white;
+}
+
+/* Add a grey background color on mouse-over */
+.pagination a:hover:not(.active) {
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #ddd;
+}
+.none {
+  display: none;
+}

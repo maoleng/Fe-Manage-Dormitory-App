@@ -1,2 +1,10 @@
+export { default as SearchSVG} from './SearchSVG';
+export { default as ArrowDownSVG} from './ArrowDownSVG';
 export { default as CheckboxSVG} from './CheckboxSVG';
+export { default as CheckboxTickSVG} from './CheckboxTickSVG';
 export { default as CheckboxSelectedSVG} from './CheckboxSelectedSVG';
+export { default as PrintSVG} from './PrintSVG';
+export { default as DetailSVG} from './DetailSVG';
+export { default as ReviewSVG} from './ReviewSVG';
+export { default as DownLoadSVG} from './DownLoadSVG';
+export { default as PDFSVG} from './PDFSVG';
