@@ -1,0 +1,12 @@
+@media (min-width: 992px) {
+  .Rules_List {
+    margin: 0 !important;
+    padding: 40px 110.5px !important;
+  }
+}
+@media (min-width: 576px) and (max-width: 991px) {
+  .Rules_List {
+    margin: 0 !important;
+    padding: 8px 110.5px !important;
+  }
+}
