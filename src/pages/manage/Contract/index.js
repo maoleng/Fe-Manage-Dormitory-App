@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { Table, Modal } from "react-bootstrap";
 
-import MyNavbar from '~/components/MyNavbar';
-import MyTable from '~/components/MyTable';
-import MySidebar from '~/components/MySidebar';
-import { useStore, actions } from '~/store';
-import { useGetConfirmContracts, usePostPickRoom, useGetRooms } from './hooks';
-import { CheckboxSVG, CheckboxSelectedSVG } from './svgs';
+import MyNavbar from "~/components/MyNavbar";
+import MyTable from "~/components/MyTable";
+import MySidebar from "~/components/MySidebar";
+import { useStore, actions } from "~/store";
+import { useGetConfirmContracts, usePostPickRoom, useGetRooms } from "./hooks";
+import { CheckboxSVG, CheckboxSelectedSVG } from "./svgs";
 
 function Contract() {
   console.log("Page: Contract");
@@ -23,16 +23,28 @@ function Contract() {
   const [contract, setContract] = useState(null);
   const [contracts, setContracts] = useState(false);
   const [state, dispatch] = useStore();
-
+  const [pagenum, setPageNum] = useState(1);
+  let arrNum = [];
+  let arrre = [];
+  let goForward = () => {
+    if (!(pagenum === arrNum.length)) {
+      setPageNum(pagenum + 1);
+    }
+  };
+  let goBackward = () => {
+    if (pagenum >= 2) {
+      setPageNum(pagenum - 1);
+    }
+  };
   const showRoomDetail = (id) => {
     setRoomDetailModal(true);
     setRoom(rooms.find((elem) => elem.id === id));
-  }
+  };
 
   const hideRoomDetail = () => {
     setRoomDetailModal(false);
     setRoom(null);
-  }
+  };
 
   const showPickRoom = (id) => {
     getRooms.mutate(
@@ -41,12 +53,12 @@ function Contract() {
         onSuccess(data) {
           console.log(data);
           setRooms(data.data);
-        }
+        },
       }
     );
     setPickRoomID(id);
     setPickRoomModal(true);
-  }
+  };
 
   const pickRoomHandle = (id) => {
     postPickRoom.mutate(
@@ -59,31 +71,50 @@ function Contract() {
       {
         onSuccess(data) {
           console.log(data);
-          getConfirmContractsHandle()
-        }
+          getConfirmContractsHandle();
+        },
       }
     );
-  }
+  };
 
   const hidePickRoom = () => {
     setPickRoomModal(false);
-  }
+  };
 
-  function getConfirmContractsHandle()  {
-    getConfirmContracts.mutate({},
+  function getConfirmContractsHandle() {
+    getConfirmContracts.mutate(
+      {},
       {
         onSuccess(data) {
           // console.log(data);
           setContracts(data.data);
-        }
+        },
       }
-    )
+    );
   }
 
   useEffect(() => {
-    getConfirmContractsHandle()
+    getConfirmContractsHandle();
   }, []);
-
+  console.log(rooms.length);
+  if (rooms) {
+    var roomtake = rooms.slice(pagenum * 12 - 12, pagenum * 12);
+    for (let i = 1; i <= rooms.length / 12; i++) {
+      arrNum.push(i);
+    }
+    if (rooms.length / 12 > arrNum.length) {
+      arrNum.push(arrNum[arrNum.length - 1] + 1);
+    }
+    if (pagenum <= 2) {
+      arrre = [1, 2, 3];
+    } else {
+      if (pagenum === arrNum.length) {
+        arrre = [pagenum - 2, pagenum - 1, pagenum];
+      } else {
+        arrre = [pagenum - 1, pagenum, pagenum + 1];
+      }
+    }
+  }
   return (
     <>
       <div
@@ -243,68 +274,92 @@ function Contract() {
               </div>
             </>
           ) : contracts ? (
-            <MyTable 
-              forms={contracts.map(({ id, student, season, room_id, room, subscription, created_at }) => ({
-                id: {
-                  title: 'id',
-                  content: '' + id
-                },
-                mssv: {
-                  title: 'MSSV',
-                  content: student.student_card_id
-                },
-                name: {
-                  title: 'Họ và tên',
-                  content: student.name
-                },
-                season: {
-                  title: 'Học kỳ',
-                  content: season
-                },
-                room: {
-                  title: 'Phòng',
-                  content: room === null
-                    ? (
-                      <button onClick={() => showPickRoom(id)}>Chọn phòng</button>
-                    )
-                    : room.name
-                },
-                price: {
-                  title: 'Số tiền phải trả',
-                  content: subscription.price
-                },
-                ispay: {
-                  title: 'Xác nhận thanh toán',
-                  center: true,
-                  content: <div style={{ textAlign: 'center', cursor: 'pointer' }}>
-                    {subscription.is_paid
-                      ? <CheckboxSelectedSVG style={{ width: '16px', height: '16px'}} />
-                      : <CheckboxSVG style={{ width: '16px', height: '16px'}} />}
-                  </div>
-                },
-                createdAt: {
-                  title: 'Duyệt vào lúc',
-                  content: created_at
-                },
-                control: {
-                  title: '',
-                  content: (
-                    <>
-                      <svg 
-                        style={{
-                          width: '16px',
-                          height: '16px',
-                          cursor: 'pointer'
-                        }}
-                        onClick={() => setContract(id)}
-                        version="1.0" 
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 512.000000 512.000000"
-                        preserveAspectRatio="xMidYMid meet"
-                      >
-                        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
-                          <path 
-                            d="
+            <MyTable
+              forms={contracts.map(
+                ({
+                  id,
+                  student,
+                  season,
+                  room_id,
+                  room,
+                  subscription,
+                  created_at,
+                }) => ({
+                  id: {
+                    title: "id",
+                    content: "" + id,
+                  },
+                  mssv: {
+                    title: "MSSV",
+                    content: student.student_card_id,
+                  },
+                  name: {
+                    title: "Họ và tên",
+                    content: student.name,
+                  },
+                  season: {
+                    title: "Học kỳ",
+                    content: season,
+                  },
+                  room: {
+                    title: "Phòng",
+                    content:
+                      room === null ? (
+                        <button onClick={() => showPickRoom(id)}>
+                          Chọn phòng
+                        </button>
+                      ) : (
+                        room.name
+                      ),
+                  },
+                  price: {
+                    title: "Số tiền phải trả",
+                    content: subscription.price,
+                  },
+                  ispay: {
+                    title: "Xác nhận thanh toán",
+                    center: true,
+                    content: (
+                      <div style={{ textAlign: "center", cursor: "pointer" }}>
+                        {subscription.is_paid ? (
+                          <CheckboxSelectedSVG
+                            style={{ width: "16px", height: "16px" }}
+                          />
+                        ) : (
+                          <CheckboxSVG
+                            style={{ width: "16px", height: "16px" }}
+                          />
+                        )}
+                      </div>
+                    ),
+                  },
+                  createdAt: {
+                    title: "Duyệt vào lúc",
+                    content: created_at,
+                  },
+                  control: {
+                    title: "",
+                    content: (
+                      <>
+                        <svg
+                          style={{
+                            width: "16px",
+                            height: "16px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => setContract(id)}
+                          version="1.0"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 512.000000 512.000000"
+                          preserveAspectRatio="xMidYMid meet"
+                        >
+                          <g
+                            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                            fill="#000000"
+                            stroke="none"
+                          >
+                            <path
+                              d="
                               M2380 4214 c-663 -64 -1332 -428 -1979 -1075 -202 -202 -337 -359
                               -372 -434 -25 -51 -29 -72 -29 -145 0 -138 21 -173 272 -447 181 -198 427
                               -421 641 -581 448 -336 894 -537 1347 -609 146 -24 456 -23 605 0 531 84 1055
@@ -342,30 +397,94 @@ function Contract() {
           )}
         </div>
       </div>
-      
+
       <Modal size="lg" show={pickRoomModal} onHide={hidePickRoom}>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
-            {rooms === null ? <>Loading...</> : rooms.map((elem) => (
-              <div style={{ margin: '12px 0px' }}>
-                {JSON.stringify(elem)}
-
-                {elem.amount < elem.detail.max
-                  ? <button onClick={() => pickRoomHandle(elem.id)}>Chọn</button>
-                  : <button>Đã đầy</button>}
-
-                <button onClick={() => showRoomDetail(elem.id)}>Xem chi tiết</button>
+          {rooms === null ? (
+            <>Loading...</>
+          ) : roomtake ? (
+            roomtake.map((elem) => (
+              <div style={{ margin: "12px 0px" }}>
+                {elem.amount < elem.detail.max ? (
+                  <button onClick={() => pickRoomHandle(elem.id)}>Chọn</button>
+                ) : (
+                  <button>Đã đầy</button>
+                )}
+                <button onClick={() => showRoomDetail(elem.id)}>
+                  Xem chi tiết
+                </button>
               </div>
-            ))}
+            ))
+          ) : (
+            console.log("Ko in")
+          )}
         </Modal.Body>
+        <div class="pagination" style={{ marginLeft: "27.5%" }}>
+          <a onClick={goBackward}>&laquo;</a>
+          <a
+            class={
+              pagenum >= arrNum.length + 1 || pagenum < 3 || arrNum.length < 4
+                ? "none"
+                : ""
+            }
+            onClick={() => {
+              setPageNum(1);
+            }}
+          >
+            1
+          </a>
+          <a
+            class={
+              pagenum >= arrNum.length + 1 || pagenum < 4 || arrNum.length < 4
+                ? "none"
+                : ""
+            }
+          >
+            ...
+          </a>
+          {arrre.map((value, key) => (
+            <a
+              id={key}
+              onClick={() => {
+                setPageNum(value);
+              }}
+              class={value === pagenum ? "active" : ""}
+            >
+              {value}
+            </a>
+          ))}
+          <a
+            class={
+              pagenum >= arrNum.length - 1 ||
+              (pagenum === 1 && arrNum.length < 4)
+                ? "none"
+                : ""
+            }
+          >
+            ...
+          </a>
+          <a
+            class={
+              pagenum >= arrNum.length - 1 ||
+              (pagenum === 1 && arrNum.length < 4)
+                ? "none"
+                : ""
+            }
+            onClick={() => {
+              setPageNum(arrNum[arrNum.length - 1]);
+            }}
+          >
+            {arrNum[arrNum.length - 1]}
+          </a>
+          <a onClick={goForward}>&raquo;</a>
+        </div>
       </Modal>
-      
+
       <Modal size="lg" show={roomDetailModal} onHide={hideRoomDetail}>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
-            {room === null ? <>Loading...</> : (
-              <div>{JSON.stringify(room)}</div>
-            )}
+          {room === null ? <>Loading...</> : <div>{JSON.stringify(room)}</div>}
         </Modal.Body>
       </Modal>
     </>
