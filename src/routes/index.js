@@ -19,6 +19,8 @@ import StdContract from '~/pages/student/Contract';
 import StdMistake from '~/pages/student/Mistake';
 import StdForm from '~/pages/student/Form';
 import StdAttendance from '~/pages/student/Attendance';
+import StdSchedule from '~/pages/student/Schedule';
+import StdScheduleRegister from '~/pages/student/ScheduleRegister';
 import Test from '~/pages/Test';
 
 export const routes = [
@@ -105,6 +107,14 @@ export const routes = [
   { 
     'path': '/sinh-vien/diem-danh',
     'Component': StdAttendance
+  },
+  { 
+    'path': '/sinh-vien/lich-truc',
+    'Component': StdSchedule
+  },
+  { 
+    'path': '/sinh-vien/lich-truc/dang-ky',
+    'Component': StdScheduleRegister
   },
   { 
     'path': '/test',
