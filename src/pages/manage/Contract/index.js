@@ -10,6 +10,8 @@ import { CheckboxSVG, CheckboxSelectedSVG } from "./svgs";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 function Contract() {
   console.log("Page: Contract");
 
@@ -285,6 +287,7 @@ function Contract() {
             </>
           ) : contracts ? (
             <MyTable
+              responsive
               forms={contracts.map(
                 ({
                   id,
@@ -559,6 +562,7 @@ function Contract() {
                                   style={{
                                     marginRight: "4px",
                                     display: "inline-block",
+                                    marginBottom: "4px",
                                   }}
                                 >
                                   <path
@@ -629,7 +633,10 @@ function Contract() {
                                   viewBox="0 0 13 13"
                                   fill="none"
                                   xmlns="http://www.w3.org/2000/svg"
-                                  style={{ marginRight: "4px" }}
+                                  style={{
+                                    marginRight: "4px",
+                                    marginBottom: "4px",
+                                  }}
                                 >
                                   <path
                                     d="M6.33379 12.5C3.9072 12.5014 1.71892 11.0398 0.790107 8.79734C-0.138701 6.55487 0.375053 3.9735 2.09162 2.25783C3.6072 0.741793 5.81621 0.149712 7.88653 0.704621C9.95685 1.25953 11.574 2.87712 12.1287 4.94807C12.6834 7.01902 12.0915 9.22869 10.576 10.7447C9.45302 11.8731 7.92545 12.5051 6.33379 12.5ZM1.53631 6.60446C1.56469 9.24461 3.71983 11.3659 6.3593 11.3518C8.99877 11.3375 11.131 9.19317 11.131 6.55287C11.131 3.91256 8.99877 1.7682 6.3593 1.75394C3.71983 1.73982 1.56469 3.86113 1.53631 6.50128V6.60446ZM4.78001 8.90074L3.93505 8.05493L5.48823 6.50128L3.93505 4.94763L4.78061 4.10182L6.33379 5.65547L7.88697 4.10182L8.73252 4.94763L7.17934 6.50128L8.73252 8.05493L7.88757 8.90074L6.33379 7.34709L4.78061 8.90074H4.78001Z"
@@ -797,6 +804,7 @@ function Contract() {
                                   style={{
                                     marginRight: "4px",
                                     display: "inline-block",
+                                    marginBottom: "4px",
                                   }}
                                 >
                                   <path
@@ -867,7 +875,10 @@ function Contract() {
                                   viewBox="0 0 13 13"
                                   fill="none"
                                   xmlns="http://www.w3.org/2000/svg"
-                                  style={{ marginRight: "4px" }}
+                                  style={{
+                                    marginRight: "4px",
+                                    marginBottom: "4px",
+                                  }}
                                 >
                                   <path
                                     d="M6.33379 12.5C3.9072 12.5014 1.71892 11.0398 0.790107 8.79734C-0.138701 6.55487 0.375053 3.9735 2.09162 2.25783C3.6072 0.741793 5.81621 0.149712 7.88653 0.704621C9.95685 1.25953 11.574 2.87712 12.1287 4.94807C12.6834 7.01902 12.0915 9.22869 10.576 10.7447C9.45302 11.8731 7.92545 12.5051 6.33379 12.5ZM1.53631 6.60446C1.56469 9.24461 3.71983 11.3659 6.3593 11.3518C8.99877 11.3375 11.131 9.19317 11.131 6.55287C11.131 3.91256 8.99877 1.7682 6.3593 1.75394C3.71983 1.73982 1.56469 3.86113 1.53631 6.50128V6.60446ZM4.78001 8.90074L3.93505 8.05493L5.48823 6.50128L3.93505 4.94763L4.78061 4.10182L6.33379 5.65547L7.88697 4.10182L8.73252 4.94763L7.17934 6.50128L8.73252 8.05493L7.88757 8.90074L6.33379 7.34709L4.78061 8.90074H4.78001Z"
@@ -1035,6 +1046,7 @@ function Contract() {
                                   style={{
                                     marginRight: "4px",
                                     display: "inline-block",
+                                    marginBottom: "4px",
                                   }}
                                 >
                                   <path
@@ -1105,7 +1117,10 @@ function Contract() {
                                   viewBox="0 0 13 13"
                                   fill="none"
                                   xmlns="http://www.w3.org/2000/svg"
-                                  style={{ marginRight: "4px" }}
+                                  style={{
+                                    marginRight: "4px",
+                                    marginBottom: "4px",
+                                  }}
                                 >
                                   <path
                                     d="M6.33379 12.5C3.9072 12.5014 1.71892 11.0398 0.790107 8.79734C-0.138701 6.55487 0.375053 3.9735 2.09162 2.25783C3.6072 0.741793 5.81621 0.149712 7.88653 0.704621C9.95685 1.25953 11.574 2.87712 12.1287 4.94807C12.6834 7.01902 12.0915 9.22869 10.576 10.7447C9.45302 11.8731 7.92545 12.5051 6.33379 12.5ZM1.53631 6.60446C1.56469 9.24461 3.71983 11.3659 6.3593 11.3518C8.99877 11.3375 11.131 9.19317 11.131 6.55287C11.131 3.91256 8.99877 1.7682 6.3593 1.75394C3.71983 1.73982 1.56469 3.86113 1.53631 6.50128V6.60446ZM4.78001 8.90074L3.93505 8.05493L5.48823 6.50128L3.93505 4.94763L4.78061 4.10182L6.33379 5.65547L7.88697 4.10182L8.73252 4.94763L7.17934 6.50128L8.73252 8.05493L7.88757 8.90074L6.33379 7.34709L4.78061 8.90074H4.78001Z"
@@ -1128,6 +1143,40 @@ function Contract() {
                     </Container>
                   </Col>
                 ))}
+              </Row>
+              <Row>
+                <Col
+                  sm={{ span: 4, offset: 4 }}
+                  md={{ span: 4, offset: 4 }}
+                  lg={{ span: 2, offset: 10 }}
+                >
+                  <button
+                    className="Confirm"
+                    style={{
+                      padding: "12px",
+                      backgroundColor: "#1C63EE",
+                      color: "#fff",
+                      borderRadius: "4px",
+                      border: "none",
+                      marginLeft: "12%",
+                    }}
+                  >
+                    <svg
+                      width="15"
+                      height="14"
+                      viewBox="0 0 15 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      style={{ marginRight: "8px", marginBottom: "4px" }}
+                    >
+                      <path
+                        d="M0 7.22063L6.96975 0.220545C7.26263 -0.0735151 7.73737 -0.0735151 8.03025 0.220545L15 7.22063H13.5V13.2467C13.5 13.6628 13.1642 14 12.75 14H9V8.72715H6V14H2.25C1.83579 14 1.5 13.6628 1.5 13.2467V7.22063H0Z"
+                        fill="white"
+                      />
+                    </svg>
+                    Xác nhận phòng
+                  </button>
+                </Col>
               </Row>
             </Container>
           ) : (
