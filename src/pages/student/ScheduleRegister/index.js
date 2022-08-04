@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip, Button, Modal } from 'react-bootstrap';
 
 import { useStore, actions } from '~/store';
 import MyNavbar from '~/components/MyNavbar';
@@ -33,6 +33,7 @@ function ScheduleRegister() {
   const postSchedules = usePostSchedules();
   const navigate = useNavigate();
 
+  const [confirmModal, setConfirmModal] = useState(false);
   const [available, setAvailable] = useState([]);
   const [scheduleIDs, setScheduleIDs] = useState([]);
   const [schedules, setSchedules] = useState(null);
@@ -62,7 +63,7 @@ function ScheduleRegister() {
           onSuccess(data) {
             console.log(data);
             getSchedulesHandle();
-            alert('Đăng ký thành công');
+            setConfirmModal(false);
           }
         }
       );
@@ -294,7 +295,7 @@ function ScheduleRegister() {
                 display: 'inline-block',
                 cursor: 'pointer'
               }}
-              onClick={postSchedulesHandle}
+              onClick={() => setConfirmModal(true)}
             >
               <ScheduleCheckedSVG style={{ width: '23px', height: '26px', marginRight: '20px' }} />
               <span style={{ fontWeight: 'bold' }}>Đăng ký</span>
@@ -302,6 +303,24 @@ function ScheduleRegister() {
           </div>
         </div>
       </div>
+
+      <Modal size="lg" show={confirmModal} onHide={() => setConfirmModal(false)}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>Xác nhận đăng kí!</Modal.Body>
+        <Modal.Footer>
+          <button
+            style={{
+              border: "solid #28a745 1px",
+              backgroundColor: " #28a745",
+              color: "#FFF",
+              padding: "4px",
+            }}
+            onClick={postSchedulesHandle}
+          >
+            Xác nhận
+          </button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

@@ -21,7 +21,7 @@ export const useGetMistakes = () => {
 
 export const usePutRegister = () => {
   const putRegister = useMutation(async ({ body, id }) => {
-    const { data } = await axios.post(
+    const { data } = await axios.put(
       process.env.REACT_APP_API_ENDPOINT + '/std/mistake/' + id, 
       body,
       {

@@ -136,6 +136,7 @@ function Mistake() {
       {},
       {
         onSuccess(data) {
+          console.log(data);
           if (data.status) {
             setMistakes(data.data);
           }

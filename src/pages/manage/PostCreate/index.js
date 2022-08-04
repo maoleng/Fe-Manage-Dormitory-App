@@ -146,41 +146,22 @@ function PostCreate() {
 
         <div style={{ width: '100%', padding: '80px' }}>
           <div style={{ width: '100%', display: 'grid', gridTemplateColumns: '300px auto', gap: '0px 80px' }}>
-            <div 
-              style={{ 
-                width: '100%',
-                height: '200px',
-                padding: '8px',
-                backgroundImage: `url("${formBanner || '/imgs/site/banner.png'}")`,
-                backgroundSize: 'contain',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
-            ></div>
+            <label htmlFor="file">
+              <div 
+                style={{ 
+                  width: '100%',
+                  height: '200px',
+                  padding: '8px',
+                  backgroundImage: `url("${formBanner || '/imgs/site/banner.png'}")`,
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              ></div>
+            </label>
+            <input onChange={setBannerImg} id="file" type="file" hidden/>
+            
             <div>
-              <div style={{ margin: '20px 0px', display: 'flex' }}>
-                <label
-                  style={{ 
-                    padding: '4px',
-                    border: 'none', 
-                    borderRadius: '4px', 
-                    backgroundColor: '#EEEEEE' 
-                  }}
-                  htmlFor="file"
-                >
-                  <svg 
-                    style={{ width: '28px', height: '28px', marginRight: '12px' }} 
-                    viewBox="0 0 32 33" 
-                    fill="none" 
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M22 17.25V21C22 21.8284 21.3284 22.5 20.5 22.5H11.5C10.6716 22.5 10 21.8284 10 21L10 17.25M19 13.5L16 10.5M16 10.5L13 13.5M16 10.5L16 19.5" stroke="#001A72" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <span style={{ fontWeight: 'bold', marginRight: '12px' }}>Chọn ảnh tiêu đề</span>
-                </label>
-                <input onChange={setBannerImg} id="file" type="file" hidden/>
-              </div>
-
               <div
                 style={{
                   display: 'grid',
@@ -195,9 +176,10 @@ function PostCreate() {
                       width: '100%', 
                       height: '32px', 
                       paddingLeft: '8px', 
-                      border: 'none', 
-                      backgroundColor: '#F2EEEE'
+                      borderStyle: 'none none solid none', 
+                      outline: 'none'
                     }} 
+                    placeholder="Tiêu đề..."
                     onChange={e => setFormTitle(e.target.value)} 
                     value={formTitle} 
                     type="text" 
@@ -211,9 +193,7 @@ function PostCreate() {
                       width: '100%', 
                       height: '32px',
                       padding: '0px 8px', 
-                      border: 'none', 
                       outline: 'none',
-                      backgroundColor: '#F2EEEE'
                     }}
                     onChange={evt => setFormCategory(formCategory.map(elem => ({...elem, selected: elem.value === evt.target.value})))}
                   >
@@ -229,7 +209,6 @@ function PostCreate() {
                     width: '100%', 
                     minHeight: '32px', 
                     padding: '8px', 
-                    backgroundColor: '#F2EEEE', 
                     display: 'flex',
                     flexWrap: 'wrap',
                     gap: '8px',

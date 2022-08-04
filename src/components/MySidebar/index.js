@@ -29,11 +29,6 @@ const sideManage = [
     title: 'Đơn'
   },
   {
-    url: '/xin-phep',
-    icon: '/imgs/icons/xin-phep-icon.png',
-    title: 'Xin phép'
-  },
-  {
     url: '/bai-dang',
     icon: '/imgs/icons/hop-dong-icon.png',
     title: 'Bài đăng'
@@ -52,19 +47,9 @@ const sideStudent = [
     title: 'Vi phạm'
   },
   {
-    url: '/hoa-don-dien-nuoc',
-    icon: '/imgs/icons/hoa-don-dien-nuoc-icon.png',
-    title: 'Hóa đơn điện nước'
-  },
-  {
     url: '/don-khieu-nai',
     icon: '/imgs/icons/don-khieu-nai-icon.png',
     title: 'Đơn'
-  },
-  {
-    url: '/xin-phep',
-    icon: '/imgs/icons/xin-phep-icon.png',
-    title: 'Xin phép'
   },
 ];
 
@@ -80,19 +65,9 @@ const sideStudentManager = [
     title: 'Vi phạm'
   },
   {
-    url: '/hoa-don-dien-nuoc',
-    icon: '/imgs/icons/hoa-don-dien-nuoc-icon.png',
-    title: 'Hóa đơn điện nước'
-  },
-  {
     url: '/don-khieu-nai',
     icon: '/imgs/icons/don-khieu-nai-icon.png',
     title: 'Đơn'
-  },
-  {
-    url: '/xin-phep',
-    icon: '/imgs/icons/xin-phep-icon.png',
-    title: 'Xin phép'
   },
   {
     url: '/diem-danh',
@@ -102,7 +77,7 @@ const sideStudentManager = [
   {
     url: '/lich-truc',
     icon: '/imgs/icons/xin-phep-icon.png',
-    title: 'Lich truc'
+    title: 'Lịch trực'
   },
 ];
 

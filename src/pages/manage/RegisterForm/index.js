@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Modal } from "react-bootstrap";
 
 import { useStore, actions } from "~/store";
 
@@ -14,6 +14,7 @@ import { useGetContracts, usePostConfirmContracts } from "./hooks";
 function Contract() {
   console.log("Page: Contract");
 
+  const [confirmModal, setConfirmModal] = useState(false);
   const [contract, setContract] = useState(null);
   const [contracts, setContracts] = useState(false);
   const [state, dispatch] = useStore();
@@ -26,10 +27,19 @@ function Contract() {
       { body: {}, id },
       {
         onSuccess(data) {
+          setConfirmModal(null);
           setContracts(contracts.filter((elem) => elem.contract_id !== id));
         },
       }
     );
+  }
+
+  function submitAvoidContracts(id) {
+
+  }
+
+  const showConfirmModalHandle = (id, name, content) => {
+    setConfirmModal({ id, name, content });
   }
 
   useEffect(() => {
@@ -247,7 +257,7 @@ function Contract() {
                             color: "#FFF",
                             padding: "4px",
                           }}
-                          onClick={() => submitConfirmContracts(contract_id)}
+                          onClick={() => showConfirmModalHandle(contract_id, name, 'duyệt')}
                         >
                           <FontAwesomeIcon
                             icon={faCircleCheck}
@@ -319,6 +329,7 @@ function Contract() {
                               height: "8px",
                               cursor: "pointer",
                             }}
+                            onClick={() => showConfirmModalHandle(contract_id, name, 'hủy')}
                             version="1.0"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512.000000 512.000000"
@@ -359,6 +370,40 @@ function Contract() {
           )}
         </div>
       </div>
+      
+      {confirmModal && <Modal size="lg" show={confirmModal !== null} onHide={() => setConfirmModal(null)}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          Bạn xác nhân muốn {confirmModal.content} đơn của {confirmModal.name}
+        </Modal.Body>
+        <Modal.Footer>
+          {confirmModal.content === 'duyệt' 
+            ? (
+              <button
+                style={{
+                  border: "solid #28a745 1px",
+                  backgroundColor: " #28a745",
+                  color: "#FFF",
+                  padding: "4px",
+                }}
+                onClick={() => submitConfirmContracts(confirmModal.id)}
+              >
+                Xác nhận
+              </button>
+            )
+            : (
+              <button
+                style={{
+                  border: "solid #28a745 1px",
+                  backgroundColor: "red",
+                  color: "#FFF",
+                  padding: "4px",
+                }}
+                onClick={() => submitAvoidContracts(confirmModal.id)}
+              >Xác nhận</button>
+            )}
+        </Modal.Footer>
+      </Modal>}
     </>
   );
 }

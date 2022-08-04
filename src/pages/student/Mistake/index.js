@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Toast, ToastContainer } from 'react-bootstrap';
 
 import { useStore, actions } from '~/store';
-
 import { useGetMistakes, usePutRegister } from './hook';
-
+import { CheckboxSVG, CheckboxTickSVG } from "./svgs";
 import MyNavbar from '~/components/MyNavbar';
 import MySidebar from '~/components/MySidebar';
 import MyTable from '~/components/MyTable';
@@ -11,20 +11,24 @@ import MyTable from '~/components/MyTable';
 function Mistake() {
   console.log('Page: Mistake');
 
-  const [loadedMistakes, setLoadedMistakes] = useState(false);
-  const [mistakes, setMistakes] = useState(null);
-
   const [state, dispatch] = useStore();
-
   const getMistakes = useGetMistakes();
   const putRegister = usePutRegister();
 
+  const [toast, setToast] = useState(null);
+  const [loadedMistakes, setLoadedMistakes] = useState(false);
+  const [mistakes, setMistakes] = useState(null);
+
   const mistakeConfirm = (id) => {
+    console.log('hello');
+
     putRegister.mutate(
       {body: {}, id},
       {
         onSuccess(data) {
-          getMistakes.mutate({},{onSuccess: (data) => setMistakes(data.data)})
+          console.log(data);
+          getMistakes.mutate({},{onSuccess: (data) => setMistakes(data.data)});
+          setToast('Xác nhận lỗi thành công');
         }
       }
     )
@@ -35,6 +39,7 @@ function Mistake() {
       {},
       {
         onSuccess(data) {
+          console.log(data);
           setMistakes(data.data);
           setLoadedMistakes(true);
         }
@@ -82,24 +87,42 @@ function Mistake() {
                 content: room_name
               },
               is_confirmed: {
-                title: 'Xác nhận',
+                title: 'Xác nhận lỗi',
+                center: 'true',
                 content: is_confirmed
+                  ? (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+                      <CheckboxTickSVG style={{ width: '16px', height: '16px' }} /> 
+                      Đã xác nhận
+                    </div>
+                  )
+                  : (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }} onClick={() => mistakeConfirm(id)}>
+                      <CheckboxSVG style={{ width: '16px', height: '16px' }} />
+                      Chưa xác nhận
+                    </div>
+                  )
               },
               is_fix_mistake: {
                 title: 'Sửa lỗi',
+                center: 'true',
                 content: is_fix_mistake
+                ? (
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+                    <CheckboxTickSVG style={{ width: '16px', height: '16px' }} /> 
+                    Đã sửa lỗi
+                  </div>
+                )
+                : (
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+                    <CheckboxSVG style={{ width: '16px', height: '16px' }} /> 
+                    Chưa sửa lỗi
+                  </div>
+                )
               },
               date: {
                 title: 'Ngày tạo',
                 content: date
-              },
-              controls: {
-                title: '',
-                content: (
-                  <>
-                    <button onClick={() => mistakeConfirm(id)}>Xác nhận</button>
-                  </>
-                )
               }
             }))}></MyTable>
           ) : (
@@ -108,6 +131,15 @@ function Mistake() {
           
         </div>
       </div>
+
+      <ToastContainer position="bottom-end">
+        <Toast bg="dark"  onClose={() => setToast(null)} show={toast !== null} delay={3000} autohide>
+          <Toast.Header>
+            <div style={{ width: '100%' }}></div>
+          </Toast.Header>
+          <Toast.Body style={{ color: '#FFFFFF' }}>{toast}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </>
   );
 }

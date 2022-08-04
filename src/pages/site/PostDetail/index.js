@@ -25,9 +25,11 @@ function categoryMapping(category) {
 function PostDetail() {
   console.log("Page: PostDetail");
 
-  const { id } = useParams();
+  const { idCurr } = useParams();
   const getPost = useGetPost();
   const getPostRelated = useGetPostRelated();
+
+  console.log('id:', idCurr);
 
   const [post, setPost] = useState(null);
   const [postsRelated, setPostsRelated] = useState(null);
@@ -62,9 +64,10 @@ function PostDetail() {
   }
   useEffect(() => {
     getPost.mutate(
-      { id },
+      { id: idCurr },
       {
         onSuccess(data) {
+          console.log(data);
           setPost(data.data);
 
           getPostRelated.mutate(
@@ -233,7 +236,7 @@ function PostDetail() {
                       Thẻ
                     </h1>
                     <div className="Tags_Container">
-                      {post.tags.map(({ id, name, color }, index) => (
+                      {!post ? <></> : post.tags.map(({ id, name, color }, index) => (
                         <div
                           className="Tags_Item"
                           key={id}
