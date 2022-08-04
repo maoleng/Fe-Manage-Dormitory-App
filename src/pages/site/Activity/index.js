@@ -190,7 +190,10 @@ function Activity() {
                 ))}
               </Row>
             </Container>
-            <div class="pagination" style={{ marginLeft: "37.5%" }}>
+            <div
+              class="pagination"
+              style={{ alignItems: "center", justifyContent: "center" }}
+            >
               <a onClick={goBackward}>&laquo;</a>
               <a
                 class={
