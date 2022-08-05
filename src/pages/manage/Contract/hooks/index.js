@@ -37,6 +37,25 @@ export const useGetConfirmContracts = () => {
   return mutate;
 };
 
+export const usePutBill = () => {
+  const mutation = useMutation(async ({ body, id }) => {
+    const { data } = await axios.put(
+      process.env.REACT_APP_API_ENDPOINT + `/mng/subscription/${id}`,
+      body,
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return mutation;
+}
+
 export const usePostConfirmContracts = () => {
   const mutate = useMutation(async ({ body,  id }) => {
     const { data } = await axios.post(

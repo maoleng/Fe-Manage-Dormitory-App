@@ -57,8 +57,6 @@ export const useGetYears = () => {
 
 export const usePutBill = () => {
   const mutation = useMutation(async ({ body, id }) => {
-    console.log('API:', process.env.REACT_APP_API_ENDPOINT + `/mng/subscription/${id}`);
-    console.log('Body:', body);
     const { data } = await axios.put(
       process.env.REACT_APP_API_ENDPOINT + `/mng/subscription/${id}`,
       body,

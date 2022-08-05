@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Dropdown, Button, Modal, Table } from 'react-bootstrap';
+import { Dropdown, Button, Modal, Table, Toast, ToastContainer } from 'react-bootstrap';
 import print from 'print-js';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -24,6 +24,7 @@ function ElectricityWaters() {
   const putBill = usePutBill();
   const postDownload = usePostDownload();
 
+  const [toast, setToast] = useState(false);
   const [id, setId] = useState(null);
   const [printAll, setPrintAll] = useState(null);
   const [download, setDownload] = useState(null);
@@ -137,7 +138,7 @@ function ElectricityWaters() {
       {
         onSuccess(data) {
           console.log(data);
-
+          setToast('Cập nhật thanh toán thành công!');
           updateBills();
         }
       }
@@ -504,15 +505,19 @@ function ElectricityWaters() {
               set_paid: {
                 title: 'Đánh dấu thanh toán',
                 center: true,
-                content: <div style={{ textAlign: 'center' }} onClick={() => putBillHandle(subscription_id, !is_paid)}>
+                content: <div style={{ width: '160px', margin: '0px auto' }} onClick={() => putBillHandle(subscription_id, !is_paid)}>
                   {is_paid
-                    ? <CheckboxTickSVG style={{ width: '16px', height: '16px' }} />
-                    : <CheckboxSVG style={{ width: '16px', height: '16px' }} />}
+                    ? (
+                      <>
+                        <CheckboxTickSVG style={{ width: '16px', height: '16px' }} /> Đã Thanh toán
+                      </>
+                    )
+                    : (
+                      <>
+                        <CheckboxSVG style={{ width: '16px', height: '16px' }} /> Chưa thanh toán
+                      </>
+                    )}
                 </div>,
-              },
-              is_paid: {
-                title: 'Xác nhận trả',
-                content: is_paid ? 'Đã Thanh toán' : 'Chưa thanh toán',
               },
               controls: {
                 title: '',
@@ -775,6 +780,15 @@ function ElectricityWaters() {
           </div>
         </div>
       )}
+      
+      <ToastContainer position="bottom-end">
+        <Toast bg="dark"  onClose={() => setToast(null)} show={toast !== null} delay={3000} autohide>
+          <Toast.Header>
+            <div style={{ width: '100%' }}></div>
+          </Toast.Header>
+          <Toast.Body style={{ color: '#FFFFFF' }}>{toast}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </>
   );
 }

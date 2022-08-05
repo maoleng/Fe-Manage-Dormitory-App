@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 
@@ -13,6 +13,11 @@ import MySidebar from "~/components/MySidebar";
 function Form() {
   console.log("Page: Form");
 
+  const getForms = useGetForms();
+  const getForm = useGetForm();
+  const postFormComment = usePostFormComment();
+
+  const chatBox = useRef();
   const [inputValue, setInputValue] = useState("");
   const [loaded, setLoaded] = useState(false);
   const [forms, setForms] = useState(null);
@@ -21,10 +26,6 @@ function Form() {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [imgComments, setImgComments] = useState([]);
   const [state, dispatch] = useStore();
-
-  const getForms = useGetForms();
-  const getForm = useGetForm();
-  const postFormComment = usePostFormComment();
 
   const removeImgComment = (indexRm) => {
     setImgComments(imgComments.filter((elem, index) => index !== indexRm));
@@ -57,6 +58,7 @@ function Form() {
         onSuccess(data) {
           getFormHandle(form.id);
           setInputValue("");
+          setImgComments([]);
         },
       }
     );
@@ -84,6 +86,14 @@ function Form() {
       }
     );
   };
+
+  useEffect(() => {
+    console.log(chatBox.current);
+    if (chatBox.current) {
+      chatBox.current.scrollTop = chatBox.current.scrollHeight;
+    }
+    // chatBox.current.scrollTop = '20px';
+  }, [form]);
 
   useEffect(() => {
     getForms.mutate(
@@ -251,7 +261,7 @@ function Form() {
         </div>
       </div>
 
-      <Modal show={showCommentForm} onHide={() => setShowCommentForm(false)}>
+      <Modal show={showCommentForm} onHide={() => {setShowCommentForm(false); setLoadedForm(null);}}>
         <div style={{ height: "80vh" }}>
           <div
             style={{ height: "100%", display: "flex", flexDirection: "column" }}
@@ -271,7 +281,7 @@ function Form() {
                       flexDirection: "column",
                     }}
                   >
-                    <div style={{ height: "100%", overflowY: "auto" }}>
+                    <div ref={chatBox} style={{ height: "100%", overflowY: "auto" }}>
                       <div style={{ padding: "8px", margin: "8px 0px" }}>
                         <div style={{ fontWeight: "bold" }}>
                           {form.student.student_card_id} - {form.student.name}

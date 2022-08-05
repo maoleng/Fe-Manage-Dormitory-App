@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import { Table, Modal } from "react-bootstrap";
+import { useState, useEffect } from 'react';
+import { Table, Modal, Toast, ToastContainer } from "react-bootstrap";
 
 import MyNavbar from "~/components/MyNavbar";
 import MyTable from "~/components/MyTable";
 import MySidebar from "~/components/MySidebar";
 import { useStore, actions } from "~/store";
-import { useGetConfirmContracts, usePostPickRoom, useGetRooms } from "./hooks";
-import { CheckboxSVG, CheckboxSelectedSVG } from "./svgs";
+import { useGetConfirmContracts, usePostPickRoom, useGetRooms, usePutBill } from "./hooks";
+import { CheckboxSVG, CheckboxTickSVG } from "./svgs";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -15,10 +15,12 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 function Contract() {
   console.log("Page: Contract");
 
+  const putBill = usePutBill();
   const getConfirmContracts = useGetConfirmContracts();
   const postPickRoom = usePostPickRoom();
   const getRooms = useGetRooms();
 
+  const [toast, setToast] = useState(null);
   const [room, setRoom] = useState(false);
   const [roomDetailModal, setRoomDetailModal] = useState(false);
   const [pickRoomModal, setPickRoomModal] = useState(false);
@@ -66,6 +68,24 @@ function Contract() {
     setPickRoomID(id);
     setPickRoomModal(true);
   };
+  
+  const putBillHandle = (id, isPaid) => {
+    putBill.mutate(
+      { 
+        body: {
+          is_paid: isPaid
+        },
+        id 
+      },
+      {
+        onSuccess(data) {
+          // console.log(data);
+          setToast('Cập nhật thanh toán thành công!');
+          getConfirmContractsHandle();
+        }
+      }
+    )
+  }
 
   const pickRoomHandle = (id) => {
     postPickRoom.mutate(
@@ -77,7 +97,10 @@ function Contract() {
       },
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
+          setToast('Đã chọn phòng!');
+          setPickRoomID(false);
+          setPickRoomModal(false);
           getConfirmContractsHandle();
         },
       }
@@ -93,9 +116,9 @@ function Contract() {
       {},
       {
         onSuccess(data) {
-          // console.log(data);
+          console.log(data);
           setContracts(data.data);
-        },
+        }
       }
     );
   }
@@ -333,9 +356,12 @@ function Contract() {
                     title: "Xác nhận thanh toán",
                     center: true,
                     content: (
-                      <div style={{ textAlign: "center", cursor: "pointer" }}>
+                      <div 
+                        style={{ textAlign: "center", cursor: "pointer" }}
+                        onClick={() => putBillHandle(subscription.id, !subscription.is_paid)}
+                      >
                         {subscription.is_paid ? (
-                          <CheckboxSelectedSVG
+                          <CheckboxTickSVG
                             style={{ width: "16px", height: "16px" }}
                           />
                         ) : (
@@ -1106,10 +1132,9 @@ function Contract() {
                                   border: "none",
                                   backgroundColor: "#FF0000",
                                   color: "white",
-
                                   padding: "9px 7px",
+                                  cursor: 'default'
                                 }}
-                                onClick={() => pickRoomHandle(elem.id)}
                               >
                                 <svg
                                   width="13"
@@ -1143,40 +1168,6 @@ function Contract() {
                     </Container>
                   </Col>
                 ))}
-              </Row>
-              <Row>
-                <Col
-                  sm={{ span: 4, offset: 4 }}
-                  md={{ span: 4, offset: 4 }}
-                  lg={{ span: 2, offset: 10 }}
-                >
-                  <button
-                    className="Confirm"
-                    style={{
-                      padding: "12px",
-                      backgroundColor: "#1C63EE",
-                      color: "#fff",
-                      borderRadius: "4px",
-                      border: "none",
-                      marginLeft: "12%",
-                    }}
-                  >
-                    <svg
-                      width="15"
-                      height="14"
-                      viewBox="0 0 15 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      style={{ marginRight: "8px", marginBottom: "4px" }}
-                    >
-                      <path
-                        d="M0 7.22063L6.96975 0.220545C7.26263 -0.0735151 7.73737 -0.0735151 8.03025 0.220545L15 7.22063H13.5V13.2467C13.5 13.6628 13.1642 14 12.75 14H9V8.72715H6V14H2.25C1.83579 14 1.5 13.6628 1.5 13.2467V7.22063H0Z"
-                        fill="white"
-                      />
-                    </svg>
-                    Xác nhận phòng
-                  </button>
-                </Col>
               </Row>
             </Container>
           ) : (
@@ -1250,6 +1241,15 @@ function Contract() {
           {room === null ? <>Loading...</> : <div>{JSON.stringify(room)}</div>}
         </Modal.Body>
       </Modal>
+
+      <ToastContainer position="bottom-end">
+        <Toast bg="dark"  onClose={() => setToast(null)} show={toast !== null} delay={3000} autohide>
+          <Toast.Header>
+            <div style={{ width: '100%' }}></div>
+          </Toast.Header>
+          <Toast.Body style={{ color: '#FFFFFF' }}>{toast}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </>
   );
 }
