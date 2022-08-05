@@ -43,10 +43,10 @@ function MyBlogs({ title, blogs, next }) {
                 style={{
                   width: "300px",
                   margin: "20px",
-                  color: '#000000',
-                  textDecoration: 'none'
+                  color: "#000000",
+                  textDecoration: "none",
                 }}
-                key={id + '_' + index}
+                key={id + "_" + index}
                 to={`/bai-viet/${id}`}
               >
                 <img
@@ -59,17 +59,19 @@ function MyBlogs({ title, blogs, next }) {
                   src={banner}
                   alt=""
                 />
-                <b
+
+                <p
                   style={{
                     display: "-webkit-box",
                     WebkitLineClamp: "2",
                     WebkitBoxOrient: "vertical",
                     overflow: "hidden",
                     marginTop: "4px",
+                    fontWeight:"700"
                   }}
                 >
                   {title}
-                </b>
+                </p>
               </Link>
             ))}
           </div>
