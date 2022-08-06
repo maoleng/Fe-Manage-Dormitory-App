@@ -62,6 +62,8 @@ function PostCreate() {
     },
   ]);
 
+  console.log(formTags);
+
   const addElem = useRef();
 
   function setBannerImg(e) {
@@ -107,7 +109,7 @@ function PostCreate() {
           getTag.mutate({},
             {
               onSuccess(data) {
-                setFormTags(data.data.map((elem) => ({...elem, selected: false})));
+                setFormTags([...formTags, {...data.data[data.data.length - 1], selected: false}])
               }
             },
           );

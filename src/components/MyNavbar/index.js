@@ -46,6 +46,7 @@ function MyNavbar({ isSite }) {
 
   const user = token && jwt_decode(token);
   const role = window.localStorage.getItem("role") || "";
+  console.log(user);
 
   const navigate = useNavigate();
   

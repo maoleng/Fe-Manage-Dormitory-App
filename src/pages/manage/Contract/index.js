@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { Table, Modal, Toast, ToastContainer } from "react-bootstrap";
 
+import CustomToggle from './CustomToggle';
 import MyNavbar from "~/components/MyNavbar";
 import MyTable from "~/components/MyTable";
 import MySidebar from "~/components/MySidebar";
 import { useStore, actions } from "~/store";
-import { useGetConfirmContracts, usePostPickRoom, useGetRooms, usePutBill } from "./hooks";
-import { CheckboxSVG, CheckboxTickSVG } from "./svgs";
+import { useGetConfirmContracts, usePostPickRoom, useGetRooms, usePutBill, useGetFloors, useGetBuildings, useGetTypes } from "./hooks";
+import { CheckboxSVG, CheckboxTickSVG, CheckboxSelectedSVG } from "./svgs";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+
 function Contract() {
   console.log("Page: Contract");
 
@@ -19,8 +21,12 @@ function Contract() {
   const getConfirmContracts = useGetConfirmContracts();
   const postPickRoom = usePostPickRoom();
   const getRooms = useGetRooms();
+  const getFloors = useGetFloors();
+  const getBuildings = useGetBuildings();
+  const getTypes = useGetTypes();
 
   const [toast, setToast] = useState(null);
+  const [roomIDCurr, setRoomIDCurr] = useState(false);
   const [room, setRoom] = useState(false);
   const [roomDetailModal, setRoomDetailModal] = useState(false);
   const [pickRoomModal, setPickRoomModal] = useState(false);
@@ -30,6 +36,25 @@ function Contract() {
   const [contracts, setContracts] = useState(false);
   const [state, dispatch] = useStore();
   const [pagenum, setPageNum] = useState(1);
+  const [floors, setFloors] = useState(null);
+  const [search, setSearch] = useState({
+    buildings: null,
+    floors: null,
+    types: null,
+    status: [
+      { 
+        id: 'con_trong_cho', 
+        title: 'Còn trống', 
+        selected: false 
+      },
+      { 
+        id: 'da_het_cho', 
+        title: 'Đã đầy', 
+        selected: false 
+      },
+    ],
+  });
+
   let arrNum = [];
   let arrNum1 = [];
   let arrNum2 = [];
@@ -48,25 +73,6 @@ function Contract() {
   const showRoomDetail = (id) => {
     setRoomDetailModal(true);
     setRoom(rooms.find((elem) => elem.id === id));
-  };
-
-  const hideRoomDetail = () => {
-    setRoomDetailModal(false);
-    setRoom(null);
-  };
-
-  const showPickRoom = (id) => {
-    getRooms.mutate(
-      {},
-      {
-        onSuccess(data) {
-          console.log(data);
-          setRooms(data.data);
-        },
-      }
-    );
-    setPickRoomID(id);
-    setPickRoomModal(true);
   };
   
   const putBillHandle = (id, isPaid) => {
@@ -87,11 +93,44 @@ function Contract() {
     )
   }
 
-  const pickRoomHandle = (id) => {
+  const hideRoomDetail = () => {
+    setRoomDetailModal(false);
+    setRoom(null);
+  };
+
+  function getRoomsHandle() {
+    const buildingID = search.buildings?.filter(({ selected }) => selected)[0];
+    const floorID = search.floors?.filter(({ selected }) => selected)[0];
+    const typeID = search.types?.filter(({ selected }) => selected)[0];
+    const status = search.status?.filter(({ selected }) => selected)[0];
+
+    getRooms.mutate(
+      {
+        buildingID: buildingID?.id, 
+        floorID: floorID?.id, 
+        detailID: typeID?.id,
+        status: status?.id,
+      },
+      {
+        onSuccess(data) {
+          console.log(data);
+          setRooms(data.data);
+        },
+      }
+    );
+  }
+
+  const showPickRoom = (id) => {
+    getRoomsHandle();
+    setPickRoomID(id);
+    setPickRoomModal(true);
+  };
+
+  const pickRoomHandle = () => {
     postPickRoom.mutate(
       {
         body: {
-          room_id: id,
+          room_id: roomIDCurr,
         },
         id: pickRoomID,
       },
@@ -116,16 +155,93 @@ function Contract() {
       {},
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           setContracts(data.data);
-        }
+        },
       }
     );
   }
 
   useEffect(() => {
+    getRoomsHandle();
+
+    const buildingID = search.buildings?.filter(({ selected }) => selected)[0];
+    if (buildingID) {
+      if (!search.floors) {
+        setSearch(() => ({
+          ...search, 
+          floors: floors.filter(({ building_id }) => building_id === buildingID.id)
+            .map(({ id, name, building_id }) => ({
+               id: id, 
+               buildingId: building_id,
+               title: `Tầng ${name}`, 
+               selected: false 
+            }))
+        }));
+      }
+      else if (search.floors[0].buildingId !== buildingID.id) {
+        setSearch(() => ({
+          ...search, 
+          floors: floors.filter(({ building_id }) => building_id === buildingID.id)
+            .map(({ id, name, building_id }) => ({
+               id: id, 
+               buildingId: building_id,
+               title: `Tầng ${name}`, 
+               selected: false 
+            }))
+        }));
+      }
+    }
+  }, [search]);
+
+  useEffect(() => {
     getConfirmContractsHandle();
+    getBuildings.mutate(
+      {},
+      {
+        onSuccess(data) {
+          console.log('getBuildings:', data);
+          setSearch((pre) => ({
+            ...pre, 
+            buildings: data.data.map(({ id, name }) => ({ 
+              id: id, 
+              title: `Tòa ${name}`, 
+              selected: false 
+            }))
+          }));
+
+          getTypes.mutate(
+            {},
+            {
+              onSuccess(data) {
+                console.log('getTypes:', data);
+                setSearch((pre) => ({
+                  ...pre, 
+                  types: data.data.map(({ id, type }) => ({ 
+                    id: id, 
+                    title: type, 
+                    selected: false 
+                  }))
+                }));
+              }
+            }
+          );
+        }
+      }
+    );
+
+    getFloors.mutate(
+      {},
+      {
+        onSuccess(data) {
+          setFloors(() => data.data);
+        }
+      }
+    );
+    
   }, []);
+
+  console.log(search);
 
   if (rooms) {
     var roomtake = rooms.slice(pagenum * 12 - 12, pagenum * 12);
@@ -440,6 +556,127 @@ function Contract() {
       <Modal fullscreen show={pickRoomModal} onHide={hidePickRoom}>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body style={{ backgroundColor: "#f9f9f9" }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: '20px'
+            }}
+          >
+            <Dropdown>
+              <Dropdown.Toggle as={CustomToggle}>
+                {search.buildings?.filter(({ selected }) => selected)[0] 
+                  ? search.buildings?.filter(({ selected }) => selected)[0].title 
+                  : 'Tòa'}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <div style={{ padding: '0px 20px', margin: '0px auto' }}>
+                  {search.buildings?.map(({ title, selected }) => (
+                    <div 
+                      style={{ margin: '4px 0px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} 
+                      onClick={() => setSearch({
+                        ...search, 
+                        buildings: search.buildings.map(building => ({...building, selected: building.title === title}))}
+                      )}
+                    >
+                      {selected 
+                        ? <CheckboxSelectedSVG style={{ width: '16px', height: '16px'}} />
+                        : <CheckboxSVG style={{ width: '16px', height: '16px'}} />}
+                          {title}
+                    </div>
+                  ))}
+                </div>
+              </Dropdown.Menu>
+            </Dropdown>
+
+            <Dropdown>
+              <Dropdown.Toggle as={CustomToggle}>
+                {!search.floors 
+                  ? 'Tầng'
+                  : search.floors.filter(({ selected }) => selected)[0] 
+                  ? search.floors.filter(({ selected }) => selected)[0].title 
+                  : 'Tầng'}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <div 
+                  style={{ 
+                    width: '280px', 
+                    padding: '0px 20px', 
+                    margin: '0px auto',
+                    display: 'grid', 
+                    gridTemplateColumns: '50% 50%'
+                  }}
+                >
+                  {search.floors === null ? <>Hãy chọn Tòa trước</> : search.floors.map(({ title, selected }) => (
+                    <div 
+                      style={{ margin: '4px 0px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} 
+                      onClick={() => setSearch({
+                        ...search, 
+                        floors: search.floors.map(floor => ({...floor, selected: floor.title === title}))}
+                      )}
+                    >
+                      {selected 
+                        ? <CheckboxSelectedSVG style={{ width: '16px', height: '16px'}} />
+                        : <CheckboxSVG style={{ width: '16px', height: '16px'}} />}
+                      {title}
+                    </div>
+                  ))}
+                </div>
+              </Dropdown.Menu>
+            </Dropdown>
+            
+            <Dropdown>
+              <Dropdown.Toggle as={CustomToggle}>
+                {search.types?.filter(({ selected }) => selected)[0] 
+                  ? search.types?.filter(({ selected }) => selected)[0].title 
+                  : 'Loại phòng'}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <div style={{ padding: '0px 20px', margin: '0px auto' }}>
+                  {search.types?.map(({ title, selected }) => (
+                    <div 
+                      style={{ width: '140px', margin: '4px 0px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} 
+                      onClick={() => setSearch({
+                        ...search, 
+                        types: search.types.map(type => ({...type, selected: type.title === title}))}
+                      )}
+                    >
+                      {selected 
+                        ? <CheckboxSelectedSVG style={{ width: '16px', height: '16px'}} />
+                        : <CheckboxSVG style={{ width: '16px', height: '16px'}} />}
+                          {title}
+                    </div>
+                  ))}
+                </div>
+              </Dropdown.Menu>
+            </Dropdown>
+
+            <Dropdown>
+              <Dropdown.Toggle as={CustomToggle}>
+                {search.status.filter(({ selected }) => selected)[0] 
+                  ? search.status.filter(({ selected }) => selected)[0].title 
+                  : 'Trạng thái'}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <div style={{ padding: '0px 20px', margin: '0px auto' }}>
+                  {search.status.map(({ title, selected }) => (
+                    <div 
+                      style={{ margin: '4px 0px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} 
+                      onClick={() => setSearch({
+                        ...search, 
+                        status: search.status.map(elem => ({...elem, selected: elem.title === title}))}
+                      )}
+                    >
+                      {selected 
+                        ? <CheckboxSelectedSVG style={{ width: '16px', height: '16px'}} />
+                        : <CheckboxSVG style={{ width: '16px', height: '16px'}} />}
+                      {title}
+                    </div>
+                  ))}
+                </div>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+
           {rooms === null ? (
             <>Loading...</>
           ) : roomtake ? (
@@ -447,7 +684,6 @@ function Contract() {
               <Row>
                 {arrNum1.map((elem) => (
                   <Col sm={12} md={6} lg={3} style={{ margin: "12px 0px" }}>
-                    {console.log(elem)}
                     <Container
                       fluid
                       style={{
@@ -577,7 +813,7 @@ function Contract() {
 
                                   padding: "9px 13px",
                                 }}
-                                onClick={() => pickRoomHandle(elem.id)}
+                                onClick={() => setRoomIDCurr(elem.id)}
                               >
                                 <svg
                                   width="13"
@@ -651,7 +887,6 @@ function Contract() {
 
                                   padding: "9px 7px",
                                 }}
-                                onClick={() => pickRoomHandle(elem.id)}
                               >
                                 <svg
                                   width="13"
@@ -689,7 +924,6 @@ function Contract() {
               <Row>
                 {arrNum2.map((elem) => (
                   <Col sm={12} md={6} lg={3} style={{ margin: "12px 0px" }}>
-                    {console.log(elem)}
                     <Container
                       fluid
                       style={{
@@ -819,7 +1053,7 @@ function Contract() {
 
                                   padding: "9px 13px",
                                 }}
-                                onClick={() => pickRoomHandle(elem.id)}
+                                onClick={() => setRoomIDCurr(elem.id)}
                               >
                                 <svg
                                   width="13"
@@ -893,7 +1127,6 @@ function Contract() {
 
                                   padding: "9px 7px",
                                 }}
-                                onClick={() => pickRoomHandle(elem.id)}
                               >
                                 <svg
                                   width="13"
@@ -931,7 +1164,6 @@ function Contract() {
               <Row>
                 {arrNum3.map((elem) => (
                   <Col sm={12} md={6} lg={3} style={{ margin: "12px 0px" }}>
-                    {console.log(elem)}
                     <Container
                       fluid
                       style={{
@@ -1061,7 +1293,7 @@ function Contract() {
 
                                   padding: "9px 13px",
                                 }}
-                                onClick={() => pickRoomHandle(elem.id)}
+                                onClick={() => setRoomIDCurr(elem.id)}
                               >
                                 <svg
                                   width="13"
@@ -1135,6 +1367,7 @@ function Contract() {
                                   padding: "9px 7px",
                                   cursor: 'default'
                                 }}
+                                onClick={() => pickRoomHandle(elem.id)}
                               >
                                 <svg
                                   width="13"
@@ -1168,6 +1401,41 @@ function Contract() {
                     </Container>
                   </Col>
                 ))}
+              </Row>
+              <Row>
+                <Col
+                  sm={{ span: 4, offset: 4 }}
+                  md={{ span: 4, offset: 4 }}
+                  lg={{ span: 2, offset: 10 }}
+                >
+                  <button
+                    className="Confirm"
+                    style={{
+                      padding: "12px",
+                      backgroundColor: "#1C63EE",
+                      color: "#fff",
+                      borderRadius: "4px",
+                      border: "none",
+                      marginLeft: "12%",
+                    }}
+                    onClick={pickRoomHandle}
+                  >
+                    <svg
+                      width="15"
+                      height="14"
+                      viewBox="0 0 15 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      style={{ marginRight: "8px", marginBottom: "4px" }}
+                    >
+                      <path
+                        d="M0 7.22063L6.96975 0.220545C7.26263 -0.0735151 7.73737 -0.0735151 8.03025 0.220545L15 7.22063H13.5V13.2467C13.5 13.6628 13.1642 14 12.75 14H9V8.72715H6V14H2.25C1.83579 14 1.5 13.6628 1.5 13.2467V7.22063H0Z"
+                        fill="white"
+                      />
+                    </svg>
+                    Xác nhận phòng
+                  </button>
+                </Col>
               </Row>
             </Container>
           ) : (
@@ -1241,7 +1509,7 @@ function Contract() {
           {room === null ? <>Loading...</> : <div>{JSON.stringify(room)}</div>}
         </Modal.Body>
       </Modal>
-
+    
       <ToastContainer position="bottom-end">
         <Toast bg="dark"  onClose={() => setToast(null)} show={toast !== null} delay={3000} autohide>
           <Toast.Header>

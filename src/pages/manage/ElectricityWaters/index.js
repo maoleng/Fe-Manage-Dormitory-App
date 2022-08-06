@@ -472,10 +472,6 @@ function ElectricityWaters() {
                   </div>
                 </Dropdown.Menu>
               </Dropdown>
-
-              {/* <Button style={{ width: '120px', }} onClick={searchHandle} variant="primary">
-                <SearchSVG style={{ width: '16px', height: '16px' }} /> Tìm kiếm
-              </Button> */}
             </div>
           </div>
 

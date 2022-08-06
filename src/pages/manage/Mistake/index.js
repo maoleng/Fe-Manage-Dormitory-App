@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Toast, ToastContainer } from 'react-bootstrap';
 
 import MyInput from "~/components/MyInput";
 import { useStore, actions } from "~/store";
@@ -15,24 +15,25 @@ import {
 import MyNavbar from "~/components/MyNavbar";
 import MySidebar from "~/components/MySidebar";
 import MyTable from "~/components/MyTable";
+import { CheckboxSVG, CheckboxTickSVG } from './svgs';
 
 function Mistake() {
   console.log("Page: Mistake");
 
+  const [state, dispatch] = useStore();
+  const getMistakes = useGetMistakes();
+  const getMistake = useGetMistake();
+  const postMistake = usePostMistake();
+  const putMistake = usePutMistake();
+  const putFixMistake = usePutFixMistake();
+
+  const [toast, setToast] = useState(null);
   const [mistakeID, setMistakeID] = useState(null);
   const [mistake, setMistake] = useState(null);
   const [mistakes, setMistakes] = useState(false);
   const [mistakeAdd, setMistakeAdd] = useState(false);
   const [imgs, setImgs] = useState([]);
   const [edit, setEdit] = useState(false);
-
-  const [state, dispatch] = useStore();
-
-  const getMistakes = useGetMistakes();
-  const getMistake = useGetMistake();
-  const postMistake = usePostMistake();
-  const putMistake = usePutMistake();
-  const putFixMistake = usePutFixMistake();
 
   const submitMistake = (e) => {
     e.preventDefault();
@@ -114,6 +115,33 @@ function Mistake() {
     }
   };
 
+  function fixMistakeHandle(id) {
+    putFixMistake.mutate(
+      {
+        body: {},
+        id
+      },
+      {
+        onSuccess(data) {
+          setToast('Xác nhận sửa lỗi thành công');
+          getMistakesHandle();
+        }
+      }
+    );
+  }
+
+  function getMistakesHandle() {
+    getMistakes.mutate(
+      {},
+      {
+        onSuccess(data) {
+          console.log(data);
+          setMistakes(data.data);
+        },
+      }
+    );
+  }
+
   useEffect(() => {
     if (mistakeID !== null) {
       getMistake.mutate(
@@ -132,17 +160,7 @@ function Mistake() {
   }, [mistakeID]);
 
   useEffect(() => {
-    getMistakes.mutate(
-      {},
-      {
-        onSuccess(data) {
-          console.log(data);
-          if (data.status) {
-            setMistakes(data.data);
-          }
-        },
-      }
-    );
+    getMistakesHandle()
   }, []);
 
   return (
@@ -538,6 +556,8 @@ function Mistake() {
                   room_name,
                   teacher_name,
                   date,
+                  is_confirmed,
+                  is_fix_mistake
                 }) => ({
                   id: {
                     title: "id",
@@ -562,6 +582,26 @@ function Mistake() {
                   date: {
                     title: "Ngày tạo",
                     content: date,
+                  },
+                  is_confirmed: {
+                    title: 'Xác nhận lỗi',
+                    content: is_confirmed ? 'Đã xác nhận': 'Chưa xác nhận'
+                  },
+                  is_fix_mistake: {
+                    title: 'Xác nhân sửa lỗi',
+                    content: is_fix_mistake 
+                      ? (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+                          <CheckboxTickSVG style={{ width: '16px', height: '16px' }} /> 
+                          Đã xác nhận
+                        </div>
+                      )
+                      : (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }} onClick={() => fixMistakeHandle(id)}>
+                          <CheckboxSVG style={{ width: '16px', height: '16px' }} />
+                          Chưa xác nhận
+                        </div>
+                      )
                   },
                   controls: {
                     title: "",
@@ -682,6 +722,15 @@ function Mistake() {
           <>Loading...</>
         )}
       </div>
+
+      <ToastContainer position="bottom-end">
+        <Toast bg="dark"  onClose={() => setToast(null)} show={toast !== null} delay={3000} autohide>
+          <Toast.Header>
+            <div style={{ width: '100%' }}></div>
+          </Toast.Header>
+          <Toast.Body style={{ color: '#FFFFFF' }}>{toast}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </>
   );
 }
