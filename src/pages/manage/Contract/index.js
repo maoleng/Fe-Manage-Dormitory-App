@@ -1,11 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { Table, Modal, Toast, ToastContainer } from "react-bootstrap";
 
 import MyNavbar from "~/components/MyNavbar";
 import MyTable from "~/components/MyTable";
 import MySidebar from "~/components/MySidebar";
 import { useStore, actions } from "~/store";
-import { useGetConfirmContracts, usePostPickRoom, useGetRooms, usePutBill } from "./hooks";
+import {
+  useGetConfirmContracts,
+  usePostPickRoom,
+  useGetRooms,
+  usePutBill,
+} from "./hooks";
 import { CheckboxSVG, CheckboxTickSVG } from "./svgs";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -68,24 +73,24 @@ function Contract() {
     setPickRoomID(id);
     setPickRoomModal(true);
   };
-  
+
   const putBillHandle = (id, isPaid) => {
     putBill.mutate(
-      { 
+      {
         body: {
-          is_paid: isPaid
+          is_paid: isPaid,
         },
-        id 
+        id,
       },
       {
         onSuccess(data) {
           // console.log(data);
-          setToast('Cập nhật thanh toán thành công!');
+          setToast("Cập nhật thanh toán thành công!");
           getConfirmContractsHandle();
-        }
+        },
       }
-    )
-  }
+    );
+  };
 
   const pickRoomHandle = (id) => {
     postPickRoom.mutate(
@@ -98,7 +103,7 @@ function Contract() {
       {
         onSuccess(data) {
           // console.log(data);
-          setToast('Đã chọn phòng!');
+          setToast("Đã chọn phòng!");
           setPickRoomID(false);
           setPickRoomModal(false);
           getConfirmContractsHandle();
@@ -118,7 +123,7 @@ function Contract() {
         onSuccess(data) {
           console.log(data);
           setContracts(data.data);
-        }
+        },
       }
     );
   }
@@ -341,7 +346,16 @@ function Contract() {
                     title: "Phòng",
                     content:
                       room === null ? (
-                        <button onClick={() => showPickRoom(id)}>
+                        <button
+                          style={{
+                            borderRadius: "4px",
+                            border: "1px #0B42AB solid",
+                            backgroundColor: " #0B42AB",
+                            color: "#FFFFFF",
+                            padding: "4px",
+                          }}
+                          onClick={() => showPickRoom(id)}
+                        >
                           Chọn phòng
                         </button>
                       ) : (
@@ -356,9 +370,11 @@ function Contract() {
                     title: "Xác nhận thanh toán",
                     center: true,
                     content: (
-                      <div 
+                      <div
                         style={{ textAlign: "center", cursor: "pointer" }}
-                        onClick={() => putBillHandle(subscription.id, !subscription.is_paid)}
+                        onClick={() =>
+                          putBillHandle(subscription.id, !subscription.is_paid)
+                        }
                       >
                         {subscription.is_paid ? (
                           <CheckboxTickSVG
@@ -1133,7 +1149,7 @@ function Contract() {
                                   backgroundColor: "#FF0000",
                                   color: "white",
                                   padding: "9px 7px",
-                                  cursor: 'default'
+                                  cursor: "default",
                                 }}
                               >
                                 <svg
@@ -1243,11 +1259,17 @@ function Contract() {
       </Modal>
 
       <ToastContainer position="bottom-end">
-        <Toast bg="dark"  onClose={() => setToast(null)} show={toast !== null} delay={3000} autohide>
+        <Toast
+          bg="dark"
+          onClose={() => setToast(null)}
+          show={toast !== null}
+          delay={3000}
+          autohide
+        >
           <Toast.Header>
-            <div style={{ width: '100%' }}></div>
+            <div style={{ width: "100%" }}></div>
           </Toast.Header>
-          <Toast.Body style={{ color: '#FFFFFF' }}>{toast}</Toast.Body>
+          <Toast.Body style={{ color: "#FFFFFF" }}>{toast}</Toast.Body>
         </Toast>
       </ToastContainer>
     </>
