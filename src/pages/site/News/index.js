@@ -72,18 +72,19 @@ function News() {
         <>Loading...</>
       ) : (
         <div>
-          <div style={{ padding: "43px 55px 53px" }}>
-            <div>
-              <h1
-                style={{
-                  borderBottom: "6px solid #A9CBFE ",
-                  marginLeft: "20px",
-                }}
-              >
-                Tin tức
-              </h1>
-            </div>
-            <Container>
+          <Container fluid>
+            <div style={{ padding: "43px 55px 53px" }}>
+              <div>
+                <h1
+                  style={{
+                    borderBottom: "6px solid #A9CBFE ",
+                    marginLeft: "20px",
+                  }}
+                >
+                  Tin tức
+                </h1>
+              </div>
+
               <Row>
                 {post1.map(({ id, banner, created_at, title }, index) => (
                   <Col sm={12} lg={4} md={4}>
@@ -188,72 +189,79 @@ function News() {
                   </Col>
                 ))}
               </Row>
-            </Container>
+              <div
+                className="pagination"
+                style={{
+                  margin: "8px 0",
 
-            <div class="pagination" style={{ marginLeft: "37.5%" }}>
-              <a onClick={goBackward}>&laquo;</a>
-              <a
-                class={
-                  pagenum >= arrNum.length + 1 ||
-                  pagenum < 3 ||
-                  arrNum.length < 4
-                    ? "none"
-                    : ""
-                }
-                onClick={() => {
-                  setPageNum(1);
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                1
-              </a>
-              <a
-                class={
-                  pagenum >= arrNum.length + 1 ||
-                  pagenum < 4 ||
-                  arrNum.length < 4
-                    ? "none"
-                    : ""
-                }
-              >
-                ...
-              </a>
-              {arrre.map((value, key) => (
+                <a onClick={goBackward}>&laquo;</a>
                 <a
-                  id={key}
+                  className={
+                    pagenum >= arrNum.length + 1 ||
+                    pagenum < 3 ||
+                    arrNum.length < 4
+                      ? "none"
+                      : ""
+                  }
                   onClick={() => {
-                    setPageNum(value);
+                    setPageNum(1);
                   }}
-                  class={value === pagenum ? "active" : ""}
                 >
-                  {value}
+                  1
                 </a>
-              ))}
-              <a
-                class={
-                  pagenum >= arrNum.length - 1 ||
-                  (pagenum === 1 && arrNum.length < 4)
-                    ? "none"
-                    : ""
-                }
-              >
-                ...
-              </a>
-              <a
-                class={
-                  pagenum >= arrNum.length - 1 ||
-                  (pagenum === 1 && arrNum.length < 4)
-                    ? "none"
-                    : ""
-                }
-                onClick={() => {
-                  setPageNum(arrNum[arrNum.length - 1]);
-                }}
-              >
-                {arrNum[arrNum.length - 1]}
-              </a>
-              <a onClick={goForward}>&raquo;</a>
+                <a
+                  className={
+                    pagenum >= arrNum.length + 1 ||
+                    pagenum < 4 ||
+                    arrNum.length < 4
+                      ? "none"
+                      : ""
+                  }
+                >
+                  ...
+                </a>
+                {arrre.map((value, key) => (
+                  <a
+                    id={key}
+                    onClick={() => {
+                      setPageNum(value);
+                    }}
+                    className={value === pagenum ? "active" : ""}
+                  >
+                    {value}
+                  </a>
+                ))}
+                <a
+                  className={
+                    pagenum >= arrNum.length - 1 ||
+                    (pagenum === 1 && arrNum.length < 4)
+                      ? "none"
+                      : ""
+                  }
+                >
+                  ...
+                </a>
+                <a
+                  className={
+                    pagenum >= arrNum.length - 1 ||
+                    (pagenum === 1 && arrNum.length < 4)
+                      ? "none"
+                      : ""
+                  }
+                  onClick={() => {
+                    setPageNum(arrNum[arrNum.length - 1]);
+                  }}
+                >
+                  {arrNum[arrNum.length - 1]}
+                </a>
+                <a onClick={goForward}>&raquo;</a>
+              </div>
             </div>
-          </div>
+          </Container>
           <MyFooter></MyFooter>
         </div>
       )}
