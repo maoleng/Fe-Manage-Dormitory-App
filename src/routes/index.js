@@ -10,6 +10,7 @@ import Login from '~/pages/site/Login';
 import MngRegisterForm from '~/pages/manage/RegisterForm';
 import MngContract from '~/pages/manage/Contract';
 import MngMistake from '~/pages/manage/Mistake';
+import MngAttendance from '~/pages/manage/Attendance';
 import MngForm from '~/pages/manage/Form';
 import MngPost from '~/pages/manage/Post';
 import MngPostCreate from '~/pages/manage/PostCreate';
@@ -72,6 +73,10 @@ export const routes = [
   { 
     'path': '/quan-ly/vi-pham',
     'Component': MngMistake
+  },
+  { 
+    'path': '/quan-ly/diem-danh',
+    'Component': MngAttendance
   },
   { 
     'path': '/quan-ly/don-khieu-nai',

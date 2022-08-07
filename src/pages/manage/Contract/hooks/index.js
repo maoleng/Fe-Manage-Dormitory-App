@@ -174,3 +174,21 @@ export const useGetRooms = () => {
 
   return mutate;
 };
+
+export const useGetstudent = () => {
+  const mutation = useMutation(async ({ id }) => {
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + `/mng/student/${id}`, 
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return mutation;
+}

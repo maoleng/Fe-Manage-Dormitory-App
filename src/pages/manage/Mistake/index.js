@@ -10,6 +10,7 @@ import {
   usePostMistake,
   usePutMistake,
   usePutFixMistake,
+  useGetMistakeTypes
 } from "./hooks";
 
 import MyNavbar from "~/components/MyNavbar";
@@ -26,12 +27,14 @@ function Mistake() {
   const postMistake = usePostMistake();
   const putMistake = usePutMistake();
   const putFixMistake = usePutFixMistake();
+  const getMistakeTypes = useGetMistakeTypes();
 
   const [toast, setToast] = useState(null);
   const [mistakeID, setMistakeID] = useState(null);
   const [mistake, setMistake] = useState(null);
   const [mistakes, setMistakes] = useState(false);
   const [mistakeAdd, setMistakeAdd] = useState(false);
+  const [types, setTypes] = useState(null);
   const [imgs, setImgs] = useState([]);
   const [edit, setEdit] = useState(false);
 
@@ -44,14 +47,16 @@ function Mistake() {
       putMistake.mutate(
         {
           body: {
-            student_card_id: mistake.student_card_id,
-            content: formData.get("content"),
+            student_card_id: formData.get("student_card_id"),
+            type: types.filter(type => type.selected)[0].number,
+            content: ('' + types.filter(type => type.selected)[0].number) === '10' ? formData.get("content") : '',
             images: imgs,
           },
           id: mistake.id,
         },
         {
           onSuccess(data) {
+            // console.log(data);
             getMistakes.mutate(
               {},
               {
@@ -73,7 +78,8 @@ function Mistake() {
       postMistake.mutate(
         {
           student_card_id: formData.get("student_card_id"),
-          content: formData.get("content"),
+          type: types.filter(type => type.selected)[0].number,
+          content: ('' + types.filter(type => type.selected)[0].number) === '10' ? formData.get("content") : '',
           images: imgs,
         },
         {
@@ -135,7 +141,7 @@ function Mistake() {
       {},
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           setMistakes(data.data);
         },
       }
@@ -148,11 +154,22 @@ function Mistake() {
         { id: mistakeID },
         {
           onSuccess(data) {
+            const type = data.type;
             console.log(data);
             if (edit) {
               setImgs(data.images.map(({ source }) => source));
             }
             setMistake(data);
+    
+            getMistakeTypes.mutate(
+              {},
+              {
+                onSuccess(data) {
+                  // console.log(data);
+                  setTypes(data.data.map(elem => ({ ...elem, selected: elem.content === type})));
+                }
+              }
+            );
           },
         }
       );
@@ -161,6 +178,16 @@ function Mistake() {
 
   useEffect(() => {
     getMistakesHandle()
+    
+    getMistakeTypes.mutate(
+      {},
+      {
+        onSuccess(data) {
+          // console.log(data);
+          setTypes(data.data.map((elem, index) => ({ ...elem, selected: index === 0})));
+        }
+      }
+    );
   }, []);
 
   return (
@@ -270,7 +297,47 @@ function Mistake() {
                       <td>
                         {edit ? (
                           mistake ? (
-                            <MyInput
+                            <> 
+                              <select
+                                style={{
+                                  width: "320px",
+                                  paddingLeft: "8px",
+                                  border: "none",
+                                  borderRadius: "4px",
+                                  outline: "none",
+                                  backgroundColor: "#EEEEEE",
+                                }}
+                                onChange={e => setTypes(types.map(type => ({...type, selected: ('' + type.number) === ('' + e.target.value)})))}
+                                value={('' + types.filter(type => type.selected)[0].number)}
+                              >
+                                {types && types.map(({ number, content }) => (
+                                  <option value={number} key={number}>{content}</option>
+                                ))}
+                              </select>
+
+                              <div>
+                                <MyInput
+                                  style={{
+                                    width: "320px",
+                                    paddingLeft: "8px",
+                                    border: "none",
+                                    borderRadius: "4px",
+                                    outline: "none",
+                                    backgroundColor: "#EEEEEE",
+                                  }}
+                                  type="text"
+                                  name="content"
+                                  initValue={mistake.content}
+                                  hidden={('' + types.filter(type => type.selected)[0].number) !== '10'}
+                                />
+                              </div>
+                            </>
+                          ) : (
+                            <></>
+                          )
+                        ) : (
+                          <> 
+                            <select
                               style={{
                                 width: "320px",
                                 paddingLeft: "8px",
@@ -279,26 +346,30 @@ function Mistake() {
                                 outline: "none",
                                 backgroundColor: "#EEEEEE",
                               }}
-                              type="text"
-                              name="content"
-                              initValue={mistake.content}
-                            />
-                          ) : (
-                            <></>
-                          )
-                        ) : (
-                          <MyInput
-                            style={{
-                              width: "320px",
-                              paddingLeft: "8px",
-                              border: "none",
-                              borderRadius: "4px",
-                              outline: "none",
-                              backgroundColor: "#EEEEEE",
-                            }}
-                            type="text"
-                            name="content"
-                          />
+                              onChange={e => setTypes(types.map(type => ({...type, selected: ('' + type.number) === ('' + e.target.value)})))}
+                              value={('' + types.filter(type => type.selected)[0].number)}
+                            >
+                              {types && types.map(({ number, content }) => (
+                                <option value={number} key={number}>{content}</option>
+                              ))}
+                            </select>
+
+                            <div>
+                              <MyInput
+                                style={{
+                                  width: "320px",
+                                  paddingLeft: "8px",
+                                  border: "none",
+                                  borderRadius: "4px",
+                                  outline: "none",
+                                  backgroundColor: "#EEEEEE",
+                                }}
+                                type="text"
+                                name="content"
+                                hidden={('' + types.filter(type => type.selected)[0].number) !== '10'}
+                              />
+                            </div>
+                          </>
                         )}
                       </td>
                     </tr>

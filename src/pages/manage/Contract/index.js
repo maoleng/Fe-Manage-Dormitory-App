@@ -6,7 +6,16 @@ import MyNavbar from "~/components/MyNavbar";
 import MyTable from "~/components/MyTable";
 import MySidebar from "~/components/MySidebar";
 import { useStore, actions } from "~/store";
-import { useGetConfirmContracts, usePostPickRoom, useGetRooms, usePutBill, useGetFloors, useGetBuildings, useGetTypes } from "./hooks";
+import { 
+  useGetConfirmContracts, 
+  usePostPickRoom, 
+  useGetRooms, 
+  usePutBill, 
+  useGetFloors, 
+  useGetBuildings, 
+  useGetTypes,
+  useGetstudent
+} from "./hooks";
 import { CheckboxSVG, CheckboxTickSVG, CheckboxSelectedSVG } from "./svgs";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -24,7 +33,9 @@ function Contract() {
   const getFloors = useGetFloors();
   const getBuildings = useGetBuildings();
   const getTypes = useGetTypes();
+  const getstudent = useGetstudent();
 
+  const [student, setStudent] = useState(null);
   const [toast, setToast] = useState(null);
   const [roomIDCurr, setRoomIDCurr] = useState(false);
   const [room, setRoom] = useState(false);
@@ -88,6 +99,19 @@ function Contract() {
           // console.log(data);
           setToast('Cập nhật thanh toán thành công!');
           getConfirmContractsHandle();
+        }
+      }
+    )
+  }
+
+  function getstudentHandle(id) {
+    console.log(id);
+    getstudent.mutate(
+      { id },
+      {
+        onSuccess(data) {
+          console.log(data);
+          setStudent(data.data);
         }
       }
     )
@@ -430,6 +454,7 @@ function Contract() {
               forms={contracts.map(
                 ({
                   id,
+                  student_id,
                   student,
                   season,
                   room_id,
@@ -447,7 +472,12 @@ function Contract() {
                   },
                   name: {
                     title: "Họ và tên",
-                    content: student.name,
+                    content: (
+                      <span 
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => getstudentHandle(student_id)}
+                      >{student.name}</span>
+                    )
                   },
                   season: {
                     title: "Học kỳ",
@@ -1518,6 +1548,123 @@ function Contract() {
           <Toast.Body style={{ color: '#FFFFFF' }}>{toast}</Toast.Body>
         </Toast>
       </ToastContainer>
+
+      <Modal show={student !== null} size="lg">
+        <div
+          style={{
+            padding: '4px 12px',
+            backgroundColor: '#001A72',
+            color: '#FFFFFF',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}
+        >
+          <div>THÔNG TIN SINH VIÊN</div>
+
+          <svg style={{ width: '16px', height: '16px', cursor: 'pointer' }} onClick={() => setStudent(null)} viewBox="0 0 512.000000 512.000000">
+            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#FFFFFF" stroke="none">
+              <path d="M197 5106 c-84 -31 -152 -99 -183 -183 -7 -21 -13 -69 -13 -108 -1
+              -137 -66 -64 1087 -1217 l1037 -1038 -1041 -1042 c-1174 -1176 -1090 -1081
+              -1082 -1233 5 -91 27 -143 83 -200 57 -56 109 -78 200 -83 152 -8 57 -92 1233
+              1082 l1042 1041 1043 -1041 c1175 -1174 1080 -1090 1232 -1082 91 5 143 27
+              200 83 56 57 78 109 83 200 8 152 92 57 -1082 1233 l-1041 1042 1041 1043
+              c1174 1175 1090 1080 1082 1232 -5 91 -27 143 -83 200 -57 56 -109 78 -200 83
+              -152 8 -57 92 -1233 -1082 l-1042 -1041 -1038 1037 c-1153 1153 -1080 1088
+              -1217 1087 -38 0 -87 -6 -108 -13z"/>
+            </g>
+          </svg>
+        </div>
+        
+        {student && (
+          <div
+            style={{
+              padding: '12px',
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '20px'
+            }}
+          >
+            <div style={{ width: '360px' }}>
+              <div>Họ và tên</div>
+              <div style={{ padding: '8px', backgroundColor: '#EEEEEE' }}>{student.name}</div>
+            </div>
+            
+            <div style={{ width: '172px' }}>
+              <div>MSSV</div>
+              <div style={{ padding: '8px', backgroundColor: '#EEEEEE' }}>{student.student_card_id}</div>
+            </div>
+            
+            <div style={{ width: '172px' }}>
+              <div>Giới tính</div>
+              <div 
+                style={{ padding: '8px', backgroundColor: '#EEEEEE' }}
+              >{student.information.gender ? 'Nam' : 'Nữ'}</div>
+            </div>
+            
+            <div style={{ width: '172px' }}>
+              <div>Ngày sinh</div>
+              <div 
+                style={{ padding: '8px', backgroundColor: '#EEEEEE' }}
+              >{student.information.birthday}</div>
+            </div>
+            
+            <div style={{ width: '172px' }}>
+              <div>CMND/CCCD</div>
+              <div 
+                style={{ padding: '8px', backgroundColor: '#EEEEEE' }}
+              >{student.information.identify_card}</div>
+            </div>
+            
+            <div style={{ width: '172px' }}>
+              <div>Dân tộc</div>
+              <div 
+                style={{ padding: '8px', backgroundColor: '#EEEEEE' }}
+              >{student.information.ethnic}</div>
+            </div>
+            
+            <div style={{ width: '172px' }}>
+              <div>Tôn giáo</div>
+              <div 
+                style={{ padding: '8px', backgroundColor: '#EEEEEE' }}
+              >{student.information.religion}</div>
+            </div>
+            
+            <div style={{ width: '172px' }}>
+              <div>Khu vực</div>
+              <div 
+                style={{ padding: '8px', backgroundColor: '#EEEEEE' }}
+              >{student.information.area}</div>
+            </div>
+            
+            <div style={{ width: '172px' }}>
+              <div>Số điện thoại</div>
+              <div 
+                style={{ padding: '8px', backgroundColor: '#EEEEEE' }}
+              >{student.information.phone}</div>
+            </div>
+            
+            <div style={{ width: '100%' }}>
+              <div>Địa chỉ</div>
+              <div 
+                style={{ padding: '8px', backgroundColor: '#EEEEEE' }}
+              >{student.information.address}</div>
+            </div>
+            
+            <div style={{ width: '172px' }}>
+              <div>Phòng</div>
+              <div 
+                style={{ padding: '8px', backgroundColor: '#EEEEEE' }}
+              >{room}</div>
+            </div>
+            
+            <div style={{ width: '172px' }}>
+              <div>Tổng số lỗi học kì này</div>
+              <div style={{ padding: '8px', backgroundColor: '#EEEEEE' }}>{student.mistakes_count}</div>
+            </div>
+          </div>
+        )}
+      </Modal>
     </>
   );
 }

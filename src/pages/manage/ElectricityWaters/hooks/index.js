@@ -76,7 +76,6 @@ export const usePutBill = () => {
 
 export const usePostDownload = () => {
   const mutation = useMutation(async ({ body }) => {
-    console.log('body:', body);
     const { data } = await axios.post(
       process.env.REACT_APP_API_ENDPOINT + `/mng/subscription/download`,
       body,

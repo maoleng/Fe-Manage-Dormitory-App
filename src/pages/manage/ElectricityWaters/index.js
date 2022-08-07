@@ -24,6 +24,7 @@ function ElectricityWaters() {
   const putBill = usePutBill();
   const postDownload = usePostDownload();
 
+  const [isPrint, setIsPrint] = useState(false);
   const [toast, setToast] = useState(false);
   const [id, setId] = useState(null);
   const [printAll, setPrintAll] = useState(null);
@@ -160,12 +161,12 @@ function ElectricityWaters() {
     }
   }
 
-  const printAllTest = () => {
-    console.log(bills.map(({ subscription_id }) => subscription_id));
+  const printAllTest = (id) => {
+    setIsPrint(true);
     postDownload.mutate(
       { 
         body: {
-          subscription_ids: bills.map(({ subscription_id }) => subscription_id),
+          subscription_ids: id ? [id] : bills.map(({ subscription_id }) => subscription_id),
         },
       },
       {
@@ -177,6 +178,7 @@ function ElectricityWaters() {
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          setIsPrint(false);
         }
       }
     );
@@ -316,7 +318,7 @@ function ElectricityWaters() {
             }}
           >
             <div>
-              <Button style={{ width: '180px', }} onClick={printAllTest} variant="primary">
+              <Button style={{ width: '180px', }} onClick={() => printAllTest()} variant="primary">
                 <PrintSVG style={{ width: '18px', height: '20px' }} /> In tất cả hóa đơn
               </Button>
             </div>
@@ -533,7 +535,7 @@ function ElectricityWaters() {
                     </span>
                     <span 
                       style={{ margin: '0px 4px', cursor: 'pointer', }}
-                      onClick={() => downloadPDFHandle(subscription_id)}
+                      onClick={() => printAllTest(subscription_id)}
                     >
                       <DownLoadSVG style={{ width: '20px', height: '20px' }} />
                     </span>
@@ -776,6 +778,12 @@ function ElectricityWaters() {
           </div>
         </div>
       )}
+
+      <Modal show={isPrint}>
+        <div style={{ padding: '40px', textAlign: 'center', fontSize: '48px', fontWeight: 'bold' }}>
+          File đang được tải, xin đợi một lát...
+        </div>
+      </Modal>
       
       <ToastContainer position="bottom-end">
         <Toast bg="dark"  onClose={() => setToast(null)} show={toast !== null} delay={3000} autohide>

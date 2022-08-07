@@ -19,6 +19,24 @@ export const useGetMistakes = () => {
   return getMistakes;
 };
 
+export const useGetMistakeTypes = () => {
+  const mutate = useMutation(async () => {
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + '/mng/mistake/mistake_type', 
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return mutate;
+};
+
 export const useGetMistake = () => {
   const getMistake = useMutation(async ({ id }) => {
     const { data } = await axios.get(
