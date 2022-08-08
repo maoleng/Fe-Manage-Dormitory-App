@@ -159,12 +159,6 @@ function Contract() {
     );
   }
 
-  const showPickRoom = (id) => {
-    getRoomsHandle();
-    setPickRoomID(id);
-    setPickRoomModal(true);
-  };
-
   const pickRoomHandle = () => {
     postPickRoom.mutate(
       {
