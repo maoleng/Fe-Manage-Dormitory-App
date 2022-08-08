@@ -35,6 +35,7 @@ function Contract() {
   const getTypes = useGetTypes();
   const getstudent = useGetstudent();
 
+  const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState(null);
   const [toast, setToast] = useState(null);
   const [roomIDCurr, setRoomIDCurr] = useState(false);
@@ -138,6 +139,8 @@ function Contract() {
   };
 
   function getRoomsHandle() {
+    setLoading(true);
+
     const buildingID = search.buildings?.filter(({ selected }) => selected)[0];
     const floorID = search.floors?.filter(({ selected }) => selected)[0];
     const typeID = search.types?.filter(({ selected }) => selected)[0];
@@ -154,6 +157,7 @@ function Contract() {
         onSuccess(data) {
           console.log(data);
           setRooms(data.data);
+          setLoading(false);
         },
       }
     );
@@ -527,13 +531,17 @@ function Contract() {
                         }
                       >
                         {subscription.is_paid ? (
-                          <CheckboxTickSVG
-                            style={{ width: "16px", height: "16px" }}
-                          />
+                          <div>
+                            <CheckboxTickSVG
+                              style={{ width: "16px", height: "16px" }}
+                            /> Đã thanh toán
+                          </div>
                         ) : (
-                          <CheckboxSVG
-                            style={{ width: "16px", height: "16px" }}
-                          />
+                          <div>
+                            <CheckboxSVG
+                              style={{ width: "16px", height: "16px" }}
+                            /> Chưa thanh toán
+                          </div>
                         )}
                       </div>
                     ),
@@ -826,7 +834,7 @@ function Contract() {
                               <div
                                 className="Number_Des"
                                 style={{
-                                  border: " 4px solid #0B42AB",
+                                  border: roomIDCurr === elem.id ? "4px solid #35D66C" : "4px solid #0B42AB",
                                   padding: "4px",
                                 }}
                               >
@@ -845,7 +853,7 @@ function Contract() {
                                     fontSize: "20px",
                                     fontWeight: "700",
                                     textAlign: "center",
-                                    color: "#0B42AB",
+                                    color: roomIDCurr === elem.id ? "#35D66C" : "#0B42AB",
                                     marginBottom: "4px",
                                   }}
                                 >
@@ -858,37 +866,63 @@ function Contract() {
                                   margin: "8px auto",
                                   borderRadius: "4px",
                                   border: "none",
-                                  backgroundColor: "#0B42AB",
+                                  backgroundColor: roomIDCurr === elem.id ? "#35D66C" : "#0B42AB",
                                   color: "white",
 
                                   padding: "9px 13px",
                                 }}
                                 onClick={() => setRoomIDCurr(elem.id)}
                               >
-                                <svg
-                                  width="13"
-                                  height="13"
-                                  viewBox="0 0 13 13"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  style={{
-                                    marginRight: "4px",
-                                    display: "inline-block",
-                                    marginBottom: "4px",
-                                  }}
-                                >
-                                  <path
-                                    d="M6.6665 12.5C3.3528 12.5 0.666504 9.81371 0.666504 6.5C0.666504 3.18629 3.3528 0.5 6.6665 0.5C9.98021 0.5 12.6665 3.18629 12.6665 6.5C12.6629 9.8122 9.97871 12.4964 6.6665 12.5ZM6.6569 11.3H6.6665C9.31653 11.2973 11.463 9.14763 11.4617 6.4976C11.4604 3.84757 9.31173 1.7 6.6617 1.7C4.01167 1.7 1.86303 3.84757 1.8617 6.4976C1.86038 9.14763 4.00688 11.2973 6.6569 11.3ZM7.2665 9.5H6.0665V5.798L4.5125 7.346L3.6665 6.5L6.6665 3.5L9.6665 6.5L8.8205 7.346L7.2665 5.798V9.5Z"
-                                    fill="white"
-                                  />
-                                </svg>
-                                <span
-                                  style={{
-                                    fontWeight: "700",
-                                  }}
-                                >
-                                  CHỌN
-                                </span>
+                                {roomIDCurr === elem.id ? (
+                                  <>
+                                    <svg
+                                      style={{
+                                        width: '12px',
+                                        height: '9px',
+                                        marginRight: "4px",
+                                        display: "inline-block",
+                                        marginBottom: "4px",
+                                      }} 
+                                      viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M4.00027 9L0 5.0624L1.1427 3.9376L4.00148 6.74841L4.00027 6.7496L10.8573 0L12 1.1248L5.14297 7.8752L4.00108 8.99921L4.00027 9Z" fill="white"/>
+                                    </svg>
+
+                                    <span
+                                      style={{
+                                        fontWeight: "700",
+                                      }}
+                                    >
+                                      CHỌN
+                                    </span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <svg
+                                      width="13"
+                                      height="13"
+                                      viewBox="0 0 13 13"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      style={{
+                                        marginRight: "4px",
+                                        display: "inline-block",
+                                        marginBottom: "4px",
+                                      }}
+                                    >
+                                      <path
+                                        d="M6.6665 12.5C3.3528 12.5 0.666504 9.81371 0.666504 6.5C0.666504 3.18629 3.3528 0.5 6.6665 0.5C9.98021 0.5 12.6665 3.18629 12.6665 6.5C12.6629 9.8122 9.97871 12.4964 6.6665 12.5ZM6.6569 11.3H6.6665C9.31653 11.2973 11.463 9.14763 11.4617 6.4976C11.4604 3.84757 9.31173 1.7 6.6617 1.7C4.01167 1.7 1.86303 3.84757 1.8617 6.4976C1.86038 9.14763 4.00688 11.2973 6.6569 11.3ZM7.2665 9.5H6.0665V5.798L4.5125 7.346L3.6665 6.5L6.6665 3.5L9.6665 6.5L8.8205 7.346L7.2665 5.798V9.5Z"
+                                        fill="white"
+                                      />
+                                    </svg>
+                                    <span
+                                      style={{
+                                        fontWeight: "700",
+                                      }}
+                                    >
+                                      CHỌN
+                                    </span>
+                                  </>
+                                )}
                               </button>
                             </div>
                           ) : (
@@ -1066,7 +1100,7 @@ function Contract() {
                               <div
                                 className="Number_Des"
                                 style={{
-                                  border: " 4px solid #0B42AB",
+                                  border: roomIDCurr === elem.id ? "4px solid #35D66C" : "4px solid #0B42AB",
                                   padding: "4px",
                                 }}
                               >
@@ -1085,7 +1119,7 @@ function Contract() {
                                     fontSize: "20px",
                                     fontWeight: "700",
                                     textAlign: "center",
-                                    color: "#0B42AB",
+                                    color: roomIDCurr === elem.id ? "#35D66C" : "#0B42AB",
                                     marginBottom: "4px",
                                   }}
                                 >
@@ -1098,37 +1132,62 @@ function Contract() {
                                   margin: "8px auto",
                                   borderRadius: "4px",
                                   border: "none",
-                                  backgroundColor: "#0B42AB",
+                                  backgroundColor: roomIDCurr === elem.id ? "#35D66C" : "#0B42AB",
                                   color: "white",
-
                                   padding: "9px 13px",
                                 }}
                                 onClick={() => setRoomIDCurr(elem.id)}
                               >
-                                <svg
-                                  width="13"
-                                  height="13"
-                                  viewBox="0 0 13 13"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  style={{
-                                    marginRight: "4px",
-                                    display: "inline-block",
-                                    marginBottom: "4px",
-                                  }}
-                                >
-                                  <path
-                                    d="M6.6665 12.5C3.3528 12.5 0.666504 9.81371 0.666504 6.5C0.666504 3.18629 3.3528 0.5 6.6665 0.5C9.98021 0.5 12.6665 3.18629 12.6665 6.5C12.6629 9.8122 9.97871 12.4964 6.6665 12.5ZM6.6569 11.3H6.6665C9.31653 11.2973 11.463 9.14763 11.4617 6.4976C11.4604 3.84757 9.31173 1.7 6.6617 1.7C4.01167 1.7 1.86303 3.84757 1.8617 6.4976C1.86038 9.14763 4.00688 11.2973 6.6569 11.3ZM7.2665 9.5H6.0665V5.798L4.5125 7.346L3.6665 6.5L6.6665 3.5L9.6665 6.5L8.8205 7.346L7.2665 5.798V9.5Z"
-                                    fill="white"
-                                  />
-                                </svg>
-                                <span
-                                  style={{
-                                    fontWeight: "700",
-                                  }}
-                                >
-                                  CHỌN
-                                </span>
+                                {roomIDCurr === elem.id ? (
+                                  <>
+                                    <svg
+                                      style={{
+                                        width: '12px',
+                                        height: '9px',
+                                        marginRight: "4px",
+                                        display: "inline-block",
+                                        marginBottom: "4px",
+                                      }} 
+                                      viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M4.00027 9L0 5.0624L1.1427 3.9376L4.00148 6.74841L4.00027 6.7496L10.8573 0L12 1.1248L5.14297 7.8752L4.00108 8.99921L4.00027 9Z" fill="white"/>
+                                    </svg>
+
+                                    <span
+                                      style={{
+                                        fontWeight: "700",
+                                      }}
+                                    >
+                                      CHỌN
+                                    </span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <svg
+                                      width="13"
+                                      height="13"
+                                      viewBox="0 0 13 13"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      style={{
+                                        marginRight: "4px",
+                                        display: "inline-block",
+                                        marginBottom: "4px",
+                                      }}
+                                    >
+                                      <path
+                                        d="M6.6665 12.5C3.3528 12.5 0.666504 9.81371 0.666504 6.5C0.666504 3.18629 3.3528 0.5 6.6665 0.5C9.98021 0.5 12.6665 3.18629 12.6665 6.5C12.6629 9.8122 9.97871 12.4964 6.6665 12.5ZM6.6569 11.3H6.6665C9.31653 11.2973 11.463 9.14763 11.4617 6.4976C11.4604 3.84757 9.31173 1.7 6.6617 1.7C4.01167 1.7 1.86303 3.84757 1.8617 6.4976C1.86038 9.14763 4.00688 11.2973 6.6569 11.3ZM7.2665 9.5H6.0665V5.798L4.5125 7.346L3.6665 6.5L6.6665 3.5L9.6665 6.5L8.8205 7.346L7.2665 5.798V9.5Z"
+                                        fill="white"
+                                      />
+                                    </svg>
+                                    <span
+                                      style={{
+                                        fontWeight: "700",
+                                      }}
+                                    >
+                                      CHỌN
+                                    </span>
+                                  </>
+                                )}
                               </button>
                             </div>
                           ) : (
@@ -1306,7 +1365,7 @@ function Contract() {
                               <div
                                 className="Number_Des"
                                 style={{
-                                  border: " 4px solid #0B42AB",
+                                  border: roomIDCurr === elem.id ? "4px solid #35D66C" : "4px solid #0B42AB",
                                   padding: "4px",
                                 }}
                               >
@@ -1325,7 +1384,7 @@ function Contract() {
                                     fontSize: "20px",
                                     fontWeight: "700",
                                     textAlign: "center",
-                                    color: "#0B42AB",
+                                    color: roomIDCurr === elem.id ? "#35D66C" : "#0B42AB",
                                     marginBottom: "4px",
                                   }}
                                 >
@@ -1338,37 +1397,62 @@ function Contract() {
                                   margin: "8px auto",
                                   borderRadius: "4px",
                                   border: "none",
-                                  backgroundColor: "#0B42AB",
+                                  backgroundColor: roomIDCurr === elem.id ? "#35D66C" : "#0B42AB",
                                   color: "white",
-
                                   padding: "9px 13px",
                                 }}
                                 onClick={() => setRoomIDCurr(elem.id)}
                               >
-                                <svg
-                                  width="13"
-                                  height="13"
-                                  viewBox="0 0 13 13"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  style={{
-                                    marginRight: "4px",
-                                    display: "inline-block",
-                                    marginBottom: "4px",
-                                  }}
-                                >
-                                  <path
-                                    d="M6.6665 12.5C3.3528 12.5 0.666504 9.81371 0.666504 6.5C0.666504 3.18629 3.3528 0.5 6.6665 0.5C9.98021 0.5 12.6665 3.18629 12.6665 6.5C12.6629 9.8122 9.97871 12.4964 6.6665 12.5ZM6.6569 11.3H6.6665C9.31653 11.2973 11.463 9.14763 11.4617 6.4976C11.4604 3.84757 9.31173 1.7 6.6617 1.7C4.01167 1.7 1.86303 3.84757 1.8617 6.4976C1.86038 9.14763 4.00688 11.2973 6.6569 11.3ZM7.2665 9.5H6.0665V5.798L4.5125 7.346L3.6665 6.5L6.6665 3.5L9.6665 6.5L8.8205 7.346L7.2665 5.798V9.5Z"
-                                    fill="white"
-                                  />
-                                </svg>
-                                <span
-                                  style={{
-                                    fontWeight: "700",
-                                  }}
-                                >
-                                  CHỌN
-                                </span>
+                                {roomIDCurr === elem.id ? (
+                                  <>
+                                    <svg
+                                      style={{
+                                        width: '12px',
+                                        height: '9px',
+                                        marginRight: "4px",
+                                        display: "inline-block",
+                                        marginBottom: "4px",
+                                      }} 
+                                      viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M4.00027 9L0 5.0624L1.1427 3.9376L4.00148 6.74841L4.00027 6.7496L10.8573 0L12 1.1248L5.14297 7.8752L4.00108 8.99921L4.00027 9Z" fill="white"/>
+                                    </svg>
+
+                                    <span
+                                      style={{
+                                        fontWeight: "700",
+                                      }}
+                                    >
+                                      CHỌN
+                                    </span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <svg
+                                      width="13"
+                                      height="13"
+                                      viewBox="0 0 13 13"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      style={{
+                                        marginRight: "4px",
+                                        display: "inline-block",
+                                        marginBottom: "4px",
+                                      }}
+                                    >
+                                      <path
+                                        d="M6.6665 12.5C3.3528 12.5 0.666504 9.81371 0.666504 6.5C0.666504 3.18629 3.3528 0.5 6.6665 0.5C9.98021 0.5 12.6665 3.18629 12.6665 6.5C12.6629 9.8122 9.97871 12.4964 6.6665 12.5ZM6.6569 11.3H6.6665C9.31653 11.2973 11.463 9.14763 11.4617 6.4976C11.4604 3.84757 9.31173 1.7 6.6617 1.7C4.01167 1.7 1.86303 3.84757 1.8617 6.4976C1.86038 9.14763 4.00688 11.2973 6.6569 11.3ZM7.2665 9.5H6.0665V5.798L4.5125 7.346L3.6665 6.5L6.6665 3.5L9.6665 6.5L8.8205 7.346L7.2665 5.798V9.5Z"
+                                        fill="white"
+                                      />
+                                    </svg>
+                                    <span
+                                      style={{
+                                        fontWeight: "700",
+                                      }}
+                                    >
+                                      CHỌN
+                                    </span>
+                                  </>
+                                )}
                               </button>
                             </div>
                           ) : (
@@ -1417,7 +1501,6 @@ function Contract() {
                                   padding: "9px 7px",
                                   cursor: "default",
                                 }}
-                                onClick={() => pickRoomHandle(elem.id)}
                               >
                                 <svg
                                   width="13"
@@ -1691,6 +1774,41 @@ function Contract() {
           </div>
         )}
       </Modal>
+
+      <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: '#00000040',
+          position: 'fixed',
+          top: '0px',
+          left: '0px',
+          zIndex: '9999999999999999999999'
+        }}
+        hidden={!loading}
+      >
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <svg style={{ width: '100px', height: '100px', animation: 'rotation 1s linear infinite' }} viewBox="0 0 512.000000 512.000000">
+            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+              <path d="M2496 4690 c-136 -41 -197 -208 -119 -327 48 -75 112 -103 233 -103
+              92 0 253 -23 359 -50 490 -125 896 -454 1117 -905 320 -655 190 -1429 -326
+              -1945 -525 -526 -1325 -650 -1979 -309 -854 446 -1172 1495 -706 2334 83 149
+              91 219 33 313 -42 69 -155 107 -245 81 -76 -21 -119 -73 -210 -255 -303 -607
+              -308 -1298 -14 -1899 215 -439 550 -774 986 -985 159 -78 264 -117 415 -154
+              488 -119 992 -69 1435 143 447 214 789 553 1006 996 393 804 244 1756 -378
+              2416 -283 299 -704 531 -1116 613 -194 39 -424 56 -491 36z"/>
+            </g>
+          </svg>
+        </div>
+      </div>
     </>
   );
 }
