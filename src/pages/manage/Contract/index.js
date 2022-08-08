@@ -86,11 +86,6 @@ function Contract() {
     setRoom(rooms.find((elem) => elem.id === id));
   };
 
-  const hideRoomDetail = () => {
-    setRoomDetailModal(false);
-    setRoom(null);
-  };
-
   const showPickRoom = (id) => {
     getRooms.mutate(
       {},
