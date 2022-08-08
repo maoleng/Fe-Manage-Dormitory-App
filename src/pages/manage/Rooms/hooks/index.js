@@ -1,6 +1,24 @@
 import axios from "axios";
 import { useMutation } from "react-query";
 
+export const useGetTypes = () => {
+  const mutation = useMutation(async () => {
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + '/mng/detail', 
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return mutation;
+}
+
 export const useGetBuildings = () => {
   const mutation = useMutation(async () => {
     const { data } = await axios.get(
@@ -37,98 +55,37 @@ export const useGetFloors = () => {
   return mutation;
 }
 
-export const useGetYears = () => {
-  const mutation = useMutation(async () => {
-    const { data } = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + '/mng/subscription/year_range/hop_dong', 
-      {
-        'headers': {
-          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-
-    return data;
-  });
-
-  return mutation;
-}
-
-export const usePutBill = () => {
-  const mutation = useMutation(async ({ body, id }) => {
-    const { data } = await axios.put(
-      process.env.REACT_APP_API_ENDPOINT + `/mng/subscription/${id}`,
-      body,
-      {
-        'headers': {
-          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-
-    return data;
-  });
-
-  return mutation;
-}
-
-export const usePostDownload = () => {
-  const mutation = useMutation(async ({ body }) => {
-    const { data } = await axios.post(
-      process.env.REACT_APP_API_ENDPOINT + `/mng/subscription/download`,
-      body,
-      {
-        'headers': {
-          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        'redirect': 'follow', // manual, *follow, error
-        'referrerPolicy': 'no-referrer',
-        'mode': 'cors', // no-cors, *cors, same-origin
-        'cache': 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        'credentials': 'same-origin',
-        'responseType': 'blob'
-      }
-    );
-
-    return data;
-  });
-
-  return mutation;
-}
-
-export const useGetElectricityWater = () => {
-  const mutation = useMutation(async ({ id }) => {
-    const { data } = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/mng/electricity_water/${id}`, 
-      {
-        'headers': {
-          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-
-    return data;
-  });
-
-  return mutation;
-};
-
-export const useGetElectricityWaters = () => {
-  const mutation = useMutation(async ({ buildingID, floorID, year, month, isPaid }) => {
+export const useGetRooms = () => {
+  const mutate = useMutation(async ({ buildingID, floorID, detailID, status }) => {
     const params = [
       ...(buildingID === undefined ? [] : [`building_id=${buildingID}`]), 
       ...(floorID === undefined ? [] : [`floor_id=${floorID}`]), 
-      ...(year === undefined ? [] : [`year=${year}`]), 
-      ...(month === undefined ? [] : [`month=${month}`]), 
-      ...(isPaid === undefined ? [] : [`is_paid=${isPaid}`]), 
+      ...(detailID === undefined ? [] : [`detail_id=${detailID}`]), 
+      ...(status === undefined ? [] : [`status=${status}`]), 
     ].join('&');
 
+    console.log(process.env.REACT_APP_API_ENDPOINT + `/mng/room${params && `?${params}`}`);
+
     const { data } = await axios.get(
-      process.env.REACT_APP_API_ENDPOINT + `/mng/electricity_water${params && `?${params}`}`, 
+      process.env.REACT_APP_API_ENDPOINT + `/mng/room${params && `?${params}`}`,
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return mutate;
+};
+
+export const useGetstudents = () => {
+  const mutation = useMutation(async ({ id }) => {
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + `/mng/student?room_id=${id}`, 
       {
         'headers': {
           'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
@@ -141,4 +98,41 @@ export const useGetElectricityWaters = () => {
   });
 
   return mutation;
-};
+}
+
+export const useGetstudent = () => {
+  const mutation = useMutation(async ({ id }) => {
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + `/mng/student/${id}`, 
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return mutation;
+}
+
+export const usePutstudent = () => {
+  const mutation = useMutation(async ({ body, id }) => {
+    const { data } = await axios.put(
+      process.env.REACT_APP_API_ENDPOINT + `/mng/student/${id}`, 
+      body,
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return mutation;
+}

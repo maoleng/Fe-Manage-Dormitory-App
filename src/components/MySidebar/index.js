@@ -14,6 +14,11 @@ const sideManage = [
     title: 'Hợp đồng'
   },
   {
+    url: '/phong',
+    icon: '/imgs/icons/hop-dong-icon.png',
+    title: 'Phòng'
+  },
+  {
     url: '/vi-pham',
     icon: '/imgs/icons/vi-pham-icon.png',
     title: 'Vi phạm'
@@ -33,6 +38,11 @@ const sideManage = [
     icon: '/imgs/icons/hop-dong-icon.png',
     title: 'Bài đăng'
   },
+  {
+    url: '/diem-danh',
+    icon: '/imgs/icons/hop-dong-icon.png',
+    title: 'Điểm danh'
+  }
 ];
 
 const sideStudent = [

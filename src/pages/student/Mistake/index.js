@@ -106,17 +106,10 @@ function Mistake() {
               is_fix_mistake: {
                 title: 'Sửa lỗi',
                 center: 'true',
-                content: is_fix_mistake
-                ? (
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
-                    <CheckboxTickSVG style={{ width: '16px', height: '16px' }} /> 
-                    Đã sửa lỗi
-                  </div>
-                )
-                : (
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
-                    <CheckboxSVG style={{ width: '16px', height: '16px' }} /> 
-                    Chưa sửa lỗi
+                content: (
+                  <div style={{ textAlign: 'center' }}>{is_fix_mistake
+                    ? 'Đã sửa lỗi'
+                    : 'Chưa sửa lỗi'}
                   </div>
                 )
               },

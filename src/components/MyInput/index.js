@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function MyInput({ style, type, name, placeholder, spl, initValue, disabled }) {
+function MyInput({ style, type, name, placeholder, spl, initValue, disabled, hidden }) {
   console.log('Component: MyInput');
 
   const [value, setValue] = useState(initValue || ''); 
@@ -16,6 +16,7 @@ function MyInput({ style, type, name, placeholder, spl, initValue, disabled }) {
       value={value}
       onFocus={() => setFocus(true)}
       onBlur={() => setFocus(false)}
+      hidden={hidden}
     />
   ) : (
     <input 
@@ -26,6 +27,7 @@ function MyInput({ style, type, name, placeholder, spl, initValue, disabled }) {
       onChange={e => setValue(e.target.value)}
       value={value}
       disabled={disabled}
+      hidden={hidden}
     />
   );
 }

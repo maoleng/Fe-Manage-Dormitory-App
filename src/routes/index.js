@@ -10,11 +10,13 @@ import Login from '~/pages/site/Login';
 import MngRegisterForm from '~/pages/manage/RegisterForm';
 import MngContract from '~/pages/manage/Contract';
 import MngMistake from '~/pages/manage/Mistake';
+import MngAttendance from '~/pages/manage/Attendance';
 import MngForm from '~/pages/manage/Form';
 import MngPost from '~/pages/manage/Post';
 import MngPostCreate from '~/pages/manage/PostCreate';
 import MngPostUpdate from '~/pages/manage/PostUpdate';
 import MngElectricityWaters from '~/pages/manage/ElectricityWaters';
+import MngRooms from '~/pages/manage/Rooms';
 import StdContract from '~/pages/student/Contract';
 import StdMistake from '~/pages/student/Mistake';
 import StdForm from '~/pages/student/Form';
@@ -73,6 +75,10 @@ export const routes = [
     'Component': MngMistake
   },
   { 
+    'path': '/quan-ly/diem-danh',
+    'Component': MngAttendance
+  },
+  { 
     'path': '/quan-ly/don-khieu-nai',
     'Component': MngForm
   },
@@ -91,6 +97,10 @@ export const routes = [
   { 
     'path': '/quan-ly/hoa-don-dien-nuoc',
     'Component': MngElectricityWaters
+  },
+  { 
+    'path': '/quan-ly/phong',
+    'Component': MngRooms
   },
   { 
     'path': '/sinh-vien/hop-dong',
