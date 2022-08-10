@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import { Toast, ToastContainer } from 'react-bootstrap';
 
 import { useStore, actions } from '~/store';
@@ -9,11 +10,14 @@ import MySidebar from '~/components/MySidebar';
 import MyTable from '~/components/MyTable';
 
 function Mistake() {
-  console.log('Page: Mistake');
+  // console.log('Page: Mistake');
 
   const [state, dispatch] = useStore();
   const getMistakes = useGetMistakes();
   const putRegister = usePutRegister();
+  const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);

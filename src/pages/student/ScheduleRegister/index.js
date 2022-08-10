@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Button, Modal } from 'react-bootstrap';
 
@@ -23,9 +22,7 @@ function weekdayMapping(en) {
 }
 
 function ScheduleRegister() {
-  console.log('Page: Schedule');
-  
-  const studentID = (window.localStorage.getItem("token") || "") && jwt_decode((window.localStorage.getItem("token") || "")).student_card_id;
+  // console.log('Page: Schedule');
 
   const [state, dispatch] = useStore();
   const getSchedules = useGetSchedules();
@@ -33,12 +30,13 @@ function ScheduleRegister() {
   const postSchedules = usePostSchedules();
   const navigate = useNavigate();
 
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
+  if ((new Date()).getDay() !== 0) navigate('/sinh-vien/lich-truc');
+
   const [confirmModal, setConfirmModal] = useState(false);
   const [available, setAvailable] = useState([]);
   const [scheduleIDs, setScheduleIDs] = useState([]);
   const [schedules, setSchedules] = useState(null);
-
-  console.log(scheduleIDs);
 
   const addScheduleIDsHandle = (id) => {
     if (scheduleIDs.includes(id)) {

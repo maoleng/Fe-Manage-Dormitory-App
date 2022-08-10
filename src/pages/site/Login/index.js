@@ -1,20 +1,24 @@
 import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
+import { LoadingSVG } from '~/svg';
 import MyInput from '~/components/MyInput';
 import { useLogin } from './hooks';
 
 function Login() {
   console.log('Page: Login');
 
-  const [role, setRole] = useState(null);
-  const [roleTmp, setRoleTmp] = useState(null);
-
   const navigate = useNavigate();
   const login = useLogin();
 
+  const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState(null);
+  const [roleTmp, setRoleTmp] = useState(null);
+
   function submitLogin(e) {
     e.preventDefault();
+
+    setLoading(true);
 
     const loginForm = new FormData(e.target);
     const username = loginForm.get('username');
@@ -27,6 +31,7 @@ function Login() {
       },
       {
         onSuccess(data) {
+          setLoading(false);
           if (data.status) {
             window.localStorage.setItem('token', data.token);
             window.localStorage.setItem('role', data.role);
@@ -259,6 +264,31 @@ function Login() {
           </button>
         </div>
       )}
+
+      <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: '#00000040',
+          position: 'fixed',
+          top: '0px',
+          left: '0px',
+          zIndex: '99999'
+        }}
+        hidden={!loading}
+      >
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <LoadingSVG style={{ width: '100px', height: '100px', animation: 'rotation 1s linear infinite' }} />
+        </div>
+      </div>
     </>
   );
 }

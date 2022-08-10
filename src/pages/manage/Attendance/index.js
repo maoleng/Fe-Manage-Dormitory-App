@@ -1,4 +1,5 @@
 import { useState, useEffect, forwardRef } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import { Dropdown } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,6 +21,9 @@ function Attendance() {
   const getFloors = useGetFloors();
   const getBuildings = useGetBuildings();
   const getAttendance = useGetAttendance();
+  const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const [loading, setLoading] = useState(false);
   const [roomCurr, setRoomCurr] = useState(null);

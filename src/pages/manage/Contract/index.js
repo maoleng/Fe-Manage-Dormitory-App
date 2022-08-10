@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Table, Modal, Toast, ToastContainer } from "react-bootstrap";
 
 import CustomToggle from './CustomToggle';
@@ -22,10 +23,19 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
+
+function termMapping(code) {
+  switch (code) {
+    case 'ss1': return 'Học kỳ 1'
+    case 'ss2': return 'Học kỳ 2'
+    case '2ss': return 'Cả 2 học kỳ'
+    case 'summer': return 'Học kỳ hè'
+    default: return ''
+  }
+}
 
 function Contract() {
-  console.log("Page: Contract");
+  // console.log("Page: Contract");
 
   const putBill = usePutBill();
   const getConfirmContracts = useGetConfirmContracts();
@@ -36,6 +46,9 @@ function Contract() {
   const getTypes = useGetTypes();
   const getstudent = useGetstudent();
   const getContract = useGetContract();
+  const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState(null);
@@ -90,12 +103,14 @@ function Contract() {
   };
 
   function getContractHandle(id) {
+    setLoading(true);
     getContract.mutate(
       { id },
       {
         onSuccess(data) {
           console.log('getContract:', data);
           setContract(data.data);
+          setLoading(false);
         }
       }
     )
@@ -116,6 +131,7 @@ function Contract() {
   };
 
   const putBillHandle = (id, isPaid) => {
+    setLoading(true);
     putBill.mutate(
       {
         body: {
@@ -128,19 +144,22 @@ function Contract() {
           // console.log(data);
           setToast("Cập nhật thanh toán thành công!");
           getConfirmContractsHandle();
+          setLoading(false);
         },
       }
     );
   };
 
   function getstudentHandle(id) {
-    console.log(id);
+    setLoading(true);
+    // console.log(id);
     getstudent.mutate(
       { id },
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           setStudent(data.data);
+          setLoading(false);
         }
       }
     )
@@ -166,7 +185,7 @@ function Contract() {
       },
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           setRooms(data.data);
           setLoading(false);
         },
@@ -454,7 +473,7 @@ function Contract() {
                   },
                   season: {
                     title: "Học kỳ",
-                    content: season,
+                    content: termMapping(season),
                   },
                   room: {
                     title: "Phòng",

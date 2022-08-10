@@ -48,6 +48,7 @@ function Introduction() {
   return (
     <>
       <MyNavbar isSite={true}></MyNavbar>
+      
       <div className="container_intro" style={{ margin: "42px 81.5px" }}>
         <div className="heading_place" style={{ margin: "10px 0" }}>
           <h2

@@ -3,7 +3,7 @@ import React from 'react';
 import { Pagination } from "react-bootstrap";
 
 function MyPagination({ page, setPage, pages }) {
-  console.log('Component: MyPagination');
+  // console.log('Component: MyPagination');
 
   let pagesWrap = (!page) ? [0] : (page > 1 ? [page - 2, page - 1, page] : [page - 1, page]);
   if (pagesWrap[pagesWrap.length - 1] + 2 <= pages.length) {

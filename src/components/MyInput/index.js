@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 function MyInput({ style, type, name, placeholder, spl, initValue, disabled, hidden }) {
-  console.log('Component: MyInput');
+  // console.log('Component: MyInput');
 
   const [value, setValue] = useState(initValue || ''); 
   const [focus, setFocus] = useState(false);

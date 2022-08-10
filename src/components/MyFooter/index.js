@@ -1,7 +1,7 @@
 import React from 'react';
 
 function MyFooter() {
-  console.log('Component: MyFooter');
+  // console.log('Component: MyFooter');
 
   return (
     <footer 

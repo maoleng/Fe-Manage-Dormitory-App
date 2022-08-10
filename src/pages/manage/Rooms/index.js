@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, Modal } from 'react-bootstrap';
 
 import CustomToggle from './CustomToggle';
@@ -18,7 +19,7 @@ import {
 import { EyeSVG, CheckboxSVG, CheckboxSelectedSVG, ArrowDownSVG } from './svgs';
 
 function Rooms() {
-  console.log('Page: Rooms');
+  // console.log('Page: Rooms');
 
   const [state, dispatch] = useStore();
   const getRooms = useGetRooms();
@@ -28,6 +29,9 @@ function Rooms() {
   const getstudents = useGetstudents();
   const getstudent = useGetstudent();
   const putstudent = usePutstudent();
+  const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState(null);
@@ -54,6 +58,7 @@ function Rooms() {
   });
 
   function putstudentHandle(id, role) {
+    setLoading(true);
     putstudent.mutate(
       {
         body: {
@@ -63,33 +68,37 @@ function Rooms() {
       },
       {
         onSuccess(data) {
-          
+          setLoading(false);
         }
       }
     )
   }
 
   function getstudentHandle(id) {
-    console.log(id);
+    setLoading(true);
+    // console.log(id);
     getstudent.mutate(
       { id },
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           setStudent(data.data);
+          setLoading(false);
         }
       }
     )
   }
 
   function getstudentsHandle(id, roomName) {
+    setLoading(true);
     getstudents.mutate(
       { id },
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           setRoom(roomName);
           setStudents(data.data);
+          setLoading(false);
         }
       }
     )
@@ -110,7 +119,7 @@ function Rooms() {
       },
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           setRooms(data.data);
           setLoading(false);
         },

@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import jwt_decode from "jwt-decode";
 
+import { MenuSVG } from '~/svg'
+
 const paths = [
   {
     title: 'TRANG CHỦ',
@@ -35,7 +37,7 @@ const paths = [
 ];
 
 function MyNavbar({ isSite }) {
-  console.log("Component: MyNavbar");
+  // console.log("Component: MyNavbar");
 
   const [token, setToken] = useState("");
   if ((window.localStorage.getItem("token") || "") !== token) {
@@ -43,6 +45,8 @@ function MyNavbar({ isSite }) {
   }
   const [navBarTop, setNavBarTop] = useState("0px");
   const [collapseShow, setCollapseShow] = useState(false);
+  const [pageWidth, setPageWidth] = useState(window.innerWidth);
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const user = token && jwt_decode(token);
   const role = window.localStorage.getItem("role") || "";
@@ -53,6 +57,7 @@ function MyNavbar({ isSite }) {
 
   function signOut() {
     window.localStorage.removeItem('token');
+    window.localStorage.removeItem('role');
     navigate('/', { replace: true });
   }
 
@@ -69,6 +74,10 @@ function MyNavbar({ isSite }) {
 
           prevScrollpos = currentScrollPos;
         };
+
+    window.onresize = () => {
+      setPageWidth(window.innerWidth)
+    }
   }, [collapseShow]);
 
   return (
@@ -115,24 +124,31 @@ function MyNavbar({ isSite }) {
                   justifyContent: "flex-start",
                 }}
               >
-                {paths.map(({ title, href }, index) => (
-                  <Link
-                    style={{
-                      padding: "4px 8px",
-                      borderBottom:
-                        href.slice(1) === pathCurr
-                          ? "solid #0B42AB 2px"
-                          : "none",
-                      fontWeight: "bold",
-                      color: href.slice(1) === pathCurr ? "#0B42AB" : "#000000",
-                    }}
-                    className="nav-link"
-                    to={href}
-                    key={index}
-                  >
-                    {title}
-                  </Link>
-                ))}
+                {pageWidth < 1000
+                  ? (
+                    <div style={{ cursor: 'pointer' }} onClick={() => setIsOpenMenu(true)}>
+                      <MenuSVG style={{ width: '24px', height: '24px' }} />
+                    </div>
+                  )
+                  : paths.map(({ title, href }, index) => (
+                    <Link
+                      style={{
+                        padding: "4px 8px",
+                        borderBottom:
+                          href.slice(1) === pathCurr
+                            ? "solid #0B42AB 2px"
+                            : "none",
+                        fontWeight: "bold",
+                        color: href.slice(1) === pathCurr ? "#0B42AB" : "#000000",
+                      }}
+                      className="nav-link"
+                      to={href}
+                      key={index}
+                    >
+                      {title}
+                    </Link>
+                  )
+                )}
               </div>
             </div>
             <div>
@@ -228,6 +244,47 @@ function MyNavbar({ isSite }) {
               <Dropdown.Item onClick={signOut}>Đăng xuất</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
+        </div>
+      )}
+
+      {isOpenMenu && (
+        <div 
+          style={{ 
+            width: '100vw', 
+            height: '100vh',
+            backgroundColor: '#FFFFFF',
+            position: 'fixed',
+            top: '0px',
+            left: '0px',
+            zIndex: '9999'
+          }}
+        >
+          <div style={{ padding: '0px 20px', display: 'flex', justifyContent: 'flex-end'}}>
+            <div style={{ fontSize: '40px', cursor: 'pointer' }} onClick={() => setIsOpenMenu(false)}>
+              X
+            </div>
+          </div>
+
+          {paths.map(({ title, href }, index) => (
+            <div key={index}>
+              <Link
+                style={{
+                  width: '100%',
+                  padding: "4px 8px",
+                  // borderBottom:
+                  //   href.slice(1) === pathCurr
+                  //     ? "solid #0B42AB 2px"
+                  //     : "none",
+                  fontWeight: "bold",
+                  color: href.slice(1) === pathCurr ? "#0B42AB" : "#000000",
+                }}
+                className="nav-link"
+                to={href}
+              >
+                {title}
+              </Link>
+            </div>
+          ))}
         </div>
       )}
     </div>
