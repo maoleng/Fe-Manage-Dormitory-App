@@ -6,10 +6,9 @@ import { useStore, actions } from "~/store";
 import MyNavbar from "~/components/MyNavbar";
 import MyTable from "~/components/MyTable";
 import MySidebar from "~/components/MySidebar";
-import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { useGetContracts, usePostConfirmContracts } from "./hooks";
+import { useGetContracts, usePostConfirmContracts, useDenyContract, useGetContract } from "./hooks";
 
 function Contract() {
   console.log("Page: Contract");
@@ -21,6 +20,8 @@ function Contract() {
 
   const getContracts = useGetContracts();
   const postConfirmContracts = usePostConfirmContracts();
+  const denyContract = useDenyContract();
+  const getContract = useGetContract();
 
   function submitConfirmContracts(id) {
     postConfirmContracts.mutate(
@@ -34,23 +35,48 @@ function Contract() {
     );
   }
 
-  function submitAvoidContracts(id) {
+  function getContractHandle(id) {
+    getContract.mutate(
+      { id },
+      {
+        onSuccess(data) {
+          console.log('getContract:', data);
+          setContract(data.data);
+        }
+      }
+    )
+  }
 
+  function submitAvoidContracts(id) {
+    denyContract.mutate(
+      { id },
+      {
+        onSuccess(data) {
+          getContractsHandle();
+          setConfirmModal(false);
+        }
+      }
+    )
   }
 
   const showConfirmModalHandle = (id, name, content) => {
     setConfirmModal({ id, name, content });
   }
 
-  useEffect(() => {
+  function getContractsHandle() {
     getContracts.mutate(
       {},
       {
         onSuccess(data) {
+          console.log('getContracts:', data);
           setContracts(data.data);
         },
       }
     );
+  }
+
+  useEffect(() => {
+    getContractsHandle();
   }, []);
 
   return (
@@ -110,11 +136,11 @@ function Contract() {
                   <tbody>
                     <tr>
                       <td style={{ fontWeight: "bold" }}>MSSV</td>
-                      <td></td>
+                      <td>{contract.student_card_id}</td>
                     </tr>
                     <tr>
                       <td style={{ fontWeight: "bold" }}>Họ và tên</td>
-                      <td></td>
+                      <td>{contract.name}</td>
                     </tr>
                     <tr>
                       <td style={{ fontWeight: "bold" }}>Khu vực đối tượng</td>
@@ -122,11 +148,27 @@ function Contract() {
                     </tr>
                     <tr>
                       <td style={{ fontWeight: "bold" }}>Thời gian nộp đơn</td>
-                      <td></td>
+                      <td>{contract.start_date}</td>
                     </tr>
                     <tr>
                       <td style={{ fontWeight: "bold" }}>Trạng thái</td>
+                      <td>{contract.is_accept ? 'Đã hủy' : 'Chưa duyệt'}</td>
+                    </tr>
+                    <tr>
+                      <td style={{ fontWeight: "bold" }}>Học kỳ đăng ký</td>
+                      <td>{contract.season}</td>
+                    </tr>
+                    <tr>
+                      <td style={{ fontWeight: "bold" }}>Vai trò sinh viên</td>
+                      <td>{contract.role}</td>
+                    </tr>
+                    <tr>
+                      <td style={{ fontWeight: "bold" }}>Số tiền phải trả</td>
                       <td></td>
+                    </tr>
+                    <tr>
+                      <td style={{ fontWeight: "bold" }}>Thời hạn hợp đồng</td>
+                      <td>{contract.end_date}</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -221,11 +263,8 @@ function Contract() {
                   season,
                   room_type,
                   register_time,
+                  is_accept
                 }) => ({
-                  id: {
-                    title: "id",
-                    content: "" + contract_id,
-                  },
                   student_id: {
                     title: "MSSV",
                     content: student_id,
@@ -248,7 +287,7 @@ function Contract() {
                   },
                   confirm: {
                     title: "Duyệt",
-                    content: (
+                    content: is_accept === false ? 'Đã hủy' : (
                       <>
                         <button
                           style={{
@@ -286,7 +325,7 @@ function Contract() {
                               cursor: "pointer",
                               margin: "8px",
                             }}
-                            onClick={() => setContract(contract_id)}
+                            onClick={() => getContractHandle(contract_id)}
                             version="1.0"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512.000000 512.000000"

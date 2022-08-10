@@ -153,7 +153,6 @@ function Mistake() {
 
   useEffect(() => {
     if (mistakeID !== null) {
-      setLoading(true);
       getMistake.mutate(
         { id: mistakeID },
         {
@@ -171,7 +170,6 @@ function Mistake() {
                 onSuccess(data) {
                   // console.log(data);
                   setTypes(data.data.map(elem => ({ ...elem, selected: elem.content === type})));
-                  setLoading(false);
                 }
               }
             );

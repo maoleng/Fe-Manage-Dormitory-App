@@ -192,3 +192,21 @@ export const useGetstudent = () => {
 
   return mutation;
 }
+
+export const useGetContract = () => {
+  const mutation = useMutation(async ({ id }) => {
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + `/mng/contract/${id}`, 
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return mutation;
+}
