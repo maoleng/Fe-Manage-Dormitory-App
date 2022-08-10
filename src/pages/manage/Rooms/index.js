@@ -96,8 +96,6 @@ function Rooms() {
   }
 
   function getRoomsHandle() {
-    setLoading(true);
-    
     const buildingID = search.buildings?.filter(({ selected }) => selected)[0];
     const floorID = search.floors?.filter(({ selected }) => selected)[0];
     const typeID = search.types?.filter(({ selected }) => selected)[0];
@@ -121,6 +119,9 @@ function Rooms() {
   }
 
   useEffect(() => {
+    if (rooms !== null) {
+      setLoading(true);
+    }
     getRoomsHandle();
 
     const buildingID = search.buildings?.filter(({ selected }) => selected)[0];

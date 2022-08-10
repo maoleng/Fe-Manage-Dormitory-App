@@ -85,7 +85,6 @@ function Attendance() {
   }
 
   function getAttendancesHandle() {
-    setLoading(true);
     getAttendances.mutate(
       {
         time: `${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()}`, 
@@ -144,6 +143,9 @@ function Attendance() {
   }, [buildings]);
 
   useEffect(() => {
+    if (attendances !== null) {
+      setLoading(true);
+    }
     getAttendancesHandle();
   }, [status, rooms, floors, buildings, time]);
 

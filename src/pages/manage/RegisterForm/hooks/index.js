@@ -74,3 +74,40 @@ export const usePostPickRoom = () => {
 
   return postPickRoom;
 };
+
+export const useDenyContract = () => {
+  const mutate = useMutation(async ({ id }) => {
+    const { data } = await axios.post(
+      process.env.REACT_APP_API_ENDPOINT + `/mng/contract/form_deny/${id}`, 
+      {},
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return mutate;
+};
+
+export const useGetContract = () => {
+  const mutation = useMutation(async ({ id }) => {
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_ENDPOINT + `/mng/contract/${id}`, 
+      {
+        'headers': {
+          'Authorization': 'Bearer ' + window.localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return data;
+  });
+
+  return mutation;
+}

@@ -25,7 +25,7 @@ function ElectricityWaters() {
   const postDownload = usePostDownload();
 
   const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState(false);
+  const [toast, setToast] = useState(null);
   const [id, setId] = useState(null);
   const [printAll, setPrintAll] = useState(null);
   const [download, setDownload] = useState(null);
@@ -54,7 +54,6 @@ function ElectricityWaters() {
   });
 
   const updateBills = () => {
-    setLoading(true);
     const buildingID = search.buildings.filter(({ selected }) => selected)[0];
     const floorID = search.floors && search.floors.filter(({ selected }) => selected)[0];
     const year = search.years.filter(({ selected }) => selected)[0];
@@ -211,6 +210,9 @@ function ElectricityWaters() {
   }, [download]);
 
   useEffect(() => {
+    if (bills !== null) {
+      setLoading(true);
+    }
     updateBills();
 
     const buildingID = search && search.buildings.filter(({ selected }) => selected)[0];
@@ -783,7 +785,7 @@ function ElectricityWaters() {
       )}
       
       <ToastContainer position="bottom-end">
-        <Toast bg="dark"  onClose={() => setToast(null)} show={toast !== null} delay={3000} autohide>
+        <Toast bg="dark" onClose={() => setToast(null)} show={toast !== null} delay={3000} autohide>
           <Toast.Header>
             <div style={{ width: '100%' }}></div>
           </Toast.Header>

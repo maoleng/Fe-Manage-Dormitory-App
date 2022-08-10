@@ -13,12 +13,12 @@ import MyTable from "~/components/MyTable";
 function Post() {
   console.log("Page: Post");
 
+  const [state, dispatch] = useStore();
+  const getPosts = useGetPosts();
+  const navigate = useNavigate();
+
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [posts, setPosts] = useState(null);
-
-  const [state, dispatch] = useStore();
-
-  const getPosts = useGetPosts();
 
   useEffect(() => {
     getPosts.mutate(
@@ -81,7 +81,7 @@ function Post() {
                 color: "#FFFFFF",
                 padding: "4px",
               }}
-              onClick={() => setShowCreatePost(true)}
+              onClick={() => navigate('/quan-ly/bai-dang/tao-them')}
             >
               Thêm bài viết
             </button>
