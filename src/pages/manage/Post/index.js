@@ -11,11 +11,13 @@ import MySidebar from "~/components/MySidebar";
 import MyTable from "~/components/MyTable";
 
 function Post() {
-  console.log("Page: Post");
+  // console.log("Page: Post");
 
   const [state, dispatch] = useStore();
   const getPosts = useGetPosts();
   const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [posts, setPosts] = useState(null);

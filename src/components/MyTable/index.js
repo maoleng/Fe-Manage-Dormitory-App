@@ -11,7 +11,7 @@ import {
   faCircleArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
 function MyTable({ forms }) {
-  console.log("Component: MyTable");
+  // console.log("Component: MyTable");
 
   const [inputValue, setInputValue] = useState("");
   const [page, setPage] = useState(0);
@@ -102,7 +102,7 @@ function MyTable({ forms }) {
           />
           <input
             onChange={search}
-            style={{ margin: "0 12px 0 8px", border: "none" }}
+            style={{ margin: "0 12px 0 8px", borderStyle: "none none solid none", outline: 'none' }}
             type="text"
             value={inputValue}
             placeholder="Tìm kiếm..."

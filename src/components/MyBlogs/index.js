@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 function MyBlogs({ title, blogs, next }) {
-  console.log("Component: MyBlogs");
+  // console.log("Component: MyBlogs");
 
   return (
     <div

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation } from "react-query";
 
 export const useGetForm = () => {
-  const getForm = useMutation(async () => {
+  const mutate = useMutation(async () => {
     const { data } = await axios.get(
       process.env.REACT_APP_API_ENDPOINT + "/std/contract/form",
       {
@@ -16,11 +16,11 @@ export const useGetForm = () => {
     return data;
   });
 
-  return getForm;
+  return mutate;
 };
 
 export const usePostRegister = () => {
-  const postRegister = useMutation(async (body) => {
+  const mutate = useMutation(async (body) => {
     const { data } = await axios.post(
       process.env.REACT_APP_API_ENDPOINT + "/std/contract/register",
       body,
@@ -35,11 +35,11 @@ export const usePostRegister = () => {
     return data;
   });
 
-  return postRegister;
+  return mutate;
 };
 
 export const useGetRegistration = () => {
-  const getRegistration = useMutation(async () => {
+  const mutate = useMutation(async () => {
     const { data } = await axios.get(
       process.env.REACT_APP_API_ENDPOINT + "/std/contract/registration",
       {
@@ -53,5 +53,5 @@ export const useGetRegistration = () => {
     return data;
   });
 
-  return getRegistration;
+  return mutate;
 };

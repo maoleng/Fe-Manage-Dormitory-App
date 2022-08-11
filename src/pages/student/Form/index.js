@@ -2,17 +2,25 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { Modal, Form as BForm } from "react-bootstrap";
 
-import { useStore, actions } from '~/store';
-
 import { useGetForms, usePostForm, useGetForm, usePostFormComment } from './hooks';
-
+import { UploadSVG } from '~/svg';
+import { useStore, actions } from '~/store';
 import MyInput from '~/components/MyInput';
 import MyNavbar from '~/components/MyNavbar';
 import MySidebar from '~/components/MySidebar';
 import MyTable from '~/components/MyTable';
 
 function Form() {
-  console.log('Page: Form');
+  // console.log('Page: Form');
+
+  const [state, dispatch] = useStore();
+  const getForms = useGetForms();
+  const postForm = usePostForm();
+  const getForm = useGetForm();
+  const postFormComment = usePostFormComment();
+  const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const [inputValue, setInputValue] = useState('');
   const [loadedForms, setLoadedForms] = useState(false);
@@ -23,13 +31,6 @@ function Form() {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [imgs, setImgs] = useState([]);
   const [imgComments, setImgComments] = useState([]);
-
-  const [state, dispatch] = useStore();
-
-  const getForms = useGetForms();
-  const postForm = usePostForm();
-  const getForm = useGetForm();
-  const postFormComment = usePostFormComment();
 
   const removeImg = (indexRm) => {
     setImgs(imgs.filter((elem, index) => index !== indexRm));
@@ -128,7 +129,7 @@ function Form() {
       {id},
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           setForm(data.data);
           setLoadedForm(true);
         }
@@ -147,6 +148,7 @@ function Form() {
       {},
       {
         onSuccess(data) {
+          console.log(data);
           setForms(data.data);
           setLoadedForms(true);
         }
@@ -205,6 +207,8 @@ function Form() {
             Tạo đơn
           </button>
 
+          <div style={{ clear: 'both' }}></div>
+
           {!loadedForms ? (
             <>Loading...</>
           ) : (!forms ? (
@@ -212,18 +216,10 @@ function Form() {
           ) : (
             <>
               <MyTable 
-                forms={forms.map(({ id, student_card_id, name, title, content, child_answer_count, created_at }) => ({
+                forms={forms.map(({ id, title, content, child_answer_count, created_at }) => ({
                   id: {
                     title: 'Mã đơn',
                     content: '' + id
-                  },
-                  student_card_id: {
-                    title: 'Mã sinh viên',
-                    content: student_card_id
-                  },
-                  name: {
-                    title: 'Tên sinh viên',
-                    content: name
                   },
                   title: {
                     title: 'Tiêu đề',
@@ -300,15 +296,9 @@ function Form() {
           <form onSubmit={submitCreateForm}>
             <div>
               <table style={{ width: '100%' }}>
-                <thead>
-                  <tr>
-                    <th style={{ width: '100px' }}></th>
-                    <th></th>
-                  </tr>
-                </thead>
                 <tbody>
                   <tr>
-                    <td>Tiêu đề</td>
+                    <td style={{ width: '100px' }}>Tiêu đề</td>
                     <td>
                       <div style={{ margin: '8px 0px' }}>
                         <MyInput 
@@ -320,7 +310,7 @@ function Form() {
                     </td>
                   </tr>
                   <tr>
-                    <td>Nội dung</td>
+                    <td style={{ width: '100px' }}>Nội dung</td>
                     <td>
                       <div style={{ margin: '8px 0px' }}>
                         <BForm.Control
@@ -332,34 +322,27 @@ function Form() {
                     </td>
                   </tr>
                   <tr>
-                    <td>Hình ảnh</td>
+                    <td style={{ width: '100px' }}>Hình ảnh</td>
                     <td>
                       <label
                         style={{ 
                           padding: '4px',
-                          border: 'none', 
+                          border: 'solid #0B42AB 1px', 
                           borderRadius: '4px', 
-                          backgroundColor: '#EEEEEE' 
                         }}
                         htmlFor="file"
                       >
-                        <svg 
-                          style={{ 
-                            width: '28px', 
-                            height: '28px', 
-                            marginRight: '12px'
-                          }} 
-                          viewBox="0 0 32 33" 
-                          fill="none" 
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M22 17.25V21C22 21.8284 21.3284 22.5 20.5 22.5H11.5C10.6716 22.5 10 21.8284 10 21L10 17.25M19 13.5L16 10.5M16 10.5L13 13.5M16 10.5L16 19.5" stroke="#001A72" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        <span style={{ fontWeight: 'bold', marginRight: '12px' }}>Upload files</span>
+                        <UploadSVG style={{ width: '28px', height: '28px', marginRight: '12px' }} />
+                        <span style={{ fontWeight: 'bold', marginRight: '12px', color: '#0B42AB' }}>Upload files</span>
                       </label>
                       <input onChange={change} id="file" type="file" multiple hidden/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ width: '100px' }}></td>
+                    <td>
                       <div>
-                        <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', gap: '12px'}}>
+                        <div style={{ width: '100%', marginTop: '20px', display: 'flex', flexWrap: 'wrap', gap: '12px'}}>
                           {imgs.map((source, index) => (
                             <div style={{ position: 'relative' }} key={index}>
                               <img style={{ height: '100px' }} src={source} alt={index} key={index}/>
@@ -375,7 +358,16 @@ function Form() {
                 </tbody>
               </table>
             </div>
-            <button type="submit">
+            <button 
+              style={{
+                padding: '4px 16px',
+                border: 'none',
+                backgroundColor: '#0B42AB',
+                color: '#FFFFFF',
+                float: 'right'
+              }}
+              type="submit"
+            >
               Tạo đơn
             </button>
           </form>

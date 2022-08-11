@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Table, Toast, ToastContainer } from 'react-bootstrap';
+import { Link, useNavigate } from "react-router-dom";
+import { Table, Toast, ToastContainer, Modal } from 'react-bootstrap';
 
 import MyInput from "~/components/MyInput";
 import { useStore, actions } from "~/store";
@@ -19,7 +20,7 @@ import MyTable from "~/components/MyTable";
 import { CheckboxSVG, CheckboxTickSVG } from './svgs';
 
 function Mistake() {
-  console.log("Page: Mistake");
+  // console.log("Page: Mistake");
 
   const [state, dispatch] = useStore();
   const getMistakes = useGetMistakes();
@@ -28,6 +29,9 @@ function Mistake() {
   const putMistake = usePutMistake();
   const putFixMistake = usePutFixMistake();
   const getMistakeTypes = useGetMistakeTypes();
+  const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);
@@ -38,11 +42,27 @@ function Mistake() {
   const [types, setTypes] = useState(null);
   const [imgs, setImgs] = useState([]);
   const [edit, setEdit] = useState(false);
+  const [mistakeDetail, setMistakeDetail] = useState(null);
+
+  function getMistakeHandle(id) {
+    setLoading(true);
+    getMistake.mutate(
+      { id },
+      {
+        onSuccess(data) {
+          // console.log(data);
+          setMistakeDetail(data);
+          setLoading(false);
+        }
+      }
+    )
+  }
 
   const submitMistake = (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
+    setLoading(true);
 
     if (edit) {
       putMistake.mutate(
@@ -69,6 +89,7 @@ function Mistake() {
                     setImgs([]);
                     setEdit(false);
                   }
+                  setLoading(false);
                 },
               }
             );
@@ -76,6 +97,7 @@ function Mistake() {
         }
       );
     } else {
+      setLoading(true);
       postMistake.mutate(
         {
           student_card_id: formData.get("student_card_id"),
@@ -96,6 +118,7 @@ function Mistake() {
                       setMistakeAdd(false);
                       setImgs([]);
                     }
+                    setLoading(false);
                   },
                 }
               );
@@ -133,6 +156,7 @@ function Mistake() {
         onSuccess(data) {
           setToast('Xác nhận sửa lỗi thành công');
           getMistakesHandle();
+          setLoading(false);
         }
       }
     );
@@ -143,7 +167,7 @@ function Mistake() {
       {},
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           setMistakes(data.data);
           setLoading(false);
         },
@@ -158,7 +182,7 @@ function Mistake() {
         {
           onSuccess(data) {
             const type = data.type;
-            console.log(data);
+            // console.log(data);
             if (edit) {
               setImgs(data.images.map(({ source }) => source));
             }
@@ -509,95 +533,6 @@ function Mistake() {
               </form>
             </div>
           </div>
-        ) : mistakeID ? (
-          mistake ? (
-            <div style={{ width: "100%", padding: "0px 0px 0px 0px20px" }}>
-              <Table>
-                <thead>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td style={{ fontWeight: "bold" }}>Mã thẻ</td>
-                    <td>{mistake.student_card_id}</td>
-                  </tr>
-                  <tr>
-                    <td style={{ fontWeight: "bold" }}>Mã sinh viên</td>
-                    <td>{mistake.student_id}</td>
-                  </tr>
-                  <tr>
-                    <td style={{ fontWeight: "bold" }}>Tên sinh viên</td>
-                    <td>{mistake.student_name}</td>
-                  </tr>
-                  <tr>
-                    <td style={{ fontWeight: "bold" }}>Mã phòng</td>
-                    <td>{mistake.room_name}</td>
-                  </tr>
-                  <tr>
-                    <td style={{ fontWeight: "bold" }}>Tên giáo viên</td>
-                    <td>{mistake.teacher_name}</td>
-                  </tr>
-                  <tr>
-                    <td style={{ fontWeight: "bold" }}>Ngày tạo</td>
-                    <td>{mistake.date}</td>
-                  </tr>
-                  <tr>
-                    <td style={{ fontWeight: "bold" }}>Trạng thái xác nhận</td>
-                    <td>
-                      {mistake.is_confirmed ? "Đã xác nhận" : "Chưa xác nhận"}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style={{ fontWeight: "bold" }}>Trạng thái sửa lỗi</td>
-                    <td>
-                      {mistake.is_fix_mistake ? "Đã sửa lỗi" : "Chưa sửa lỗi"}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style={{ fontWeight: "bold" }}>Nội dung</td>
-                    <td>{mistake.content || mistake.type}</td>
-                  </tr>
-                </tbody>
-              </Table>
-
-              <div>
-                <div>Minh chứng</div>
-                <div>
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: "12px",
-                    }}
-                  >
-                    {mistake.images.map(({ source }, index) => (
-                      <img
-                        style={{ height: "100px" }}
-                        src={source}
-                        alt={index}
-                        key={index}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={() => {
-                  setMistakeID(null);
-                  setMistake(null);
-                }}
-              >
-                Back
-              </button>
-            </div>
-          ) : (
-            <>Loading...</>
-          )
         ) : mistakes ? (
           <div style={{ width: "100%", padding: "0px 20px" }}>
             <div
@@ -695,7 +630,7 @@ function Mistake() {
                               cursor: "pointer",
                               margin: "0 8px",
                             }}
-                            onClick={() => setMistakeID("" + id)}
+                            onClick={() => getMistakeHandle(id)}
                             version="1.0"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512.000000 512.000000"
@@ -814,7 +749,7 @@ function Mistake() {
           position: 'fixed',
           top: '0px',
           left: '0px',
-          zIndex: '9999999999999999999999'
+          zIndex: '99999'
         }}
         hidden={!loading}
       >
@@ -840,6 +775,68 @@ function Mistake() {
           </svg>
         </div>
       </div>
+
+      <Modal show={mistakeDetail !== null} onHide={() => setMistakeDetail(null)}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          {mistakeDetail && <div>
+            <div style={{ margin: '4px 0px', display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ fontWeight: 'bold' }}>MSSV</div>
+              <div>{mistakeDetail.student_card_id}</div>
+            </div>
+            <div style={{ margin: '4px 0px', display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ fontWeight: 'bold' }}>Tên học sinh</div>
+              <div>{mistakeDetail.student_name}</div>
+            </div>
+            <div style={{ margin: '4px 0px', display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ fontWeight: 'bold' }}>Tên giáo viên</div>
+              <div>{mistakeDetail.teacher_name}</div>
+            </div>
+            <div style={{ margin: '4px 0px', display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ fontWeight: 'bold' }}>Tên phòng</div>
+              <div>{mistakeDetail.room_name}</div>
+            </div>
+            <div style={{ margin: '4px 0px', display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ fontWeight: 'bold' }}>Thời gian</div>
+              <div>{mistakeDetail.date}</div>
+            </div>
+            <div style={{ margin: '4px 0px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ fontWeight: 'bold' }}>Sinh viên xác nhận lỗi</div>
+              <div 
+                style={{ 
+                  padding: '0px 8px',
+                  backgroundColor: mistakeDetail.is_confirmed ? '#35D66C' : '#FF0000', 
+                  color: '#FFFFFF',
+                  fontSize: '12px'
+                }}
+              >{mistakeDetail.is_confirmed ? 'Đã xác nhận' : 'Chưa xác nhận'}</div>
+            </div>
+            <div style={{ margin: '4px 0px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ fontWeight: 'bold' }}>Sinh viên trả nợ lao động</div>
+              <div
+                style={{ 
+                  padding: '0px 8px',
+                  backgroundColor: mistakeDetail.is_fix_mistake ? '#35D66C' : '#FF0000', 
+                  color: '#FFFFFF',
+                  fontSize: '12px'
+                }}
+              >{mistakeDetail.is_fix_mistake ? 'Đã trả nợ' : 'Chưa trả nợ'}</div>
+            </div>
+            <div style={{ margin: '12px 0px' }}>
+              <div style={{ margin: '8px 0px', fontWeight: 'bold' }}>Nội dung lỗi</div>
+              <div style={{ padding: '8px', border: 'solid #D9D9D9 1px' }}>{mistakeDetail.content}</div>
+            </div>
+            <div style={{ margin: '12px 0px' }}>
+              <div style={{ margin: '8px 0px', fontWeight: 'bold' }}>Minh chứng</div>
+              <div style={{ height: '140px', overflowY: 'auto' }}>
+                {mistakeDetail.images.map((image) => (
+                  <img style={{ width: '100px', height: '120px', margin: '0px 8px 8px 0px' }} src={image.source} alt="" index={image.id} />
+                ))}
+              </div>
+            </div>
+          </div>}
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

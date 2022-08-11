@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Table, Modal } from "react-bootstrap";
 
+import { LoadingSVG } from '~/svg';
 import { useStore, actions } from "~/store";
-
 import MyNavbar from "~/components/MyNavbar";
 import MyTable from "~/components/MyTable";
 import MySidebar from "~/components/MySidebar";
@@ -11,49 +12,59 @@ import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { useGetContracts, usePostConfirmContracts, useDenyContract, useGetContract } from "./hooks";
 
 function Contract() {
-  console.log("Page: Contract");
-
-  const [confirmModal, setConfirmModal] = useState(false);
-  const [contract, setContract] = useState(null);
-  const [contracts, setContracts] = useState(false);
-  const [state, dispatch] = useStore();
+  // console.log("Page: Contract");
 
   const getContracts = useGetContracts();
   const postConfirmContracts = usePostConfirmContracts();
   const denyContract = useDenyContract();
   const getContract = useGetContract();
+  const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
+
+  const [loading, setLoading] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [contract, setContract] = useState(null);
+  const [contracts, setContracts] = useState(false);
+  const [state, dispatch] = useStore();
 
   function submitConfirmContracts(id) {
+    setLoading(true);
     postConfirmContracts.mutate(
       { body: {}, id },
       {
         onSuccess(data) {
           setConfirmModal(null);
           setContracts(contracts.filter((elem) => elem.contract_id !== id));
+          setLoading(false);
         },
       }
     );
   }
 
   function getContractHandle(id) {
+    setLoading(true);
     getContract.mutate(
       { id },
       {
         onSuccess(data) {
-          console.log('getContract:', data);
+          // console.log('getContract:', data);
           setContract(data.data);
+          setLoading(false);
         }
       }
     )
   }
 
   function submitAvoidContracts(id) {
+    setLoading(true);
     denyContract.mutate(
       { id },
       {
         onSuccess(data) {
           getContractsHandle();
           setConfirmModal(false);
+          setLoading(false);
         }
       }
     )
@@ -443,6 +454,31 @@ function Contract() {
             )}
         </Modal.Footer>
       </Modal>}
+
+      <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: '#00000040',
+          position: 'fixed',
+          top: '0px',
+          left: '0px',
+          zIndex: '9999999999999999999999'
+        }}
+        hidden={!loading}
+      >
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <LoadingSVG style={{ width: '100px', height: '100px', animation: 'rotation 1s linear infinite' }} />
+        </div>
+      </div>
     </>
   );
 }

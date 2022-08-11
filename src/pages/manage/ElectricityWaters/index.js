@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, Button, Modal, Table, Toast, ToastContainer } from 'react-bootstrap';
 import print from 'print-js';
 import jsPDF from 'jspdf';
@@ -13,7 +14,7 @@ import { usePostDownload, useGetElectricityWater, useGetElectricityWaters, useGe
 import { SearchSVG, CheckboxSVG, CheckboxSelectedSVG, CheckboxTickSVG, PrintSVG, DetailSVG, ReviewSVG, DownLoadSVG, PDFSVG } from './svgs';
 
 function ElectricityWaters() {
-  console.log('Page: ElectricityWater');
+  // console.log('Page: ElectricityWater');
 
   const [state, dispatch] = useStore();
   const getElectricityWater = useGetElectricityWater();
@@ -23,6 +24,9 @@ function ElectricityWaters() {
   const getBuildings = useGetBuildings();
   const putBill = usePutBill();
   const postDownload = usePostDownload();
+  const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);

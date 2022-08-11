@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useStore, actions } from "~/store";
 import { useGetForm, usePostRegister, useGetRegistration } from "./hooks";
@@ -11,17 +11,19 @@ import MySidebar from "~/components/MySidebar";
 let session;
 
 function Contract() {
-  console.log("Page: Contract");
+  // console.log("Page: Contract");
+
+  const [state, dispatch] = useStore();
+  const getForm = useGetForm();
+  const postRegister = usePostRegister();
+  const getRegistration = useGetRegistration();
+  const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const [registration, setRegistration] = useState(null);
   const [rooms, setRooms] = useState(null);
   const [roomMax, setRoomMax] = useState(null);
-
-  const [state, dispatch] = useStore();
-
-  const getForm = useGetForm();
-  const postRegister = usePostRegister();
-  const getRegistration = useGetRegistration();
 
   function submitRoomRegister() {
     if (roomMax) {

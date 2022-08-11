@@ -21,11 +21,13 @@ function weekdayMapping(en) {
 }
 
 function Schedule() {
-  console.log('Page: Schedule');
+  // console.log('Page: Schedule');
 
   const [state, dispatch] = useStore();
   const getSchedules = useGetSchedules();
   const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const [schedules, setSchedules] = useState(null);
 
@@ -64,7 +66,7 @@ function Schedule() {
             position: 'relative'
           }}
         >
-          {/* {(new Date()).getDay() === 0 && ( */}
+          {(new Date()).getDay() === 0 && (
             <div
               style={{
                 padding: '8px',
@@ -78,7 +80,7 @@ function Schedule() {
               }}
               onClick={() => navigate('/sinh-vien/lich-truc/dang-ky', { replace: true })}
             ><CalendarSVG style={{ width: '19px', height: '21px', marginRight: '20px' }} />Đăng ký trực</div>
-          {/* )} */}
+          )}
 
           <div
             style={{

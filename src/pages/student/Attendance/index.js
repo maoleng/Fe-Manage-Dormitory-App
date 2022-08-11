@@ -1,27 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import { Modal } from 'react-bootstrap';
 
+import { useGetRooms, useGetRoomStudents, usePostAttendance } from './hooks';
+import { ArrowRightSVG, RadioSVG, RadioCheckedSVG, CheckboxSVG, CheckboxCheckedSVG } from './svgs';
 import { useStore, actions } from '~/store';
 import MyNavbar from '~/components/MyNavbar';
 import MySidebar from '~/components/MySidebar';
-import { useGetRooms, useGetRoomStudents, usePostAttendance } from './hooks';
-import { ArrowRightSVG, RadioSVG, RadioCheckedSVG, CheckboxSVG, CheckboxCheckedSVG } from './svgs';
-import InpurCustom from './InpurCustom';
+import { LoadingSVG } from '~/svg';
 
 function Attendance() {
-  console.log('Page: Attendance');
+  // console.log('Page: Attendance');
 
+  const navigate = useNavigate();
   const getRooms = useGetRooms();
   const getRoomStudents = useGetRoomStudents();
   const postAttendance = usePostAttendance();
   const [state, dispatch] = useStore();
 
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
+
+  const [loading, setLoading] = useState(false);
   const [roomModal, setRoomModal] = useState(false);
   const [rooms, setRooms] = useState(null);
   const [roomStudents, setRoomStudents] = useState(null);
   const [roomsStyle, setRoomStyle] = useState({});
 
   const postAttendanceHandle = () => {
+    setLoading(true);
     postAttendance.mutate(
       {
         body: roomStudents.map(({ id, status, comment}) => ({
@@ -32,22 +38,25 @@ function Attendance() {
       },
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           getRoomHandle();
           hideRoomHandle();
+          setLoading(false);
         }
       }
     )
   }
 
   const showRoomHandle = (id) => {
+    setLoading(true);
     getRoomStudents.mutate(
       { id },
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           setRoomModal(true);
           setRoomStudents(data.data.map(elem => ({ ...elem, status: '0', comment: '' })));
+          setLoading(false);
         }
       }
     );
@@ -254,6 +263,31 @@ function Attendance() {
           </div>
         </Modal.Body>
       </Modal>
+
+      <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: '#00000040',
+          position: 'fixed',
+          top: '0px',
+          left: '0px',
+          zIndex: '9999999999999999999999'
+        }}
+        hidden={!loading}
+      >
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <LoadingSVG style={{ width: '100px', height: '100px', animation: 'rotation 1s linear infinite' }} />
+        </div>
+      </div>
     </>
   );
 }

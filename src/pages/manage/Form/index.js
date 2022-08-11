@@ -11,11 +11,14 @@ import MyTable from "~/components/MyTable";
 import MySidebar from "~/components/MySidebar";
 
 function Form() {
-  console.log("Page: Form");
+  // console.log("Page: Form");
 
   const getForms = useGetForms();
   const getForm = useGetForm();
   const postFormComment = usePostFormComment();
+  const navigate = useNavigate();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const chatBox = useRef();
   const [inputValue, setInputValue] = useState("");

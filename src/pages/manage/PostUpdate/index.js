@@ -12,7 +12,7 @@ import MyNavbar from "~/components/MyNavbar";
 import MySidebar from "~/components/MySidebar";
 
 function PostCreate() {
-  console.log("Page: PostCreate");
+  // console.log("Page: PostCreate");
 
   const [state, dispatch] = useStore();
   const getTag = useGetTag();
@@ -21,6 +21,8 @@ function PostCreate() {
   const putPost = usePutPost();
   const navigate = useNavigate();
   const { id } = useParams();
+
+  if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
   const [tagBg, setTagBg] = useState("#FFFFFF");
   const [newTagValue, setNewTagValue] = useState("");

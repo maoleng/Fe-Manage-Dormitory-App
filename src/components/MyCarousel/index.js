@@ -8,7 +8,7 @@ const imgs = [
 ]
 
 function MyCarousel() {
-  console.log('Component: MyCarousel');
+  // console.log('Component: MyCarousel');
 
   return (
     <Carousel>

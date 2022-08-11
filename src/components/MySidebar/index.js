@@ -92,7 +92,7 @@ const sideStudentManager = [
 ];
 
 function MySidebar({ isOpen }) {
-  console.log('Component: MySidebar');
+  // console.log('Component: MySidebar');
 
   const role = window.localStorage.getItem('role');
 

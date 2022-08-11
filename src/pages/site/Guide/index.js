@@ -15,7 +15,7 @@ import "./fix.css";
 import { useGetPost } from "./hooks";
 
 function Guide() {
-  console.log("Page: Activity");
+  // console.log("Page: Activity");
 
   const [posts, setPosts] = useState(null);
 
