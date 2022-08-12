@@ -4,6 +4,7 @@ import { Dropdown } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import Nodata from '~/components/Nodata';
 import CustomToggle from './CustomToggle';
 import { useStore, actions } from '~/store';
 import MyTable from '~/components/MyTable';

@@ -69,6 +69,7 @@ function Post() {
 
         <div
           style={{
+            padding: '20px',
             width: "100%",
           }}
         >

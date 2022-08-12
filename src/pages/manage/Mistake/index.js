@@ -50,7 +50,7 @@ function Mistake() {
       { id },
       {
         onSuccess(data) {
-          // console.log(data);
+          console.log(data);
           setMistakeDetail(data);
           setLoading(false);
         }
@@ -824,7 +824,7 @@ function Mistake() {
             </div>
             <div style={{ margin: '12px 0px' }}>
               <div style={{ margin: '8px 0px', fontWeight: 'bold' }}>Nội dung lỗi</div>
-              <div style={{ padding: '8px', border: 'solid #D9D9D9 1px' }}>{mistakeDetail.content}</div>
+              <div style={{ padding: '8px', border: 'solid #D9D9D9 1px' }}>{mistakeDetail.content || mistakeDetail.type}</div>
             </div>
             <div style={{ margin: '12px 0px' }}>
               <div style={{ margin: '8px 0px', fontWeight: 'bold' }}>Minh chứng</div>

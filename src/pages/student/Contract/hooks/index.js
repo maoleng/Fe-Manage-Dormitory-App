@@ -40,6 +40,7 @@ export const usePostRegister = () => {
 
 export const useGetRegistration = () => {
   const mutate = useMutation(async () => {
+    console.log(process.env.REACT_APP_API_ENDPOINT + "/std/contract/registration");
     const { data } = await axios.get(
       process.env.REACT_APP_API_ENDPOINT + "/std/contract/registration",
       {
