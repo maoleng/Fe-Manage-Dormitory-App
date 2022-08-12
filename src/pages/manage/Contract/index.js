@@ -585,7 +585,7 @@ function Contract() {
               type={"contract"}
             ></MyTable>
           ) : (
-            <>Khong co du lieu...</>
+            <>Loading...</>
           )}
         </div>
       </div>

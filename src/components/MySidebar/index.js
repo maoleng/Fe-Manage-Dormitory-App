@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Link } from "react-router-dom";
 
@@ -96,10 +96,22 @@ function MySidebar({ isOpen }) {
 
   const role = window.localStorage.getItem('role');
 
+  const [pageWidth, setPageWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    window.onresize = () => {
+      setPageWidth(window.innerWidth);
+    }
+
+    return () => {
+      window.onresize = null;
+    }
+  }, []);
+
   return (
     <div
       style={{
-        ...(isOpen ? window.screen.width < 600 ? {
+        ...(isOpen ? pageWidth < 600 ? {
           width: '100vw',
           height: '100vh',
           position: 'absolute',

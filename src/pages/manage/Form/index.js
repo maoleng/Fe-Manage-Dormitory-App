@@ -29,6 +29,7 @@ function Form() {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [imgComments, setImgComments] = useState([]);
   const [state, dispatch] = useStore();
+  const [pageWidth, setPageWidth] = useState(window.innerWidth);
 
   const removeImgComment = (indexRm) => {
     setImgComments(imgComments.filter((elem, index) => index !== indexRm));
@@ -91,11 +92,13 @@ function Form() {
   };
 
   useEffect(() => {
-    console.log(chatBox.current);
     if (chatBox.current) {
       chatBox.current.scrollTop = chatBox.current.scrollHeight;
     }
-    // chatBox.current.scrollTop = '20px';
+
+    window.onresize = () => {
+      setPageWidth(window.innerWidth);
+    }
   }, [form]);
 
   useEffect(() => {
@@ -265,7 +268,7 @@ function Form() {
       </div>
 
       <Modal show={showCommentForm} onHide={() => {setShowCommentForm(false); setLoadedForm(null);}}>
-        <div style={{ height: "80vh" }}>
+        <div style={{ height: pageWidth < 600 ? '97.5vh' : "80vh" }}>
           <div
             style={{ height: "100%", display: "flex", flexDirection: "column" }}
           >

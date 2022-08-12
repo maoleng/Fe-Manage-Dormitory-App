@@ -111,7 +111,18 @@ function MyTable({ forms }) {
       </div>
 
       {!Object.keys(formsWrap[0]).length ? (
-        <>Không có dữ liệu</>
+        <div
+          style={{
+            width: '100%',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}
+        >
+            <img style={{ width: '100px'}} src="/imgs/site/no-data.png" alt="" />
+            <div style={{ color: '#000000A0' }}>Không có dữ liệu !</div>
+        </div>
       ) : (
         <>
           <Table>
