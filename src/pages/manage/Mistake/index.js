@@ -50,7 +50,7 @@ function Mistake() {
       { id },
       {
         onSuccess(data) {
-          console.log(data);
+          // console.log(data);
           setMistakeDetail(data);
           setLoading(false);
         }
