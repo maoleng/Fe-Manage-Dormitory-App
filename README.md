@@ -86,7 +86,7 @@
 - Điểm danh sinh viên mỗi tối
 - Đăng kí lịch trực gác cổng mỗi tuần
 
-## 3 Thiet ke he thong
+## 4 Phan tich va demo chuc nang
 
 ### 4.1 Sơ đồ quan hệ thực thể
 ![image](https://user-images.githubusercontent.com/91431461/184504835-f1c9b8fc-e9a0-4f67-a0d8-a692bf1d4b50.png)
