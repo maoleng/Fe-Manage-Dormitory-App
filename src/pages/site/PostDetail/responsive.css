@@ -1,0 +1,5 @@
+@media (max-width: 768px) {
+  .big_row {
+    margin: 20px 0 !important;
+  }
+}
