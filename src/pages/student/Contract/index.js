@@ -7,6 +7,7 @@ import { useGetForm, usePostRegister, useGetRegistration } from "./hooks";
 
 import MyNavbar from "~/components/MyNavbar";
 import MySidebar from "~/components/MySidebar";
+import { LoadingSVG } from '~/svg';
 
 let session;
 
@@ -21,6 +22,7 @@ function Contract() {
 
   if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
+  const [loading, setLoading] = useState(false);
   const [registration, setRegistration] = useState(null);
   const [rooms, setRooms] = useState(null);
   const [roomMax, setRoomMax] = useState(null);
@@ -58,6 +60,7 @@ function Contract() {
   }
 
   useEffect(() => {
+    setLoading(true);
     getRegistration.mutate(
       {},
       {
@@ -76,6 +79,7 @@ function Contract() {
               }
             );
           }
+          setLoading(false);
         },
       }
     );
@@ -291,6 +295,31 @@ function Contract() {
         ) : (
           <>Loading...</>
         )}
+      </div>
+
+      <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: '#00000040',
+          position: 'fixed',
+          top: '0px',
+          left: '0px',
+          zIndex: '9999999999999999999999'
+        }}
+        hidden={!loading}
+      >
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <LoadingSVG style={{ width: '100px', height: '100px', animation: 'rotation 1s linear infinite' }} />
+        </div>
       </div>
     </>
   );

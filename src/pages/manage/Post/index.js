@@ -19,15 +19,18 @@ function Post() {
 
   if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
+  const [loading, setLoading] = useState(false);
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [posts, setPosts] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
     getPosts.mutate(
       {},
       {
         onSuccess(data) {
           setPosts(data.data);
+          setLoading(false);
         },
       }
     );
@@ -131,9 +134,24 @@ function Post() {
                     },
                     tags: {
                       title: "Thẻ",
-                      content: tags.map(({ name, color }, index) => (
-                        <span key={index}>{name}</span>
-                      )),
+                      content: (
+                        <div
+                          style={{
+                            width: "100%",
+                            minHeight: "32px",
+                            padding: "8px",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: "8px",
+                          }}
+                        >
+                          {tags.map(({ name, color }, index) => (
+                            <div style={{ padding: "1px", backgroundColor: color }} key={index}>
+                              {name}
+                            </div>
+                          ))}
+                        </div>
+                      ),
                     },
                     controls: {
                       title: "",
@@ -269,6 +287,41 @@ function Post() {
           </div>
         </Modal.Body>
       </Modal>
+
+      <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: '#00000040',
+          position: 'fixed',
+          top: '0px',
+          left: '0px',
+          zIndex: '9999999999999999999999'
+        }}
+        hidden={!loading}
+      >
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <svg style={{ width: '100px', height: '100px', animation: 'rotation 1s linear infinite' }} viewBox="0 0 512.000000 512.000000">
+            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+              <path d="M2496 4690 c-136 -41 -197 -208 -119 -327 48 -75 112 -103 233 -103
+              92 0 253 -23 359 -50 490 -125 896 -454 1117 -905 320 -655 190 -1429 -326
+              -1945 -525 -526 -1325 -650 -1979 -309 -854 446 -1172 1495 -706 2334 83 149
+              91 219 33 313 -42 69 -155 107 -245 81 -76 -21 -119 -73 -210 -255 -303 -607
+              -308 -1298 -14 -1899 215 -439 550 -774 986 -985 159 -78 264 -117 415 -154
+              488 -119 992 -69 1435 143 447 214 789 553 1006 996 393 804 244 1756 -378
+              2416 -283 299 -704 531 -1116 613 -194 39 -424 56 -491 36z"/>
+            </g>
+          </svg>
+        </div>
+      </div>
     </>
   );
 }

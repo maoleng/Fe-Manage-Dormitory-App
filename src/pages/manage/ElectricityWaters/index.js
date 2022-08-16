@@ -214,9 +214,7 @@ function ElectricityWaters() {
   }, [download]);
 
   useEffect(() => {
-    if (bills !== null) {
-      setLoading(true);
-    }
+    setLoading(true);
     updateBills();
 
     const buildingID = search && search.buildings.filter(({ selected }) => selected)[0];
@@ -483,6 +481,18 @@ function ElectricityWaters() {
                   </div>
                 </Dropdown.Menu>
               </Dropdown>
+
+              <div
+                style={{
+                  padding: '8px',
+                  border: 'solid #D9D9D9 1px',
+                  fontWeight: 'bold',
+                  color: '#FF0000',
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                }}
+                onClick={() => window.location.reload()}
+              >RESET</div>
             </div>
           </div>
 

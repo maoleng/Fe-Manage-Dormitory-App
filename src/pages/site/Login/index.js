@@ -100,7 +100,8 @@ function Login() {
       {role ? (
         <div 
           style={{
-            width: '800px',
+            width: '100%',
+            maxWidth: '800px',
             textAlign: 'center',
             margin: 'auto'
           }}
@@ -112,10 +113,11 @@ function Login() {
             src={role === 'student' ? '/imgs/site/sign-in-student-bg.png' : '/imgs/site/sign-in-manage-bg.png'}
             alt={role === 'student' ? 'sign-in-student-bg' : 'sign-in-manage-bg'}
           />
-
           <form
             style={{
-              width: '400px',
+              width: '100%',
+              maxWidth: '400px',
+              padding: '8px',
               margin: 'auto'
             }}
             onSubmit={submitLogin}

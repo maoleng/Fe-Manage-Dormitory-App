@@ -2,7 +2,6 @@ import { useState, useEffect, forwardRef } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { Dropdown } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 import Nodata from '~/components/Nodata';
 import CustomToggle from './CustomToggle';
@@ -90,6 +89,7 @@ function Attendance() {
   }
 
   function getAttendancesHandle() {
+    setLoading(true);
     getAttendances.mutate(
       {
         time: `${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()}`, 
@@ -378,6 +378,18 @@ function Attendance() {
                   dateFormat="yyyy/MM/dd"
                   customInput={<ExampleCustomInput />}
                 />
+
+                <div
+                  style={{
+                    padding: '8px',
+                    border: 'solid #D9D9D9 1px',
+                    fontWeight: 'bold',
+                    color: '#FF0000',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                  }}
+                  onClick={() => window.location.reload()}
+                >RESET</div>
               </div>
                 
               {attendances && (
