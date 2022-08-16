@@ -10,13 +10,17 @@ function CarouselIntro() {
           className="d-block w-100"
           src={Slide1}
           alt="First slide"
-          style={{ width: "1131px", height: "582px" }}
+          style={{
+            width: "1131px",
+            height: "582px",
+            filter: "brightness(60%)",
+          }}
         />
         <Carousel.Caption>
-          <div>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          </div>
+          <h3 style={{ color: "#fff" }}>
+            Hệ thống cửa ra vào tối tân hiện đại
+          </h3>
+          <p>Với phương châm: An toàn của sinh viên là trên hết</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -26,10 +30,12 @@ function CarouselIntro() {
           alt="Second slide"
           style={{ width: "1131px", height: "582px" }}
         />
-
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h3>Hành lang hiện đại</h3>
+          <p>
+            Được trang bị hệ thống camera giám sát an ninh, hệ thống chiếu sáng
+            và máy lọc nước uống tinh khiết nóng, lạnh phục vụ 24/24
+          </p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -37,13 +43,18 @@ function CarouselIntro() {
           className="d-block w-100"
           src={Slide3}
           alt="Third slide"
-          style={{ width: "1131px", height: "582px" }}
+          style={{
+            width: "1131px",
+            height: "582px",
+            filter: "brightness(75%)",
+          }}
         />
 
         <Carousel.Caption>
-          <h3>Third slide label</h3>
+          <h3>Khu vực rộng rãi</h3>
           <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+            Khu vực cá nhân rộng rãi thuận tiện cho việc học tập và nghỉ ngơi
+            của sinh viên
           </p>
         </Carousel.Caption>
       </Carousel.Item>
