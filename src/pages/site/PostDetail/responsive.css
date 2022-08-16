@@ -2,4 +2,10 @@
   .big_row {
     margin: 20px 0 !important;
   }
+  .Component_List {
+    margin: 59px 20px -10px 20px !important;
+  }
+  .main_heading_place {
+    margin: 42px 0 !important;
+  }
 }
