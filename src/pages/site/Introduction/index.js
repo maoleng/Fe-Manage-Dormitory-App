@@ -48,7 +48,7 @@ function Introduction() {
   return (
     <>
       <MyNavbar isSite={true}></MyNavbar>
-      
+
       <div className="container_intro" style={{ margin: "42px 81.5px" }}>
         <div className="heading_place" style={{ margin: "10px 0" }}>
           <h2
@@ -72,7 +72,7 @@ function Introduction() {
             }}
           >
             Hệ thống Ký túc xá Đại học Tôn Đức Thắng gồm Ký túc xá Cơ sở Tân
-            Phong, quận 7, Tp.HCM, Ký túc xá Cở sở Bảo Lộc và Ký túc xá Phân
+            Phong, quận 7, Tp.HCM, Ký túc xá Cơ sở Bảo Lộc và Ký túc xá Phân
             hiệu Nha Trang. Cung cấp 5831 chỗ ở cho sinh viên.
           </p>
         </div>
@@ -234,7 +234,7 @@ function Introduction() {
             <Col className="tags_about_place_container" xs={12} md={12} lg={6}>
               <div className="about_place_item">
                 <div
-                  className="about_H_I_place"
+                  className="about_H_I_place about_place_building"
                   style={{
                     display: "flex",
                     backgroundColor: "#1C63EE",
@@ -266,10 +266,10 @@ function Introduction() {
               </div>
               <div className="about_place_item" style={{ margin: "10px 0" }}>
                 <div
-                  className="about_H_I_place"
+                  className="about_H_I_place about_place_building"
                   style={{
                     display: "flex",
-                    backgroundColor: "#0B42AB",
+                    backgroundColor: "#1C63EE",
                   }}
                 >
                   <p

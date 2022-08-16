@@ -12,3 +12,7 @@
     margin: 42px 20px !important;
   }
 }
+.about_place_building:hover {
+  cursor: pointer;
+  background-color: #0b42ab !important;
+}
