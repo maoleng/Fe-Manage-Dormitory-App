@@ -1,0 +1,5 @@
+@media (max-width: 768px) {
+  .large_container {
+    padding: 43px 10px 55px !important;
+  }
+}

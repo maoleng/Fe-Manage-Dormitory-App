@@ -73,7 +73,10 @@ function Activity() {
         <>Loading...</>
       ) : (
         <div>
-          <div style={{ padding: "43px 55px 53px" }}>
+          <div
+            className="large_container"
+            style={{ padding: "43px 55px 53px" }}
+          >
             <div>
               <h1
                 style={{

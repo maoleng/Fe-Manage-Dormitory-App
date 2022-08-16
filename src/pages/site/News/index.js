@@ -73,7 +73,10 @@ function News() {
       ) : (
         <div>
           <Container fluid>
-            <div style={{ padding: "43px 55px 53px" }}>
+            <div
+              className="large_container"
+              style={{ padding: "43px 55px 53px" }}
+            >
               <div>
                 <h1
                   style={{
@@ -193,7 +196,6 @@ function News() {
                 className="pagination"
                 style={{
                   margin: "8px 0",
-
                   alignItems: "center",
                   justifyContent: "center",
                 }}
