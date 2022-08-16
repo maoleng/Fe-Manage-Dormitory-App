@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
+import "./responsive.css";
 import MyNavbar from "~/components/MyNavbar";
 import MyFooter from "~/components/MyFooter";
 import { useGetPost, useGetPostRelated } from "./hooks";
@@ -97,7 +97,10 @@ function PostDetail() {
       ) : (
         <>
           <Container fluid>
-            <Row style={{ margin: "20px 115px", display: "flex" }}>
+            <Row
+              className="big_row"
+              style={{ margin: "20px 115px", display: "flex" }}
+            >
               <Col
                 className="post_detail"
                 style={{}}

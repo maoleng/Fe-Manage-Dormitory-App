@@ -3,11 +3,13 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import MyNavbar from "~/components/MyNavbar";
 import MyFooter from "~/components/MyFooter";
-
+import "./Responsive.css";
 import { useGetPost } from "./hooks";
 import "./pagination.css";
 import { notifyManager } from "react-query";
-
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 function Notification() {
   const [posts, setPosts] = useState(null);
   const [pagenum, setPageNum] = useState(1);
@@ -60,67 +62,74 @@ function Notification() {
         <>Loading...</>
       ) : (
         <div>
-          <div style={{ padding: "43px 55px 53px" }}>
-            <div>
-              <h1
+          <Container fluid>
+            <div
+              className="large_container"
+              style={{ padding: "43px 55px 53px" }}
+            >
+              <div>
+                <h1
+                  style={{
+                    borderBottom: "6px solid #A9CBFE ",
+                  }}
+                >
+                  Thông báo
+                </h1>
+              </div>
+              <Row
                 style={{
-                  borderBottom: "6px solid #A9CBFE ",
+                  margin: "20px",
                 }}
               >
-                Thông báo
-              </h1>
-            </div>
-            <div
-              style={{
-                margin: "20px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "0px 25%",
-              }}
-            >
-              {posttake.map(({ id, banner, created_at, title }) => (
-                <div key={id} style={{ display: "flex", margin: "20px" }}>
-                  <Link to={`/bai-viet/${id}`}>
-                    <img
-                      src={banner}
-                      alt=""
-                      style={{ width: "116px", height: "83px" }}
-                    />
-                  </Link>
-                  <div style={{ marginLeft: "24px" }}>
-                    <div
-                      style={{
-                        display: "-webkit-box",
-                        WebkitLineClamp: "2",
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                        minHeight: "48px",
-                        minWidth: "518px",
-                        maxWidth: "518px",
-                        fontWeight: "700",
-                      }}
-                    >
-                      {title}
+                {posttake.map(({ id, banner, created_at, title }) => (
+                  <Col
+                    sm={12}
+                    md={12}
+                    lg={{ span: 8, offset: 4 }}
+                    key={id}
+                    style={{ display: "flex", marginBottom: "20px" }}
+                  >
+                    <Link to={`/bai-viet/${id}`}>
+                      <img
+                        src={banner}
+                        alt=""
+                        style={{ width: "116px", height: "83px" }}
+                      />
+                    </Link>
+                    <div style={{ marginLeft: "24px" }}>
+                      <div
+                        style={{
+                          display: "-webkit-box",
+                          WebkitLineClamp: "2",
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          fontWeight: "700",
+                          marginBottom: "8px",
+                        }}
+                      >
+                        {title}
+                      </div>
+                      <div
+                        style={{
+                          display: "-webkit-box",
+                          WebkitLineClamp: "2",
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {created_at}
+                      </div>
                     </div>
-                    <div
-                      style={{
-                        display: "-webkit-box",
-                        WebkitLineClamp: "2",
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                        minHeight: "48px",
-                        minWidth: "518px",
-                        maxWidth: "518px",
-                      }}
-                    >
-                      {created_at}
-                    </div>
-                  </div>
-                </div>
-              ))}
-              <div class="pagination">
+                  </Col>
+                ))}
+              </Row>
+              <div
+                class="pagination"
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <a onClick={goBackward}>&laquo;</a>
                 <a
                   class={
@@ -184,7 +193,7 @@ function Notification() {
                 <a onClick={goForward}>&raquo;</a>
               </div>
             </div>
-          </div>
+          </Container>
           <MyFooter></MyFooter>
         </div>
       )}

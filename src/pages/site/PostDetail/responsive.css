@@ -1,14 +1,11 @@
 @media (max-width: 768px) {
+  .big_row {
+    margin: 20px 0 !important;
+  }
   .Component_List {
     margin: 59px 20px -10px 20px !important;
   }
-  .Component_Container {
-    margin: 0 !important;
-  }
   .main_heading_place {
     margin: 42px 0 !important;
-  }
-  .container_intro {
-    margin: 42px 20px !important;
   }
 }
