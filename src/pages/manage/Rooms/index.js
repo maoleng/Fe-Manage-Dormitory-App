@@ -128,9 +128,7 @@ function Rooms() {
   }
 
   useEffect(() => {
-    if (rooms !== null) {
-      setLoading(true);
-    }
+    setLoading(true);
     getRoomsHandle();
 
     const buildingID = search.buildings?.filter(({ selected }) => selected)[0];
@@ -408,6 +406,18 @@ function Rooms() {
                     </div>
                   </Dropdown.Menu>
                 </Dropdown>
+
+                <div
+                  style={{
+                    padding: '8px',
+                    border: 'solid #D9D9D9 1px',
+                    fontWeight: 'bold',
+                    color: '#FF0000',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                  }}
+                  onClick={() => window.location.reload()}
+                >RESET</div>
               </div>
 
               <MyTable forms={rooms.map(({

@@ -74,12 +74,14 @@ function Attendance() {
         onSuccess(data) {
           console.log(`getRooms:`, data);
           setRooms(data.data);
+          setLoading(false);
         }
       }
     );
   }
 
   useEffect(() => {
+    setLoading(true);
     getRoomHandle();
     if (window.screen.width < 600) {
       dispatch(actions.setIsOpenSidebar(false));

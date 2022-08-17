@@ -230,9 +230,7 @@ function Contract() {
   }
 
   useEffect(() => {
-    if (rooms !== null) {
-      setLoading(true);
-    }
+    setLoading(true);
     getRoomsHandle();
 
     const buildingID = search.buildings?.filter(({ selected }) => selected)[0];

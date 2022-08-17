@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Table, Toast, ToastContainer, Modal } from 'react-bootstrap';
+import DatePicker from "react-datepicker";
+import { Dropdown, Toast, ToastContainer, Modal } from 'react-bootstrap';
+import "react-datepicker/dist/react-datepicker.css";
 
 import MyInput from "~/components/MyInput";
 import { useStore, actions } from "~/store";
@@ -11,18 +13,23 @@ import {
   usePostMistake,
   usePutMistake,
   usePutFixMistake,
-  useGetMistakeTypes
+  useGetMistakeTypes,
+  useGetFloors, 
+  useGetBuildings
 } from "./hooks";
 
+import CustomToggle from './CustomToggle';
 import MyNavbar from "~/components/MyNavbar";
 import MySidebar from "~/components/MySidebar";
 import MyTable from "~/components/MyTable";
-import { CheckboxSVG, CheckboxTickSVG } from './svgs';
+import { CheckboxSVG, CheckboxTickSVG, CheckboxSelectedSVG, ArrowDownSVG } from './svgs';
 
 function Mistake() {
   // console.log("Page: Mistake");
 
   const [state, dispatch] = useStore();
+  const getFloors = useGetFloors();
+  const getBuildings = useGetBuildings();
   const getMistakes = useGetMistakes();
   const getMistake = useGetMistake();
   const postMistake = usePostMistake();
@@ -33,6 +40,8 @@ function Mistake() {
 
   if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
 
+  const [buildings, setBuildings] = useState(null);
+  const [floors, setFloors] = useState(null);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);
   const [mistakeID, setMistakeID] = useState(null);
@@ -43,6 +52,69 @@ function Mistake() {
   const [imgs, setImgs] = useState([]);
   const [edit, setEdit] = useState(false);
   const [mistakeDetail, setMistakeDetail] = useState(null);
+  const [begin, setBegin] = useState(new Date());
+  const [end, setEnd] = useState(new Date());
+  const [fixMistake, setFixMistake] = useState([
+    { 
+      id: '0', 
+      title: 'Chưa sửa lỗi', 
+      selected: false 
+    },
+    { 
+      id: '1', 
+      title: 'Đã sửa lỗi', 
+      selected: false 
+    },
+  ]);
+  const [confirmed, setConfirmed] = useState([
+    { 
+      id: '0', 
+      title: 'Chưa xác nhận', 
+      selected: false 
+    },
+    { 
+      id: '1', 
+      title: 'Đã xác nhận', 
+      selected: false 
+    },
+  ]);
+  const [time, setTime] = useState([
+    { 
+      id: 'today', 
+      title: 'Hôm nay', 
+      selected: false 
+    },
+    { 
+      id: 'week_ago', 
+      title: 'Tuần trước', 
+      selected: false 
+    },
+    { 
+      id: 'month_ago', 
+      title: 'Tháng trước', 
+      selected: false 
+    },
+    { 
+      id: 'this_week', 
+      title: 'Tuần này', 
+      selected: false 
+    },
+    { 
+      id: 'this_month', 
+      title: 'Tháng này', 
+      selected: false 
+    },
+    { 
+      id: 'this_year', 
+      title: 'Năm này', 
+      selected: false 
+    },
+    { 
+      id: 'custom', 
+      title: 'Tự điền', 
+      selected: false 
+    },
+  ]);
 
   function getMistakeHandle(id) {
     setLoading(true);
@@ -57,6 +129,27 @@ function Mistake() {
       }
     )
   }
+
+  const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
+    <div 
+      style={{
+        width: '140px',
+        padding: '8px',
+        border: 'solid #D9D9D9 1px',
+        fontWeight: 'bold',
+        cursor: 'pointer'
+      }} 
+      onClick={onClick} 
+      ref={ref}
+    >
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto 13px' }}>
+        {value}
+        <div>
+          <ArrowDownSVG style={{ width: '13px', height: '9px' }} />
+        </div>
+      </div>
+    </div>
+  ));
 
   const submitMistake = (e) => {
     e.preventDefault();
@@ -164,10 +257,17 @@ function Mistake() {
 
   function getMistakesHandle() {
     getMistakes.mutate(
-      {},
+      {
+        is_confirmed: confirmed?.filter(({ selected }) => selected)[0]?.id, 
+        is_fix_mistake: fixMistake?.filter(({ selected }) => selected)[0]?.id, 
+        building_id: buildings?.filter(({ selected }) => selected)[0]?.id,
+        floor_id: floors?.filter(({ selected }) => selected)[0]?.id,
+        time: time?.filter(({ selected }) => selected)[0]?.id === 'custom' 
+          ? `${begin.getFullYear()}/${begin.getMonth() + 1}/${begin.getDate()}-${end.getFullYear()}/${end.getMonth() + 1}/${end.getDate()}`
+          : time?.filter(({ selected }) => selected)[0]?.id
+      },
       {
         onSuccess(data) {
-          // console.log(data);
           setMistakes(data.data);
           setLoading(false);
         },
@@ -176,6 +276,26 @@ function Mistake() {
   }
 
   useEffect(() => {
+    const buildingId = buildings?.filter(({ selected }) => selected)[0]?.id;
+    buildingId && getFloors.mutate(
+      {
+        buildingId
+      },
+      {
+        onSuccess(data) {
+          // console.log('getFloors:', data);
+          setFloors(data.data.map(({ id, name }) => ({ 
+            id: id, 
+            title: `Tầng ${name}`, 
+            selected: false 
+          })));
+        }
+      }
+    )
+  }, [buildings]);
+
+  useEffect(() => {
+    setLoading(true);
     if (mistakeID !== null) {
       getMistake.mutate(
         { id: mistakeID },
@@ -204,6 +324,11 @@ function Mistake() {
   }, [mistakeID]);
 
   useEffect(() => {
+    setLoading(true);
+    getMistakesHandle();
+  }, [floors, buildings, end, begin, time, fixMistake, confirmed]);
+
+  useEffect(() => {
     getMistakesHandle()
     
     getMistakeTypes.mutate(
@@ -215,6 +340,20 @@ function Mistake() {
         }
       }
     );
+
+    getBuildings.mutate(
+      {},
+      {
+        onSuccess(data) {
+          // console.log('getBuildings:', data);
+          setBuildings(data.data.map(({ id, name }) => ({ 
+            id: id, 
+            title: `Tòa ${name}`, 
+            selected: false 
+          })));
+        }
+      }
+    )
   }, []);
 
   return (
@@ -253,7 +392,7 @@ function Mistake() {
 
         {mistakeAdd || edit ? (
           <div style={{ width: "100%", height: "100%" }}>
-            <div style={{ width: "50%", maxWidth: "500px", margin: "auto" }}>
+            <div style={{ width: "100%", maxWidth: "500px", margin: "auto" }}>
               <div
                 style={{
                   fontSize: "24px",
@@ -268,7 +407,7 @@ function Mistake() {
                 <table cellPadding="8px">
                   <thead>
                     <tr>
-                      <th width="160px"></th>
+                      <th width="120px"></th>
                       <th></th>
                     </tr>
                   </thead>
@@ -284,17 +423,18 @@ function Mistake() {
                           mistake ? (
                             <MyInput
                               style={{
-                                width: "320px",
+                                width: "100%",
                                 paddingLeft: "8px",
-                                border: "none",
+                                borderStyle: "none none solid none",
                                 borderRadius: "4px",
                                 outline: "none",
-                                backgroundColor: "#EEEEEE",
+                                margin: '8px 0px',
                               }}
                               type="text"
                               name="student_card_id"
                               initValue={mistake.student_card_id}
                               disabled={true}
+                              placeholder="MSSV..."
                             />
                           ) : (
                             <></>
@@ -302,15 +442,16 @@ function Mistake() {
                         ) : (
                           <MyInput
                             style={{
-                              width: "320px",
+                              width: "100%",
                               paddingLeft: "8px",
-                              border: "none",
+                              borderStyle: "none none solid none",
                               borderRadius: "4px",
                               outline: "none",
-                              backgroundColor: "#EEEEEE",
+                              margin: '8px 0px',
                             }}
                             type="text"
                             name="student_card_id"
+                            placeholder="MSSV..."
                           />
                         )}
                       </td>
@@ -327,12 +468,12 @@ function Mistake() {
                             <> 
                               <select
                                 style={{
-                                  width: "320px",
+                                  width: "100%",
                                   paddingLeft: "8px",
-                                  border: "none",
+                                  borderStyle: "none none solid none",
                                   borderRadius: "4px",
                                   outline: "none",
-                                  backgroundColor: "#EEEEEE",
+                                  margin: '8px 0px',
                                 }}
                                 onChange={e => setTypes(types.map(type => ({...type, selected: ('' + type.number) === ('' + e.target.value)})))}
                                 value={('' + types.filter(type => type.selected)[0].number)}
@@ -345,12 +486,12 @@ function Mistake() {
                               <div>
                                 <MyInput
                                   style={{
-                                    width: "320px",
+                                    width: "100%",
                                     paddingLeft: "8px",
-                                    border: "none",
+                                    borderStyle: "none none solid none",
                                     borderRadius: "4px",
                                     outline: "none",
-                                    backgroundColor: "#EEEEEE",
+                                    margin: '8px 0px',
                                   }}
                                   type="text"
                                   name="content"
@@ -366,12 +507,12 @@ function Mistake() {
                           <> 
                             <select
                               style={{
-                                width: "320px",
+                                width: "100%",
                                 paddingLeft: "8px",
-                                border: "none",
+                                borderStyle: "none none solid none",
                                 borderRadius: "4px",
                                 outline: "none",
-                                backgroundColor: "#EEEEEE",
+                                margin: '8px 0px',
                               }}
                               onChange={e => setTypes(types.map(type => ({...type, selected: ('' + type.number) === ('' + e.target.value)})))}
                               value={('' + types.filter(type => type.selected)[0].number)}
@@ -384,12 +525,12 @@ function Mistake() {
                             <div>
                               <MyInput
                                 style={{
-                                  width: "320px",
+                                  width: "100%",
                                   paddingLeft: "8px",
-                                  border: "none",
+                                  borderStyle: "none none solid none",
                                   borderRadius: "4px",
                                   outline: "none",
-                                  backgroundColor: "#EEEEEE",
+                                  margin: '8px 0px',
                                 }}
                                 type="text"
                                 name="content"
@@ -409,9 +550,10 @@ function Mistake() {
                       <td>
                         <label
                           style={{
-                            padding: "4px",
+                            width: "100%",
                             border: "none",
                             borderRadius: "4px",
+                            margin: '8px 0px',
                             backgroundColor: "#EEEEEE",
                           }}
                           htmlFor="file"
@@ -497,6 +639,7 @@ function Mistake() {
                             padding: "4px 32px",
                             border: "none",
                             borderRadius: "4px",
+                            margin: '8px 8px',
                             backgroundColor: "#0B42AB",
                             fontWeight: "bold",
                             boxShadow: "0px 4px 4px #00000040",
@@ -517,6 +660,7 @@ function Mistake() {
                             padding: "4px 32px",
                             border: "none",
                             borderRadius: "4px",
+                            margin: '8px 8px',
                             backgroundColor: "#0B42AB",
                             fontWeight: "bold",
                             boxShadow: "0px 4px 4px #00000040",
@@ -554,6 +698,156 @@ function Mistake() {
               >
                 Tạo lỗi
               </button>{" "}
+            </div>
+    
+            <div
+              style={{
+                display: 'flex',
+                gap: '8px',
+              }}
+            >
+              <Dropdown>
+                <Dropdown.Toggle as={CustomToggle}>
+                  {buildings?.filter(({ selected }) => selected)[0]?.title || 'Tòa'}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <div style={{ padding: '0px 20px', margin: '0px auto' }}>
+                    {buildings?.map(({ title, selected }) => (
+                      <div 
+                        style={{ margin: '4px 0px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} 
+                        onClick={() => setBuildings(buildings.map(building => ({...building, selected: building.title === title})))}
+                      >
+                        {selected 
+                          ? <CheckboxSelectedSVG style={{ width: '16px', height: '16px'}} />
+                          : <CheckboxSVG style={{ width: '16px', height: '16px'}} />}
+                        {title}
+                      </div>
+                    ))}
+                  </div>
+                </Dropdown.Menu>
+              </Dropdown>
+              
+              <Dropdown>
+                <Dropdown.Toggle as={CustomToggle}>
+                  {floors?.filter(({ selected }) => selected)[0]?.title || 'Tầng'}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <div style={{ padding: '0px 20px', margin: '0px auto' }}>
+                    {floors?.map(({ title, selected }) => (
+                      <div 
+                        style={{ margin: '4px 0px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} 
+                        onClick={() => setFloors(floors.map(floor => ({...floor, selected: floor.title === title})))}
+                      >
+                        {selected 
+                          ? <CheckboxSelectedSVG style={{ width: '16px', height: '16px'}} />
+                          : <CheckboxSVG style={{ width: '16px', height: '16px'}} />}
+                        {title}
+                      </div>
+                    )) || 'Hãy chọn tòa trước'}
+                  </div>
+                </Dropdown.Menu>
+              </Dropdown>
+              
+              <Dropdown>
+                <Dropdown.Toggle as={CustomToggle}>
+                  {fixMistake?.filter(({ selected }) => selected)[0]?.title || 'Sửa lỗi'}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <div style={{ width: '180px', padding: '0px 20px', margin: '0px auto' }}>
+                    {fixMistake?.map(({ title, selected }) => (
+                      <div 
+                        style={{ margin: '4px 0px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} 
+                        onClick={() => setFixMistake(fixMistake.map(elem => ({...elem, selected: elem.title === title})))}
+                      >
+                        {selected 
+                          ? <CheckboxSelectedSVG style={{ width: '16px', height: '16px'}} />
+                          : <CheckboxSVG style={{ width: '16px', height: '16px'}} />}
+                        {title}
+                      </div>
+                    )) || 'Loading...'}
+                  </div>
+                </Dropdown.Menu>
+              </Dropdown>
+              
+              <Dropdown>
+                <Dropdown.Toggle as={CustomToggle}>
+                  {confirmed?.filter(({ selected }) => selected)[0]?.title || 'Xác nhận lỗi'}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <div style={{ width: '180px', padding: '0px 20px', margin: '0px auto' }}>
+                    {confirmed?.map(({ title, selected }) => (
+                      <div 
+                        style={{ margin: '4px 0px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} 
+                        onClick={() => setConfirmed(confirmed.map(elem => ({...elem, selected: elem.title === title})))}
+                      >
+                        {selected 
+                          ? <CheckboxSelectedSVG style={{ width: '16px', height: '16px'}} />
+                          : <CheckboxSVG style={{ width: '16px', height: '16px'}} />}
+                        {title}
+                      </div>
+                    )) || 'Loading...'}
+                  </div>
+                </Dropdown.Menu>
+              </Dropdown>
+              
+              <Dropdown>
+                <Dropdown.Toggle as={CustomToggle}>
+                  {time?.filter(({ selected }) => selected)[0]?.title || 'Thời gian'}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <div style={{ width: '180px', padding: '0px 20px', margin: '0px auto' }}>
+                    {time?.map(({ title, selected }) => (
+                      <div 
+                        style={{ margin: '4px 0px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} 
+                        onClick={() => setTime(time.map(elem => ({...elem, selected: elem.title === title})))}
+                      >
+                        {selected 
+                          ? <CheckboxSelectedSVG style={{ width: '16px', height: '16px'}} />
+                          : <CheckboxSVG style={{ width: '16px', height: '16px'}} />}
+                        {title}
+                      </div>
+                    )) || 'Loading...'}
+                  </div>
+                </Dropdown.Menu>
+              </Dropdown>
+              
+              {time?.filter(({ selected }) => selected)[0]?.id === 'custom' && (
+                <>
+                  <div style={{ width: '20px', display: 'flex', alignItems:'center' }}></div>
+
+                  <div>
+                    <DatePicker
+                      selected={begin}
+                      onChange={(date) => setBegin(date)}
+                      dateFormat="yyyy/MM/dd"
+                      customInput={<ExampleCustomInput />}
+                    />
+                  </div>
+                  
+                  <div style={{ display: 'flex', alignItems:'center' }}>ĐẾN</div>
+
+                  <div>
+                    <DatePicker
+                      selected={end}
+                      onChange={(date) => setEnd(date)}
+                      dateFormat="yyyy/MM/dd"
+                      customInput={<ExampleCustomInput />}
+                    />
+                  </div>
+                </>
+              )}
+
+              <div
+                style={{
+                  padding: '8px',
+                  border: 'solid #D9D9D9 1px',
+                  fontWeight: 'bold',
+                  color: '#FF0000',
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                }}
+                onClick={() => window.location.reload()}
+              >RESET</div>
             </div>
 
             <MyTable

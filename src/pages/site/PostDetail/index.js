@@ -33,6 +33,8 @@ function PostDetail() {
 
   console.log("id:", idCurr);
 
+  const [loading, setLoading] = useState(false);
+  const [newId, setNewId] = useState(null);
   const [post, setPost] = useState(null);
   const [postsRelated, setPostsRelated] = useState(null);
   function padZero(str, len) {
@@ -65,8 +67,9 @@ function PostDetail() {
     return "#" + padZero(r) + padZero(g) + padZero(b);
   }
   useEffect(() => {
+    setLoading(true);
     getPost.mutate(
-      { id: idCurr },
+      { id: newId || idCurr },
       {
         onSuccess(data) {
           console.log(data);
@@ -80,13 +83,14 @@ function PostDetail() {
             {
               onSuccess(data) {
                 setPostsRelated(data.data);
+                setLoading(false);
               },
             }
           );
         },
       }
     );
-  }, []);
+  }, [newId]);
 
   return (
     <>
@@ -206,11 +210,14 @@ function PostDetail() {
                                   margin: "23px 32px",
                                 }}
                               >
-                                <img
-                                  src={post.banner}
-                                  alt="Hinh_anh"
-                                  style={{ width: "92px", height: "65px" }}
-                                ></img>
+                                <Link to={`/bai-viet/${post.id}`}>
+                                  <img
+                                    src={post.banner}
+                                    alt="Hinh_anh"
+                                    style={{ width: "92px", height: "65px" }}
+                                    onClick={() => setNewId(post.id)}
+                                  ></img>
+                                </Link>
                                 <div
                                   className="post_description"
                                   style={{ margin: "0 21px" }}
@@ -292,6 +299,41 @@ function PostDetail() {
           <MyFooter></MyFooter>
         </>
       )}
+
+      <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: '#00000040',
+          position: 'fixed',
+          top: '0px',
+          left: '0px',
+          zIndex: '9999999999999999999999'
+        }}
+        hidden={!loading}
+      >
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <svg style={{ width: '100px', height: '100px', animation: 'rotation 1s linear infinite' }} viewBox="0 0 512.000000 512.000000">
+            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+              <path d="M2496 4690 c-136 -41 -197 -208 -119 -327 48 -75 112 -103 233 -103
+              92 0 253 -23 359 -50 490 -125 896 -454 1117 -905 320 -655 190 -1429 -326
+              -1945 -525 -526 -1325 -650 -1979 -309 -854 446 -1172 1495 -706 2334 83 149
+              91 219 33 313 -42 69 -155 107 -245 81 -76 -21 -119 -73 -210 -255 -303 -607
+              -308 -1298 -14 -1899 215 -439 550 -774 986 -985 159 -78 264 -117 415 -154
+              488 -119 992 -69 1435 143 447 214 789 553 1006 996 393 804 244 1756 -378
+              2416 -283 299 -704 531 -1116 613 -194 39 -424 56 -491 36z"/>
+            </g>
+          </svg>
+        </div>
+      </div>
     </>
   );
 }

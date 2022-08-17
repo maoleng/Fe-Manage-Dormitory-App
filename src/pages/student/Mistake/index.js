@@ -40,6 +40,7 @@ function Mistake() {
   }
 
   useEffect(() => {
+    setLoading(true);
     getMistakes.mutate(
       {},
       {
@@ -47,6 +48,7 @@ function Mistake() {
           console.log(data);
           setMistakes(data.data);
           setLoadedMistakes(true);
+          setLoading(false);
         }
       }
     )
