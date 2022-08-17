@@ -194,23 +194,28 @@ function Contract() {
   }
 
   const pickRoomHandle = () => {
-    postPickRoom.mutate(
-      {
-        body: {
-          room_id: roomIDCurr,
+    if (roomIDCurr !== false) {
+      postPickRoom.mutate(
+        {
+          body: {
+            room_id: roomIDCurr,
+          },
+          id: pickRoomID,
         },
-        id: pickRoomID,
-      },
-      {
-        onSuccess(data) {
-          // console.log(data);
-          setToast("Đã chọn phòng!");
-          setPickRoomID(false);
-          setPickRoomModal(false);
-          getConfirmContractsHandle();
-        },
-      }
-    );
+        {
+          onSuccess(data) {
+            // console.log(data);
+            setToast("Đã chọn phòng!");
+            setPickRoomID(false);
+            setPickRoomModal(false);
+            getConfirmContractsHandle();
+          },
+        }
+      );
+    }
+    else {
+      alert('Hãy chọn phòng');
+    }
   };
 
   const hidePickRoom = () => {
