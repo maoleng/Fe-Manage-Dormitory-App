@@ -82,7 +82,7 @@ function Mistake() {
     { 
       id: 'today', 
       title: 'Hôm nay', 
-      selected: false 
+      selected: true 
     },
     { 
       id: 'week_ago', 
