@@ -37,7 +37,7 @@ function PostCreate() {
     {
       content: "Thông báo",
       value: "2",
-      selected: false,
+      selected: true,
     },
     {
       content: "Tin tức",
