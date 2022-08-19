@@ -406,7 +406,7 @@ function Contract() {
                     </tr>
                     <tr>
                       <td style={{ fontWeight: "bold" }}>Thời gian nộp đơn</td>
-                      <td>{contract.start_date}</td>
+                      <td>{contract.created_at}</td>
                     </tr>
                     <tr>
                       <td style={{ fontWeight: "bold" }}>Tên phòng</td>
@@ -414,11 +414,19 @@ function Contract() {
                     </tr>
                     <tr>
                       <td style={{ fontWeight: "bold" }}>Thời gian duyệt hợp đồng</td>
-                      <td>{contract.end_date}</td>
+                      <td>{contract.accepted_at}</td>
                     </tr>
                     <tr>
                       <td style={{ fontWeight: "bold" }}>Tình trạng thanh toán</td>
                       <td>{contract.is_accept ? 'Đã thanh toán' : 'Chưa thanh toán'}</td>
+                    </tr>
+                    <tr>
+                      <td style={{ fontWeight: "bold" }}>Có hiệu lực từ</td>
+                      <td>{contract.start_date}</td>
+                    </tr>
+                    <tr>
+                      <td style={{ fontWeight: "bold" }}>Hết hạn vào</td>
+                      <td>{contract.end_date}</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -456,10 +464,9 @@ function Contract() {
                   student_id,
                   student,
                   season,
-                  room_id,
                   room,
                   subscription,
-                  created_at,
+                  updated_at,
                 }) => ({
                   mssv: {
                     title: "MSSV",
@@ -530,7 +537,7 @@ function Contract() {
                   },
                   createdAt: {
                     title: "Duyệt vào lúc",
-                    content: created_at,
+                    content: updated_at,
                   },
                   control: {
                     title: "",

@@ -191,7 +191,7 @@ function Attendance() {
                       style={{ display: 'flex', alignItems: 'center', }}
                       onClick={() => setRoomStudents(roomStudents.map((elem) => ({
                         ...elem,
-                        status: id === elem.id ? '1' : status,
+                        status: id === elem.id ? '1' : elem.status,
                       })))}
                     >
                       {status === '1' 
@@ -203,7 +203,7 @@ function Attendance() {
                       style={{ display: 'flex', alignItems: 'center', }}
                       onClick={() => setRoomStudents(roomStudents.map((elem) => ({
                         ...elem,
-                        status: id === elem.id ? '2' : status,
+                        status: id === elem.id ? '2' : elem.status,
                       })))}
                     >
                       {status === '2' 
