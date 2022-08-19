@@ -171,21 +171,11 @@ function Mistake() {
         {
           onSuccess(data) {
             // console.log(data);
-            getMistakes.mutate(
-              {},
-              {
-                onSuccess(data) {
-                  if (data.status) {
-                    setMistake(null);
-                    setMistakes(data.data);
-                    setMistakeID(null);
-                    setImgs([]);
-                    setEdit(false);
-                  }
-                  setLoading(false);
-                },
-              }
-            );
+            getMistakesHandle();
+            setMistake(null);
+            setMistakeID(null);
+            setImgs([]);
+            setEdit(false);
           },
         }
       );
@@ -202,19 +192,9 @@ function Mistake() {
           onSuccess(data) {
             // console.log(data);
             if (data.status) {
-              getMistakes.mutate(
-                {},
-                {
-                  onSuccess(data) {
-                    if (data.status) {
-                      setMistakes(data.data);
-                      setMistakeAdd(false);
-                      setImgs([]);
-                    }
-                    setLoading(false);
-                  },
-                }
-              );
+              getMistakesHandle();
+              setMistakeAdd(false);
+              setImgs([]);
             } else {
               alert("Sai");
             }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { OverlayTrigger, Tooltip, Button, Modal } from 'react-bootstrap';
 
 import { useStore, actions } from '~/store';
 import MyNavbar from '~/components/MyNavbar';
@@ -69,7 +70,7 @@ function Schedule() {
             position: 'relative'
           }}
         >
-          {(new Date()).getDay() === 0 && (
+          {/* {(new Date()).getDay() === 0 && ( */}
             <div
               style={{
                 padding: '8px',
@@ -83,7 +84,7 @@ function Schedule() {
               }}
               onClick={() => navigate('/sinh-vien/lich-truc/dang-ky', { replace: true })}
             ><CalendarSVG style={{ width: '19px', height: '21px', marginRight: '20px' }} />Đăng ký trực</div>
-          )}
+          {/* )} */}
 
           <div
             style={{
@@ -155,7 +156,7 @@ function Schedule() {
                       }}
                     >{elem.period_detail}</div>
 
-                    {elem.schedules.map(({ period, students }) => (
+                    {elem.schedules.map(({ id, period, students }) => (
                       <div
                         style={{
                           padding: '4px',
@@ -163,13 +164,33 @@ function Schedule() {
                         }}
                         key={period}
                       >
-                        {students && students.map((student, index) => (
-                          <div
-                            key={`${student.id}-${index}`}
-                          >
-                            {student.student_card_id}
-                          </div>
-                        ))}
+                        {students ? students.map((student, index) => (
+                            <div
+                              key={`${student.id}-${index}`}
+                            >
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip>
+                                    <div>Tên: {student.name}</div>
+                                    <div>Phòng: {student.room}</div>
+                                  </Tooltip>
+                                }
+                              >
+                                <Button 
+                                  style={{ 
+                                    padding: '0px', 
+                                    border: 'none', 
+                                    backgroundColor: '#FFFFFF', 
+                                    color: '#000000', 
+                                    boxShadow: 'none', 
+                                    cursor: 'default' 
+                                  }}
+                                >{student.student_card_id}</Button>
+                              </OverlayTrigger>
+                            </div>
+                          )
+                        ) : <></>}
                       </div>
                     ))}
                   </>

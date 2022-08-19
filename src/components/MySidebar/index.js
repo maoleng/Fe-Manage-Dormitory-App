@@ -4,29 +4,9 @@ import { Link } from "react-router-dom";
 
 const sideManage = [
   {
-    url: '/don-dang-ky',
-    icon: '/imgs/icons/hop-dong-icon.png',
-    title: 'Đơn đăng ký'
-  },
-  {
-    url: '/hop-dong',
-    icon: '/imgs/icons/hop-dong-icon.png',
-    title: 'Hợp đồng'
-  },
-  {
-    url: '/phong',
-    icon: '/imgs/icons/hop-dong-icon.png',
-    title: 'Phòng'
-  },
-  {
     url: '/vi-pham',
     icon: '/imgs/icons/vi-pham-icon.png',
     title: 'Vi phạm'
-  },
-  {
-    url: '/hoa-don-dien-nuoc',
-    icon: '/imgs/icons/hoa-don-dien-nuoc-icon.png',
-    title: 'Hóa đơn điện nước'
   },
   {
     url: '/don-khieu-nai',
@@ -34,15 +14,35 @@ const sideManage = [
     title: 'Đơn'
   },
   {
-    url: '/bai-dang',
-    icon: '/imgs/icons/hop-dong-icon.png',
-    title: 'Bài đăng'
+    url: '/phong',
+    icon: '/imgs/icons/phong.png',
+    title: 'Phòng'
   },
   {
     url: '/diem-danh',
-    icon: '/imgs/icons/hop-dong-icon.png',
+    icon: '/imgs/icons/dien-danh.png',
     title: 'Điểm danh'
-  }
+  },
+  {
+    url: '/hoa-don-dien-nuoc',
+    icon: '/imgs/icons/hoa-don-dien-nuoc-icon.png',
+    title: 'Điện nước'
+  },
+  {
+    url: '/bai-dang',
+    icon: '/imgs/icons/bai-dang-icon.png',
+    title: 'Bài đăng'
+  },
+  {
+    url: '/don-dang-ky',
+    icon: '/imgs/icons/don-dang-ky.png',
+    title: 'Đơn đăng ký'
+  },
+  {
+    url: '/hop-dong',
+    icon: '/imgs/icons/hop-dong-icon.png',
+    title: 'Hợp đồng'
+  },
 ];
 
 const sideStudent = [
@@ -81,7 +81,7 @@ const sideStudentManager = [
   },
   {
     url: '/diem-danh',
-    icon: '/imgs/icons/xin-phep-icon.png',
+    icon: '/imgs/icons/dien-danh.png',
     title: 'Điểm danh'
   },
   {
@@ -140,7 +140,7 @@ function MySidebar({ isOpen }) {
           key={index}
         >
           <Link style={{ textDecoration: 'none', color: '#000000' }} to={(role === 'Quản lý kí túc xá' ? '/quan-ly' : '/sinh-vien') + url}>
-            <img style={{ height: '100%', marginRight: (isOpen ? '20px' : '')}} src={icon} alt={icon}/>
+            <img style={{ height: '32px', marginRight: (isOpen ? '20px' : '')}} src={icon} alt={icon}/>
             {isOpen ? title : ''}
           </Link>
         </div>

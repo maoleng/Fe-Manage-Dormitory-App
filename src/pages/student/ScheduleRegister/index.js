@@ -31,7 +31,7 @@ function ScheduleRegister() {
   const navigate = useNavigate();
 
   if (!window.localStorage.getItem("role")) navigate('/dang-nhap');
-  if ((new Date()).getDay() !== 0) navigate('/sinh-vien/lich-truc');
+  // if ((new Date()).getDay() !== 0) navigate('/sinh-vien/lich-truc');
 
   const [loading, setLoading] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);

@@ -35,11 +35,6 @@ function PostCreate() {
   const [formTags, setFormTags] = useState(null);
   const [formCategory, setFormCategory] = useState([
     {
-      content: "Giới thiệu",
-      value: "1",
-      selected: true,
-    },
-    {
       content: "Thông báo",
       value: "2",
       selected: false,
@@ -52,16 +47,6 @@ function PostCreate() {
     {
       content: "Hoạt động",
       value: "4",
-      selected: false,
-    },
-    {
-      content: "Hướng dẫn",
-      value: "5",
-      selected: false,
-    },
-    {
-      content: "Nội quy",
-      value: "6",
       selected: false,
     },
   ]);
